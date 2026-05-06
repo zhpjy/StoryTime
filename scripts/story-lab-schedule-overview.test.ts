@@ -14,7 +14,6 @@ function pack(): ContentPack {
       name: 'Test World',
       summary: '',
       editorBackground: 'Editor background.',
-      playerIntroduction: 'Player introduction.',
       maxDays: 3,
       segments: ['morning', 'noon', 'night'],
       actionPointsPerSegment: 2,

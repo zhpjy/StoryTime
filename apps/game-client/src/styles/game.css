@@ -139,14 +139,6 @@
   line-height: 1.8;
 }
 
-.identity-world-introduction {
-  max-width: 54rem;
-  margin: 1rem auto 0;
-  color: #f1e6d4;
-  font-size: 0.98rem;
-  line-height: 1.9;
-}
-
 .identity-grid,
 .story-pack-select-list {
   display: grid;

@@ -36,7 +36,6 @@ export type WorldDefinition = {
   name: string
   summary: string
   editorBackground: string
-  playerIntroduction: string
   maxDays: number
   segments: TimeSegment[]
   actionPointsPerSegment: number

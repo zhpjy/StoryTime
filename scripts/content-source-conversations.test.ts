@@ -27,7 +27,6 @@ test('content artifacts include browser-loadable static JSON for multiple packs'
         name: 'Fixture World',
         summary: 'Fixture summary',
         editorBackground: 'Fixture editor background',
-        playerIntroduction: 'Fixture player introduction',
         maxDays: 1,
         segments: ['morning'],
         actionPointsPerSegment: 1,
@@ -58,7 +57,6 @@ test('content artifacts include browser-loadable static JSON for multiple packs'
         name: 'Second World',
         summary: 'Second summary',
         editorBackground: 'Second editor background',
-        playerIntroduction: 'Second player introduction',
       },
     } as unknown as ContentPack
 
@@ -116,7 +114,6 @@ test('content source loads pack metadata from world yaml', async () => {
       name: 'Merged World',
       summary: 'Metadata and world definition live in one YAML file.',
       editorBackground: 'Editor background from merged world YAML.',
-      playerIntroduction: 'Player introduction from merged world YAML.',
       maxDays: 1,
       segments: ['morning'],
       actionPointsPerSegment: 1,
@@ -164,7 +161,6 @@ id: world_merged
 name: Merged World
 summary: Metadata and world definition live in one YAML file.
 editorBackground: Editor background from merged world YAML.
-playerIntroduction: Player introduction from merged world YAML.
 maxDays: 1
 segments:
   - morning
@@ -248,7 +244,6 @@ function makeArtifactPack(packId: string, name: string): ContentPack {
       name,
       summary: `${name} summary`,
       editorBackground: `${name} editor background`,
-      playerIntroduction: `${name} player introduction`,
       maxDays: 1,
       segments: ['morning'],
       actionPointsPerSegment: 1,

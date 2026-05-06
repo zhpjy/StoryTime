@@ -13,7 +13,6 @@ function pack(id: string, counts: { locations: number; npcs: number; interaction
       name: `${id} world`,
       summary: '',
       editorBackground: 'Editor background.',
-      playerIntroduction: 'Player introduction.',
       maxDays: 7,
       segments: ['morning'],
       actionPointsPerSegment: 2,

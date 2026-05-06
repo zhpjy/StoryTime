@@ -14,7 +14,6 @@ export function IdentityPage() {
           <p className="identity-kicker" data-test-id="identity-kicker">TIME · SPACE · STORY</p>
           <h1 className="identity-title" data-test-id="identity-title">{pack.world.name}</h1>
           <p className="identity-summary" data-test-id="identity-summary">{pack.world.summary}</p>
-          <p className="identity-world-introduction" data-test-id="identity-world-introduction">{pack.world.playerIntroduction}</p>
         </div>
         <div className="identity-grid" data-test-id="identity-grid">
           {pack.identities.map((identity) => (

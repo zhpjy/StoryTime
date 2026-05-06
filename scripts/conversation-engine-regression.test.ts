@@ -88,7 +88,6 @@ function makeConversationPack(): ContentPack {
       name: 'Test World',
       summary: 'A test world.',
       editorBackground: 'Editor-facing world background.',
-      playerIntroduction: 'Player-facing world introduction.',
       maxDays: 3,
       segments: ['morning', 'noon', 'night'],
       actionPointsPerSegment: 3,

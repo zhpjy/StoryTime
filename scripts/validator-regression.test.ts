@@ -341,16 +341,14 @@ test('validator requires identity origin intro fields', () => {
   ).toBe(true)
 })
 
-test('validator requires world background fields for editors and players', () => {
+test('validator requires editor world background', () => {
   const pack = makeValidationPack()
   const world = pack.world as Partial<ContentPack['world']>
   delete world.editorBackground
-  delete world.playerIntroduction
 
   const errors = validateContentPack(pack).errors
 
   expect(errors.some((issue) => issue.type === 'schema_error' && issue.path === 'world.editorBackground')).toBe(true)
-  expect(errors.some((issue) => issue.type === 'schema_error' && issue.path === 'world.playerIntroduction')).toBe(true)
 })
 
 function makeValidationPack(): ContentPack {
@@ -363,7 +361,6 @@ function makeValidationPack(): ContentPack {
       name: 'Test World',
       summary: 'A test world.',
       editorBackground: 'Editor-facing world background.',
-      playerIntroduction: 'Player-facing world introduction.',
       maxDays: 3,
       segments: ['morning', 'noon', 'night'],
       actionPointsPerSegment: 3,

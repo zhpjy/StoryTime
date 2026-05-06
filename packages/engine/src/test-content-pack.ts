@@ -10,7 +10,6 @@ export function makeBaseInteractionPack(): ContentPack {
       name: 'Test World',
       summary: 'A compact runtime test world.',
       editorBackground: 'Runtime test background.',
-      playerIntroduction: 'Runtime test introduction.',
       maxDays: 3,
       segments: ['morning', 'noon', 'night'],
       actionPointsPerSegment: 3,

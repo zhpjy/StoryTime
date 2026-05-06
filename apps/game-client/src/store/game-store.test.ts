@@ -12,7 +12,6 @@ const pack = {
     name: 'Fixture World',
     summary: 'Fixture summary',
     editorBackground: 'Fixture editor background',
-    playerIntroduction: 'Fixture player introduction',
     maxDays: 1,
     segments: ['morning'],
     actionPointsPerSegment: 1,
