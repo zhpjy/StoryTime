@@ -1,0 +1,9 @@
+- id: building_lamp_room
+  locationId: loc_crossroads
+  name: 雾灯小屋
+  type: signal_house
+  state:
+    lamp_ready: false
+  descriptions:
+    default: 小屋里挂着备用灯芯、擦镜布和几张被雾气打皱的路签。
+  interactionIds: []

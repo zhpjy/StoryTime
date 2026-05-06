@@ -1,0 +1,30 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 55,
+    "courage": 35,
+    "greed": 20,
+    "loyalty": 45,
+    "suspicion": 45,
+    "responsibility": 55
+  },
+  "state": {
+    "alive": true,
+    "health": 80,
+    "mood": "watchful",
+    "current_goal": "keep_daily_life_going",
+    "story_stage": 1
+  },
+  "goals": [
+    "维持眼前生活",
+    "照看身边亲友",
+    "从日常闲话里判断镇中风向",
+    "在危机中保住一点体面和安全"
+  ],
+  "secrets": [
+    {
+      "id": "secret_qian_sao_background_clue",
+      "content": "她听见过流民棚里有人提到旧庙纹样的铜牌，也知道几个镇民私下给黑岭盗递过干粮。"
+    }
+  ]
+}

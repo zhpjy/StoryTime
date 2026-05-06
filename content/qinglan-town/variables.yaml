@@ -1,0 +1,83 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+[
+  {
+    "key": "town_order",
+    "name": "小镇秩序",
+    "description": "影响偷盗、冲突、巡守行动",
+    "initialValue": 70,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "town_fear",
+    "name": "镇民恐慌",
+    "description": "影响逃离、暴动、谣言传播",
+    "initialValue": 20,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "plague_level",
+    "name": "疫病程度",
+    "description": "影响药铺事件、病人数量、结局",
+    "initialValue": 10,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "herb_stock",
+    "name": "药材库存",
+    "description": "影响治疗、药价、药铺行动",
+    "initialValue": 80,
+    "min": 0,
+    "max": 120
+  },
+  {
+    "key": "bandit_power",
+    "name": "盗匪势力",
+    "description": "影响山林危险、商路安全、夜袭",
+    "initialValue": 35,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "guard_power",
+    "name": "巡守力量",
+    "description": "影响秩序维持、盗匪压制",
+    "initialValue": 50,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "food_price",
+    "name": "粮价指数",
+    "description": "影响集市冲突、流民压力",
+    "initialValue": 100,
+    "min": 40,
+    "max": 200
+  },
+  {
+    "key": "truth_progress",
+    "name": "旧案真相进度",
+    "description": "影响祠堂线、镇长线、真相结局",
+    "initialValue": 0,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "merchant_route_safety",
+    "name": "商路安全",
+    "description": "影响药材、粮食、商队事件",
+    "initialValue": 60,
+    "min": 0,
+    "max": 100
+  },
+  {
+    "key": "refugee_pressure",
+    "name": "流民压力",
+    "description": "影响镇门、集市、粮价事件",
+    "initialValue": 10,
+    "min": 0,
+    "max": 100
+  }
+]

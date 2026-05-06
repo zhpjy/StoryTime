@@ -1,0 +1,29 @@
+# 单个 NPC 的性格、状态、目标和秘密。
+
+# personality: 性格数值，建议 0-100。用于行为设计和角色一致性。
+personality:
+  kindness: 60
+  courage: 50
+  greed: 20
+  loyalty: 60
+  suspicion: 40
+  responsibility: 70
+
+# state: NPC 运行时状态，可被 change_npc_state 修改；字段可按剧本需要扩展。
+state:
+  alive: true
+  health: 100
+  mood: "neutral"
+  current_goal: "understand_player_intent"
+  story_stage: 1
+
+# goals: NPC 主动行动和对话选择背后的目标。
+goals:
+  - "确认玩家是否可信。"
+  - "保护自己掌握的关键消息。"
+  - "在危机扩大前找到合适的协助者。"
+
+# secrets: NPC 掌握的秘密，可被会话、事件或行动逐步揭示。
+secrets:
+  - id: "secret_guide_opening_clue"
+    content: "此人知道开场异常背后还有未公开的线索。"

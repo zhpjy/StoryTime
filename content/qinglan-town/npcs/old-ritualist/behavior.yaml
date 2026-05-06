@@ -1,0 +1,115 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_ancestral_hall",
+      "activity": "sweep_hall"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_ancestral_hall",
+      "activity": "watch_records"
+    },
+    {
+      "segment": "night",
+      "location": "loc_ancestral_hall",
+      "activity": "lock_records"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_ritualist_reveal_registry",
+      "name": "交出旧案名册",
+      "priority": 85,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "greater_than_or_equal": 60
+          },
+          {
+            "fact": "relationship.player.npc_old_ritualist.trust",
+            "greater_than_or_equal": 30
+          },
+          {
+            "fact": "facts.old_registry_revealed",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "old_registry_revealed",
+          "value": true
+        },
+        {
+          "type": "change_variable",
+          "key": "truth_progress",
+          "delta": 15
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_old_registry_revealed"
+        }
+      ]
+    },
+    {
+      "id": "rule_ritualist_lock_records",
+      "name": "锁住旧档房",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "less_than": 30
+          },
+          {
+            "fact": "location.loc_ancestral_hall.state.record_locked",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "change_location_state",
+          "locationId": "loc_ancestral_hall",
+          "path": "record_locked",
+          "value": true
+        },
+        {
+          "type": "change_building_state",
+          "buildingId": "building_record_room",
+          "path": "locked",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "正常询问镇史",
+    "帮忙整理祠堂",
+    "请求查阅旧档",
+    "夜探旧档房",
+    "逼迫交出名册",
+    "保护他免受魏长庚施压"
+  ],
+  "keyEvents": [
+    "event_ask_old_ritualist",
+    "event_record_room_unlocked",
+    "event_old_registry_revealed",
+    "event_ritualist_pressured"
+  ],
+  "possibleFates": [
+    "交出名册",
+    "继续沉默",
+    "被魏长庚压制",
+    "被暴力逼迫"
+  ],
+  "endingImpact": [
+    "交出名册是真相昭雪关键加成",
+    "沉默会限制旧案完整度",
+    "被逼迫会增强血债或动荡评价"
+  ]
+}

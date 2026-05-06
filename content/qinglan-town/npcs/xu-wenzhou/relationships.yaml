@@ -1,0 +1,33 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_xu_wenzhou",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": 15,
+      "relationType": "protected_by_innkeeper",
+      "reason": "赵三娘认为他太年轻，不知轻重。"
+    },
+    {
+      "targetId": "npc_wei_changgeng",
+      "value": -20,
+      "relationType": "investigation_target",
+      "reason": "认为镇长是旧案关键人物。"
+    },
+    {
+      "targetId": "npc_old_ritualist",
+      "value": 10,
+      "relationType": "cautious_respect",
+      "reason": "想从老祠祝处获得旧档线索。"
+    }
+  ]
+}

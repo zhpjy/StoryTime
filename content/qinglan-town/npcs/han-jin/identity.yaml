@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_han_jin",
+  "name": "韩烬",
+  "age": 41,
+  "identity": "黑岭盗首领",
+  "tier": "core",
+  "faction": "faction_bandit",
+  "location": "loc_forest"
+}

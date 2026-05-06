@@ -1,0 +1,209 @@
+- id: loc_town_gate
+  name: 镇门
+  type: town_location
+  tags:
+    - entrance
+    - guard
+    - refugee
+    - merchant_route
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 10
+    refugee_count: 3
+    guard_presence: 2
+    merchant_queue: 1
+  descriptions:
+    default: 土门连着旧商道，流民、商旅和巡守都在这里被青岚镇先看见。
+    morning: 镇门初开，巡守检查来往行人。
+    noon: 商旅与流民聚在门外，气氛有些紧张。
+    night: 镇门半闭，火把下只剩巡守来回走动。
+  buildingIds:
+    - building_guard_post
+    - building_town_notice
+  interactionIds:
+    - interaction_ask_gate_news
+    - interaction_help_refugees_gate
+    - interaction_guard_route
+- id: loc_market
+  name: 集市
+  type: town_location
+  tags:
+    - trade
+    - rumor
+    - food
+    - conflict
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 5
+    crowd_level: 40
+    conflict_level: 10
+  descriptions:
+    default: 青岚镇最热闹的地方，也是粮价、传闻和冲突最先浮上水面的地方。
+    morning: 摊贩陆续摆开货物，米铺前已有几人排队。
+    noon: 集市最热闹，讨价还价声此起彼伏。
+    night: 集市空了大半，只剩几个小贩收拾摊位。
+  buildingIds:
+    - building_rice_shop
+    - building_blacksmith
+    - building_vendor_stalls
+  interactionIds:
+    - interaction_gather_market_rumors
+    - interaction_help_xiao_wan
+- id: loc_herb_shop
+  name: 回春药铺
+  type: town_location
+  tags:
+    - medicine
+    - treatment
+    - plague
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 5
+    patient_count: 3
+    is_quarantined: false
+  descriptions:
+    default: 药香和咳声混在一处，沈青禾与老药师正勉力维持药铺。
+    morning: 药铺刚刚开门，药斗被一格格拉开。
+    noon: 求诊的人渐渐多了，问诊间比往日更挤。
+    night: 前门半掩，后堂仍有灯火。疫病严重时，沈青禾会彻夜熬药。
+  buildingIds:
+    - building_herb_counter
+    - building_consulting_room
+    - building_back_yard
+  interactionIds:
+    - interaction_treat_patients
+    - interaction_boil_medicine
+    - interaction_investigate_medicine_source
+- id: loc_tavern
+  name: 旧酒肆
+  type: town_location
+  tags:
+    - rumor
+    - negotiation
+    - hidden_trade
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 10
+    rumor_level: 50
+    backroom_open: false
+  descriptions:
+    default: 旧酒肆是青岚镇的耳朵。真假消息、商路风声和旧案传言都在这里转手。
+    morning: 酒肆刚开门，桌椅还带着昨夜酒气。
+    noon: 行脚商、猎户和镇民混坐堂中，各自压低声音说话。
+    night: 灯火昏黄，后堂似乎有人密谈。
+  buildingIds:
+    - building_tavern_hall
+    - building_tavern_backroom
+  interactionIds:
+    - interaction_gather_tavern_rumors
+    - interaction_buy_bandit_info
+    - interaction_backroom_meeting
+- id: loc_ancestral_hall
+  name: 祠堂
+  type: town_location
+  tags:
+    - old_case
+    - ritual
+    - truth
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 5
+    record_locked: true
+  descriptions:
+    default: 祠堂里供着青岚镇的祖先，也锁着它不愿提起的旧案。
+    morning: 祠堂门前冷清，香灰尚温。
+    noon: 偶有镇民上香，老祠祝守在门旁。
+    night: 祠堂深处的牌位在暗处显得格外沉默。
+  buildingIds:
+    - building_memorial_hall
+    - building_record_room
+  interactionIds:
+    - interaction_worship
+    - interaction_ask_old_case
+    - interaction_unlock_records
+    - interaction_investigate_records
+    - interaction_confront_wei
+- id: loc_residential_area
+  name: 民居区
+  type: town_location
+  tags:
+    - family
+    - ordinary_life
+    - refugee
+    - plague
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 5
+    infected_households: 1
+    refugee_shelters: 1
+  descriptions:
+    default: 民居区把疫病、粮价、流民和恐慌变成每户门前的声音。
+    morning: 炊烟从屋顶升起，巷口有孩童跑过。
+    noon: 几户人家门口挂着药包，气氛比往日沉闷。
+    night: 大多数门户紧闭，偶尔传来压低的咳声。
+  buildingIds:
+    - building_common_house
+    - building_refugee_shed
+  interactionIds:
+    - interaction_visit_households
+    - interaction_help_family
+    - interaction_check_infected_house
+- id: loc_forest
+  name: 青岚山林
+  type: wild_location
+  tags:
+    - forest
+    - herb
+    - bandit
+    - danger
+  state:
+    status: normal
+    is_accessible: true
+    danger_level: 30
+    herb_resource: 60
+    bandit_trace: 20
+  descriptions:
+    default: 山林里有药材，也有黑岭盗的脚印。越往深处走，旧庙的影子越近。
+    morning: 山林雾气未散，草木间仍有露水。
+    noon: 林中光影斑驳，偶尔能听见鸟兽惊动。
+    night: 山路难辨，黑暗中似有脚步声跟随。
+  buildingIds:
+    - building_forest_path
+    - building_herb_slope
+  interactionIds:
+    - interaction_collect_herbs
+    - interaction_track_bandits_forest
+    - interaction_search_shen
+- id: loc_old_temple
+  name: 破驿旧庙
+  type: ruin_location
+  tags:
+    - hidden
+    - final_clue
+    - danger
+    - old_case
+  state:
+    status: hidden
+    is_accessible: false
+    danger_level: 50
+    discovered: false
+    cellar_open: false
+  descriptions:
+    default: 破驿旧庙藏在荒草后。旧火、暗室、盗匪和疫病线索都在这里汇合。
+    morning: 旧庙藏在荒草后，残破屋脊几乎被藤蔓遮住。
+    noon: 破败神像前积着厚灰，似乎很久无人来过。
+    night: 风声穿堂，像有人在低声说话。
+  buildingIds:
+    - building_ruined_temple
+    - building_hidden_cellar
+  interactionIds:
+    - interaction_search_old_temple
+    - interaction_enter_hidden_cellar
+    - interaction_ambush_bandits_old_temple
+    - interaction_negotiate_han

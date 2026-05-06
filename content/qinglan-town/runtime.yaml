@@ -1,0 +1,118 @@
+# Runtime configuration for the Qinglan Town content pack.
+{
+  "initialState": {
+    "playerLocationId": "loc_town_gate",
+    "selectedTileId": "tile_02_02",
+    "facts": {
+      "player_arrived_qinglan": true,
+      "first_patient_event_happened": false,
+      "shen_asked_player_for_help": false,
+      "shen_collected_herbs": false,
+      "old_case_record_found": false,
+      "player_bought_bandit_contact_clue": false,
+      "bandit_attacked_route": false,
+      "merchant_route_attack_reported": false,
+      "grain_shortage_rumor_happened": false,
+      "lu_started_investigation": false,
+      "wei_suppressed_truth": false,
+      "old_temple_discovered": false
+    },
+    "tileOverrides": {
+      "tile_08_03": { "visible": false, "discovered": false },
+      "tile_08_05": { "visible": false, "discovered": false }
+    }
+  },
+  "dailyDriftRules": [
+    {
+      "id": "drift_plague_low_herb_stock",
+      "name": "药材不足时疫病加重",
+      "conditions": {
+        "all": [
+          { "fact": "time.day", "greater_than_or_equal": 3 },
+          { "fact": "facts.first_patient_event_happened", "equals": true },
+          { "fact": "variables.herb_stock", "less_than": 25 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "plague_level", "delta": 5 }]
+    },
+    {
+      "id": "drift_plague_normal_spread",
+      "name": "疫病自然扩散",
+      "conditions": {
+        "all": [
+          { "fact": "time.day", "greater_than_or_equal": 3 },
+          { "fact": "facts.first_patient_event_happened", "equals": true },
+          { "fact": "variables.herb_stock", "greater_than_or_equal": 25 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "plague_level", "delta": 2 }]
+    },
+    {
+      "id": "drift_herb_stock_low_plague",
+      "name": "轻症消耗药材",
+      "conditions": {
+        "all": [
+          { "fact": "time.day", "greater_than_or_equal": 3 },
+          { "fact": "facts.first_patient_event_happened", "equals": true },
+          { "fact": "variables.plague_level", "less_than": 45 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "herb_stock", "delta": -1 }]
+    },
+    {
+      "id": "drift_herb_stock_mid_plague",
+      "name": "疫病扩散消耗药材",
+      "conditions": {
+        "all": [
+          { "fact": "time.day", "greater_than_or_equal": 3 },
+          { "fact": "facts.first_patient_event_happened", "equals": true },
+          { "fact": "variables.plague_level", "greater_than_or_equal": 45 },
+          { "fact": "variables.plague_level", "less_than": 75 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "herb_stock", "delta": -2 }]
+    },
+    {
+      "id": "drift_herb_stock_high_plague",
+      "name": "重疫大量消耗药材",
+      "conditions": {
+        "all": [
+          { "fact": "time.day", "greater_than_or_equal": 3 },
+          { "fact": "facts.first_patient_event_happened", "equals": true },
+          { "fact": "variables.plague_level", "greater_than_or_equal": 75 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "herb_stock", "delta": -3 }]
+    },
+    {
+      "id": "drift_bandit_route_pressure",
+      "name": "商路不安助长盗匪",
+      "conditions": { "fact": "variables.merchant_route_safety", "less_than": 45 },
+      "effects": [{ "type": "change_variable", "key": "bandit_power", "delta": 2 }]
+    },
+    {
+      "id": "drift_refugee_food_price",
+      "name": "流民压力推高粮价",
+      "conditions": { "fact": "variables.refugee_pressure", "greater_than": 45 },
+      "effects": [{ "type": "change_variable", "key": "food_price", "delta": 3 }]
+    },
+    {
+      "id": "drift_town_fear",
+      "name": "危机抬升镇民恐慌",
+      "conditions": {
+        "any": [
+          { "fact": "variables.plague_level", "greater_than": 50 },
+          { "fact": "variables.bandit_power", "greater_than": 60 },
+          { "fact": "variables.food_price", "greater_than": 135 }
+        ]
+      },
+      "effects": [{ "type": "change_variable", "key": "town_fear", "delta": 3 }]
+    },
+    {
+      "id": "drift_fear_damages_order",
+      "name": "恐慌损害小镇秩序",
+      "conditions": { "fact": "variables.town_fear", "greater_than": 70 },
+      "effects": [{ "type": "change_variable", "key": "town_order", "delta": -2 }]
+    }
+  ]
+}

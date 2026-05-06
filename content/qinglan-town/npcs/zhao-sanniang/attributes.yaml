@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 50,
+    "courage": 55,
+    "greed": 45,
+    "loyalty": 35,
+    "suspicion": 80,
+    "responsibility": 50
+  },
+  "state": {
+    "alive": true,
+    "health": 90,
+    "mood": "watchful",
+    "current_goal": "keep_tavern_safe",
+    "story_stage": 1,
+    "hostile": false
+  },
+  "goals": [
+    "保住旧酒肆",
+    "掌握镇中消息",
+    "在各方之间自保",
+    "必要时用情报换取利益或安全"
+  ],
+  "secrets": [
+    {
+      "id": "secret_zhao_backroom_survivor",
+      "content": "旧庙火案后有人曾在酒肆后堂躲过一夜。"
+    }
+  ]
+}

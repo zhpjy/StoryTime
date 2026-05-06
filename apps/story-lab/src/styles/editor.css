@@ -1,0 +1,123 @@
+.definition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.definition-grid.tight {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.definition-grid.compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  background: var(--border);
+  border-radius: 999px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  border-radius: inherit;
+}
+
+.variable-mini,
+.field-main,
+.field-meta {
+  min-width: 0;
+}
+
+.variable-mini span,
+.variable-row small,
+.field-main span {
+  color: var(--muted-foreground);
+}
+
+.variable-mini strong,
+.variable-head strong,
+.field-main strong,
+.allowed-value-group strong,
+.story-block strong,
+.rule-card strong,
+.cluster-title,
+.flow-node span {
+  color: var(--foreground);
+}
+
+.variable-head code,
+.field-meta code {
+  max-width: 100%;
+  padding: 3px 6px;
+  margin-right: auto;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  background: #fffaf0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.two-column,
+.map-layout,
+.studio-layout,
+.template-layout,
+.split-content {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.two-column.wide-left {
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+}
+
+.template-layout,
+.studio-layout {
+  grid-template-columns: 320px minmax(0, 1fr);
+}
+
+.map-layout {
+  grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.65fr);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+  gap: 12px;
+}
+
+.field-main,
+.allowed-value-group {
+  display: grid;
+  gap: 8px;
+}
+
+.field-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.identity-tile {
+  display: grid;
+  gap: 6px;
+}

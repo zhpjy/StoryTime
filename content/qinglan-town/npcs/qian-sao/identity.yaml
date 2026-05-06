@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_qian_sao",
+  "name": "钱嫂",
+  "age": 44,
+  "identity": "粥棚主妇",
+  "tier": "ordinary",
+  "faction": "faction_town_people",
+  "location": "loc_residential_area"
+}

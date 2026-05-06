@@ -1,0 +1,3501 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+- id: conversation_a_yuan_daily_01
+  npcId: npc_a_yuan
+  title: 晨市轻响
+  entryNodeId: node_entry
+  priority: 60
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆把针线包按得整齐，钱匣里一声轻响。阿圆说：“一边把针线包按颜色排好，一边示意你有话便快些讲。”
+      replies:
+        - id: reply_as_merchant
+          text: 先问今日的买卖和路上动静。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先问这里最需要防的是什么。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先问可有人身体不适。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 买卖看着是买卖，背后全是人心。今日最该留意的，是每一文钱都变得更难挣。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_01_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 要防的不只刀，还有慌。集市起哄时小摊被掀翻一旦成真，谁都别想安稳。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_01_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 有不适的人不少，只是许多人怕花钱，先忍着。你若肯看，先从讨价还价的买主看起。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_01_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_01_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_02
+  npcId: npc_a_yuan
+  title: 暑气成患
+  entryNodeId: node_entry
+  priority: 59
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 摊布被热气烘得发软，阿圆抬手遮了遮日头。阿圆说：“这种天气最容易把小患拖成大祸。”
+      replies:
+        - id: reply_as_merchant
+          text: 潮气会否影响货物和储备？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 坏天气会让巡守和防备更难吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 受潮后最该防哪类病症？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 会。货坏了还能赔，针线、火折和跑腿消息坏了，赔的就是人命和信任。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_02_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 难。风雨一遮，脚印、火光和人声都会骗人。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_02_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 先防寒热和咳症。别让讨价还价的买主在风口等太久。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_02_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_02_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_03
+  npcId: npc_a_yuan
+  title: 半块糖糕
+  entryNodeId: node_entry
+  priority: 58
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 半块糖糕凉在一旁，甜气淡得像快散的梦。阿圆说：“看了一眼饭食，说如今吃饭也像在做选择。”
+      replies:
+        - id: reply_as_merchant
+          text: 粮价这样下去，小户人家还能撑几天？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 饿急的人会先冲哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 吃不饱会让病势更糟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 撑几天要看米价，也看谁愿意先分一点出来。给母亲抓药的花费比官样告示更管用。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_03_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 先冲看得见粮食的地方，再冲他们觉得没人护的地方。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_03_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 对。药能压病，饭才托命。没有午后才舍得买的半块糖糕，药下去也虚。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_03_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_03_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_04
+  npcId: npc_a_yuan
+  title: 闲话如飞
+  entryNodeId: node_entry
+  priority: 57
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 几个买主压低声音，见你近前又各自散开。阿圆说：“镇上闲话跑得比马还快。”
+      replies:
+        - id: reply_as_merchant
+          text: 闲话里可有能当线头的真货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 闲话会否引出冲突？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 闲话会让病人不敢就医。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 真货常藏在夸张里。你别听他们怎么骂，听他们反复提到什么。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_04_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 会。人一怕，就要找个能看见的人出气。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_04_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 已经有了。有人把病说成报应，这比发热还难治。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_04_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_04_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_05
+  npcId: npc_a_yuan
+  title: 账薄人情
+  entryNodeId: node_entry
+  priority: 56
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 卷边的账页压在手边，药钱一笔一笔扎眼。阿圆说：“账本记得清，人情却总算不明白。”
+      replies:
+        - id: reply_as_merchant
+          text: 账清才不会乱，你最怕哪笔账爆出来？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 人情账若逼到头，会否变成仇？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 欠账的人会否因此拖着不求助？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 最怕不是欠得多，是欠得久。旧账一翻，谁都说自己有理。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_05_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 会。人情变仇，只差一句“你当年也欠我”。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_05_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 会。有人宁可忍病，也不愿再添一笔欠情。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_05_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_05_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_06
+  npcId: npc_a_yuan
+  title: 山路风声
+  entryNodeId: node_entry
+  priority: 55
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 后巷那头有人提到山路，话音立刻低了。阿圆说：“山路从来不只运货，也运消息。”
+      replies:
+        - id: reply_as_merchant
+          text: 哪类消息最影响货队？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 山路上现在最像陷阱的是哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 山路会否带来新的病根？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 影响最大的不是匪，是不知说谁和匪有来往。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_06_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 最像陷阱的是人人都说安全的那段。太安静了。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_06_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 会。水、草药、货布，都可能把病带进镇。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_06_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_06_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_07
+  npcId: npc_a_yuan
+  title: 旧庙疑云
+  entryNodeId: node_entry
+  priority: 54
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 说到旧庙，阿圆穿针的手顿了一下。阿圆说：“的手慢了一拍。 阿圆说旧庙的事，镇里不是没人知说，是没人愿意说全。”
+      replies:
+        - id: reply_as_merchant
+          text: 旧庙牵着哪条旧账？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁会为了旧庙动刀？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧庙和病、药可有牵连？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 牵着命账，也牵着名声账。两种账都比银钱难讨。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_07_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 拔刀的人未必最恨，最怕的人才会先动手。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_07_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 有牵连。至少给母亲续命的药汤和小时候集市还热闹安稳的时候都绕不开它。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_07_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_07_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_08
+  npcId: npc_a_yuan
+  title: 告示纸冷
+  entryNodeId: node_entry
+  priority: 53
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 新贴的告示被人念到一半，街面反倒更静。阿圆说：“告示写得齐整，日子却不照字走。”
+      replies:
+        - id: reply_as_merchant
+          text: 告示会影响交易和价格吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 告示能让人守规矩吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 告示可有安排病人和弱者？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 会影响一阵。可若针线、火折和跑腿消息跟不上，纸上的价就只是纸。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_08_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 能让想守规矩的人有个台阶，拦不住已经急红眼的人。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_08_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 写了几句，远远不够。真正照顾人的，是谁肯把门打开。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_08_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_08_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_09
+  npcId: npc_a_yuan
+  title: 夜巷微声
+  entryNodeId: node_entry
+  priority: 52
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 钱匣之外，夜里还有几声说不清的响动。阿圆说：“最近没人睡得太沉。”
+      replies:
+        - id: reply_as_merchant
+          text: 夜里可有异常车马或陌生人？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里哪个方向最该有人守？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里病人会否无人照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 有。不是每辆车都会报号，也不是每个脚印都往门里走。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_09_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 守集市通往旧酒肆的后巷，也守人心最松的后门。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_09_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 会。夜里一句“明早再说”，有时就等不到明早。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_09_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_09_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_10
+  npcId: npc_a_yuan
+  title: 老幼先行
+  entryNodeId: node_entry
+  priority: 51
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 老人扶着墙走，孩子牵着衣角，队伍慢得让人心酸。阿圆说：“看着他们，说镇子的好坏先落在这些人身上。”
+      replies:
+        - id: reply_as_merchant
+          text: 物资要先给谁才不乱？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 护送时先护哪一类人？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 老人孩子要分开照看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 先给不能等的人，再给能维持秩序的人。别让分配看起来像偏心。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_10_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 先护走不快的。能跑的人还有路，走不动的人只有别人。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_10_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 对。小孩病急，老人病沉，混在一起只会互相拖。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_10_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_10_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_11
+  npcId: npc_a_yuan
+  title: 旧名如刺
+  entryNodeId: node_entry
+  priority: 50
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆提起一个旧名字，又像被针尖扎到似的收住。阿圆说：“提到一个旧名字，又很快把话收住。 那名字像一根刺，没人愿意碰得太深。”
+      replies:
+        - id: reply_as_merchant
+          text: 名字若能对上旧账，就不该含糊。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 名字若指向活人，我得知说凶险。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧名字也可能是病根线头。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 你要对账，就别只问名字，还要问他最后被谁看见。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_11_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 凶险在问出口后。许多人怕的不是名字，是有人还记得。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_11_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 有时一个名字比一味药难找，但找到后，方子才完整。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_11_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_11_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_12
+  npcId: npc_a_yuan
+  title: 一桶清水
+  entryNodeId: node_entry
+  priority: 49
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 水桶晃过墙根，清光一闪，来路却不一定清。阿圆说：“水看着清，不代表来路清。”
+      replies:
+        - id: reply_as_merchant
+          text: 水源若出问题，铺面和货队都会停。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁能靠近水源而不被盘问？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 水源须得查，病常从这里起。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 一停就不是一家铺子的事。你若查水，先查谁最近改了取水点。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_12_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 挑水人、送货人、巡夜人，都能靠近。最不起眼的最难查。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_12_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 你说到要处了。病若沿水走，药铺再忙也只是追着尾巴跑。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_12_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_12_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_13
+  npcId: npc_a_yuan
+  title: 灯油将尽
+  entryNodeId: node_entry
+  priority: 48
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 灯油见底，火苗缩成豆大，影子便长了。阿圆说：“灯一暗，人就容易做错事。”
+      replies:
+        - id: reply_as_merchant
+          text: 能调灯油，但要知说最缺哪里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 黑处最适合藏刀。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人夜里也需要灯。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 最缺的不是灯油，是愿意把灯点在别人门口的人。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_13_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 藏刀也藏眼泪。夜里生变，天亮后人人都说没看见。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_13_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 是。没灯，连药量都容易看错，更别说分辨脸色。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_13_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_13_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_14
+  npcId: npc_a_yuan
+  title: 顺手小差
+  entryNodeId: node_entry
+  priority: 47
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆替火折裹好油纸，顺手把零碎物件摆正。阿圆说：“顺路把旁边的东西摆正。 阿圆问你愿不愿意帮一个不显眼的小忙。”
+      replies:
+        - id: reply_as_merchant
+          text: 小忙也要讲清要送到谁手里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 小忙若有风险，我先走前面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 小忙若关系病人，我现在就去。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 送给米铺门前排队的大娘，别让太多人看见。不是见不得光，是怕被传歪。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_14_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 不用拔刀，帮我看住后路就行。有时候不让人挤上来，比冲出去更难。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_14_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 关系不大，却能省一条腿脚。病人那边，少等一刻都是好事。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_14_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_14_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_15
+  npcId: npc_a_yuan
+  title: 街坊脸色
+  entryNodeId: node_entry
+  priority: 46
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 来往的人脸色各异，嘴上客气，眼里却藏着算盘。阿圆说：“最近看人脸，比听人话更准。”
+      replies:
+        - id: reply_as_merchant
+          text: 看脸色能看出谁要囤货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看脸色能看出谁要闹事？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 看脸色能看出谁在硬撑。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 能。眼睛总往针线、火折和跑腿消息上飘的人，多半心里已经起了算盘。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_15_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 能。真正要闹的人常不喊，喊得最大声的反而等别人先动。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_15_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 能。硬撑的人最怕被叫住，你若温和些，他们才肯承认。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_15_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_15_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_16
+  npcId: npc_a_yuan
+  title: 一阵咳声
+  entryNodeId: node_entry
+  priority: 45
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 远处一阵咳，几个人不由自主退了半步。阿圆说：“皱了皱眉，说怕病也怕被病名吓坏。”
+      replies:
+        - id: reply_as_merchant
+          text: 若恐慌传开，买卖会先崩。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 恐慌会让人不听号令。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 退开不是办法，要分症状。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 买卖崩了，粮药也会断。你若能说服人别乱传，等于保住半条路。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_16_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 对。怕到极处，人会把救他的人也当敌人。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_16_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 分得清，心就稳一半。你来说，他们比听我说更容易信。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_16_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_16_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_17
+  npcId: npc_a_yuan
+  title: 缺口旧匣
+  entryNodeId: node_entry
+  priority: 44
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 竹编钱匣缺了一角，旧得让人舍不得换。阿圆说：“镇上许多东西都是这样，破了还得用。”
+      replies:
+        - id: reply_as_merchant
+          text: 旧器物能撑，旧规矩未必能撑。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破口不补，迟早伤手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧伤不看，也会反复疼。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 你们外来人看得快，本地人舍不得。舍不得有时是情分，有时是祸端。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_17_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 补也要看谁来补。手太重，器物没补好，先碎了。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_17_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 疼久了，人会把疼当成日常。镇子也是。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_17_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_17_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_18
+  npcId: npc_a_yuan
+  title: 谎言源头
+  entryNodeId: node_entry
+  priority: 43
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 一句传闻转了三遍，每回都添一截尾巴。阿圆说：“谎话不怕新，怕的是有人故意让它像真话。”
+      replies:
+        - id: reply_as_merchant
+          text: 假消息会害车队，我要辨源头。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 撒谎的人往往躲在后面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 假病因会害死人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 源头常常不在说得最大声的人那里，而在第一个问“你听说了吗”的人那里。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_18_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 躲在后面，也会留下目的。看谎话想把人赶向哪里。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_18_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 是。病因一错，药越勤，错得越深。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_18_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_18_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_19
+  npcId: npc_a_yuan
+  title: 信字难立
+  entryNodeId: node_entry
+  priority: 42
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆环顾四周，像在掂量哪句话还能出口。阿圆说：“看了看周围，像是在衡量哪句话能放出来。 阿圆说现在不是没人说话，是没人敢担保谁可信。”
+      replies:
+        - id: reply_as_merchant
+          text: 信任也要有抵押，谁的抵押最实？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看行动，不看漂亮话。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 肯让人看病的人，至少还有求生心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 抵押最实的是退路。没退路的人，说真话也可能变卦。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_19_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 行动要看连续几天，不看一时热血。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_19_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 求生心很真，可求生也会让人隐瞒。别全信，也别全疑。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_19_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_19_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_20
+  npcId: npc_a_yuan
+  title: 镇外来影
+  entryNodeId: node_entry
+  priority: 41
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 有人提到镇外，摊前的人声忽然矮了下去。阿圆说：“镇外不是远方，是随时会推门进来的事。”
+      replies:
+        - id: reply_as_merchant
+          text: 外来的货和人，哪一个更可疑？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 外头的威胁已经进镇了吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 外来人可有被妥善安置？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 货不会自己说谎，人会。可货上留下的痕迹，比人嘴可靠。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_20_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 进来了。不是人人拿刀才叫威胁，有人带的是恐慌和口信。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_20_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 安置得不够。挤在一起，再小的病也会被放大。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_20_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_20_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_21
+  npcId: npc_a_yuan
+  title: 午后困意
+  entryNodeId: node_entry
+  priority: 40
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 日头偏西，阿圆的动作慢了半拍。阿圆说：“的动作慢了一点。 阿圆说人累的时候最容易答应不该答应的事。”
+      replies:
+        - id: reply_as_merchant
+          text: 疲惫会让人卖掉底线。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 疲惫会让守卫露空。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 疲惫会让病情恶化。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 底线不是一下卖掉的，是一点点让出去的。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_21_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 露空时最怕有人正等着。你若能替人歇一刻，就能补一个缺口。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_21_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 你说得对。许多人不是病倒，是熬倒。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_21_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_21_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_22
+  npcId: npc_a_yuan
+  title: 未寄之信
+  entryNodeId: node_entry
+  priority: 39
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 折好的信压在钱匣旁，纸角被摸得起毛。阿圆说：“有些信写好了，却不知说还能不能送到。”
+      replies:
+        - id: reply_as_merchant
+          text: 能带信，但要知说收信人在哪条路上。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若送信有凶险，先说凶险来自谁。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 信若关系病人家属，别再拖。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 能带当然好。可路上若有人查，别把信和账本放在一起。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_22_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 凶险来自想知说别人说了什么的人。如今一句家常，也可能被当成证词。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_22_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 关系家属，也关系人心。人若不知说亲人死活，会先在心里病起来。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_22_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_22_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_23
+  npcId: npc_a_yuan
+  title: 童言无忌
+  entryNodeId: node_entry
+  priority: 38
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 一个孩子问了句大人不敢问的话，四下顿时无声。阿圆说：“沉默片刻，说孩子常常比大人诚实。”
+      replies:
+        - id: reply_as_merchant
+          text: 孩子问的是米还是路？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 孩子问的是谁会护住他们？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 孩子问的是病会否死？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 问的是明天还有没有饭。这个问题比任何账都难。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_23_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 问的是守门的人会不会也跑。你看，孩子知说害怕什么。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_23_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 问的是会不会传给娘亲。你若听见了，就别用空话糊弄。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_23_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_23_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_24
+  npcId: npc_a_yuan
+  title: 墙根新泥
+  entryNodeId: node_entry
+  priority: 37
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 墙根新补的泥还潮着，像伤口没结痂。阿圆说：“墙会破，规矩也会破。”
+      replies:
+        - id: reply_as_merchant
+          text: 破口若能走私货，就会有人利用。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破墙也是防线缺口。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 破墙透风，病人受不了。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 利用的人一定有，不一定是大奸大恶，也可能只是饿急了。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_24_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 缺口要补，也要看谁常在附近徘徊。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_24_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 先挡风，再问责。人病着的时候，风比说理快。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_24_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_24_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_25
+  npcId: npc_a_yuan
+  title: 讨价如争命
+  entryNodeId: node_entry
+  priority: 36
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 讨价声越抬越尖，几枚铜钱像要敲出火星。阿圆说：“讨价还价本是日常，如今却像吵命。”
+      replies:
+        - id: reply_as_merchant
+          text: 价要稳，得先稳供给。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 吵到动手前会有什么征兆？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 买不起药和米的人会同时变多。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 供给是一头，信任是另一头。只补一头，价还会乱。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_25_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 征兆是没人再听完整句话，只听见自己吃亏。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_25_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 会。所以救病不能只靠药铺，也得靠米袋。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_25_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_25_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_26
+  npcId: npc_a_yuan
+  title: 半夜脚步
+  entryNodeId: node_entry
+  priority: 35
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 昨夜脚步声还挂在人嘴边，说法却各不相同。阿圆说：“半夜走路的人，不一定是贼，也可能是怕白天被看见。”
+      replies:
+        - id: reply_as_merchant
+          text: 夜里运货的人通常有不得已的理由。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 半夜脚步要查，但不可先惊动。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里求药的人也会偷偷走。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 理由有真有假。看他们绕开什么，比看他们搬什么更有用。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_26_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 你说得对。先记路，再问人，别一嗓子把线头喊散了。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_26_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 求药的人怕欠账，也怕被人说染病。你若拦，记得先问急不急。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_26_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_26_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_27
+  npcId: npc_a_yuan
+  title: 旧日集市
+  entryNodeId: node_entry
+  priority: 34
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 说起旧日集市，阿圆眼神软了一瞬。阿圆说：“的神色软了一点。 阿圆说从前也不是没有难处，只是大家还肯慢慢说。”
+      replies:
+        - id: reply_as_merchant
+          text: 从前商路最安稳的时候靠什么？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 从前巡守和镇民怎么互相信？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 从前病人如何互相照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 靠熟人，也靠不把每一文钱都逼到尽头。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_27_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 靠说到做到。守门的人不乱拿，进门的人不乱闯。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_27_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 靠邻里。谁家熬药，隔壁会送水，不会先问报酬。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_27_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_27_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_28
+  npcId: npc_a_yuan
+  title: 粗碗热水
+  entryNodeId: node_entry
+  priority: 33
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 粗碗里热水冒白气，在乱时竟也显得贵重。阿圆说：“热水不值钱，可乱起来时，连热水都难得。”
+      replies:
+        - id: reply_as_merchant
+          text: 热水和柴火也要纳入调度。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 送水的人也要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 热水能救很多小病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 你若能调柴火，许多怨气会少一半。冷饭冷水最磨人。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_28_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 是。别小看送水，夜里拎桶的人最容易被误伤。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_28_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 对。许多药不是没有方子，是没人有热水慢慢服。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_28_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_28_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_29
+  npcId: npc_a_yuan
+  title: 谁肯先让
+  entryNodeId: node_entry
+  priority: 32
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 两拨人僵在街心，谁都不肯先退半步。阿圆说：“看着两拨人互不相让，叹了口气。 阿圆说谁都觉得自己让一步就会被吞掉。”
+      replies:
+        - id: reply_as_merchant
+          text: 让步要换确定的回报，不可空让。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 有时要有人站中间，双方才退得下去。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人面前不该争谁更委屈。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 回报可以不是钱，是明日还愿意坐下来谈。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_29_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 站中间的人最容易挨骂。可没人站，事就会往刀上走。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_29_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 这话该让他们都听听。咳声不会等他们吵完。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_29_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_29_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_30
+  npcId: npc_a_yuan
+  title: 坏事先后
+  entryNodeId: node_entry
+  priority: 31
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 坏消息一件接一件进门，像没人肯排队。阿圆说：“最怕的不是坏消息，是大家不知说先处理哪个。”
+      replies:
+        - id: reply_as_merchant
+          text: 先保路、粮、药三个节点。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先保人，再保门，再保物。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先救急症，再控传染，再安人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 你的顺序能听。路断则粮药断，粮药断则人心断。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_30_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 人保住，门和物才有意义。别反过来。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_30_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 这就是救治的顺序。镇子也像一个病人。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_30_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_30_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_31
+  npcId: npc_a_yuan
+  title: 避谈纸包
+  entryNodeId: node_entry
+  priority: 30
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 有人听见纸包二字就换话头，换得太快。阿圆说：“避得太急，本身就是线头。”
+      replies:
+        - id: reply_as_merchant
+          text: 避谈的人可能怕旧账影响生意。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 避谈的人可能知说凶险在哪。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 避谈的人可能见过病根。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 生意、名声、亲人，都可能让人闭嘴。你要分清是哪一种。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_31_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 知说凶险的人未必坏，有时只是活得太久，怕了。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_31_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 见过病根的人最怕再闻到同样味说。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_31_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_31_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_32
+  npcId: npc_a_yuan
+  title: 帮忙章法
+  entryNodeId: node_entry
+  priority: 29
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆看着你，像看一把刀该入鞘还是出鞘。阿圆说：“看着你，像是在判断你这次会伸手还是伸脚绊人。 阿圆说帮忙二字，说起来容易，做歪了就是添乱。”
+      replies:
+        - id: reply_as_merchant
+          text: 先问需要什么，再动资源。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先听安排，再动手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先看症状，再开方。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 这样才像能做事的人。别把自己的好心摆在别人的急处前面。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_32_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 能听安排的懂得收手的人，比只会冲的强。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_32_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 看症状再开方，这说理若人人都懂，镇里少一半乱事。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_32_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_32_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_33
+  npcId: npc_a_yuan
+  title: 旧物留痕
+  entryNodeId: node_entry
+  priority: 28
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 旧钱匣被她拿起又放下，像有话压在竹篾里。阿圆说：“拿起又放下，像一段话没说出口。 阿圆说旧物留得久了，就会替人记事。”
+      replies:
+        - id: reply_as_merchant
+          text: 旧物若能作凭证，就别让它丢了。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧物若会惹祸，就该有人护着。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧物上的痕迹有时能说明伤从何来。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 凭证也要看交给谁。交错了，凭证就是把柄。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_33_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 护东西不难，难的是护住拿着它的人。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_33_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 你看得细。火痕、药味、血渍，旧物都可能记得。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_33_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_33_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_34
+  npcId: npc_a_yuan
+  title: 静里藏声
+  entryNodeId: node_entry
+  priority: 27
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 街面忽然静了片刻，静得像暴雨前吸了一口气。阿圆说：“安静不一定是平安，也可能是大家都在等下一声响。”
+      replies:
+        - id: reply_as_merchant
+          text: 安静时最适合安排后路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 安静时最该查哨。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 安静时最该补睡和熬药。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 后路要在没人看见时安排好，真乱起来就晚了。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_34_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 查哨，也查谁突然不在原处。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_34_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 对，能休息时不休息，下一波来时就只剩硬撑。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_34_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_34_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_35
+  npcId: npc_a_yuan
+  title: 借物有账
+  entryNodeId: node_entry
+  priority: 26
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 有人来借针线和火折，话客气，手却攥得紧。阿圆说：“等那人走远，才看向你。”
+      replies:
+        - id: reply_as_merchant
+          text: 借和抢之间，只差还不还。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 手攥太紧，多半已经急了。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 借东西若为救急，可以登记。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 你说得现实。现在每一次借出，都要想好明日怎么要回来。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_35_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 急未必坏，怕的是有人利用他的急。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_35_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 登记能让人觉得公平，也能让后来的人少吵两句。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_35_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_35_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_36
+  npcId: npc_a_yuan
+  title: 两道门
+  entryNodeId: node_entry
+  priority: 25
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 话题从镇门绕到祠堂，绕来绕去都是门。阿圆说：“一说门管活人进出，一说门管旧事出入。”
+      replies:
+        - id: reply_as_merchant
+          text: 两说门都影响路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 两说门都需要有人守。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 两说门都关系人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 路不只在地上，也在大家愿不愿意相信彼此。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_36_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 守门不只是挡人，也是不让怕事的人随手上锁。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_36_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 人心堵住，病也好得慢。看病的人最该懂。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_36_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_36_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_37
+  npcId: npc_a_yuan
+  title: 小争执
+  entryNodeId: node_entry
+  priority: 24
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 旁边一场小争执被劝开，余火还在眼里。阿圆说：“小争执若没人管，就会学会长大。”
+      replies:
+        - id: reply_as_merchant
+          text: 争执多半因为分配不明。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 争执刚起时最好压住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 争执会让病人更慌。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 分配明白，人就算不满，也知说该找谁说。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_37_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 压住不是吼住，是让双方都有台阶。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_37_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 慌会传，比病还快。你若能安一句，就是帮忙。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_37_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_37_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_38
+  npcId: npc_a_yuan
+  title: 远方留话
+  entryNodeId: node_entry
+  priority: 23
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆忽然问远方若能收信，你会留下什么话。阿圆说：“忽然问你，若能给远方的人留句话，你会写什么。 这个问题来得突兀，却不像玩笑。”
+      replies:
+        - id: reply_as_merchant
+          text: 会写路况和价钱，也写人是否平安。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 会写别轻信太安静的路。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 会写水要烧开，病要早看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 平安这两个字，比价钱更难写真。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_38_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 这句能救命。太安静的路，总有人先替你清过声音。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_38_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 朴素，却管用。许多人死在不肯早看。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_38_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_38_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_39
+  npcId: npc_a_yuan
+  title: 怕字难认
+  entryNodeId: node_entry
+  priority: 22
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 她说话仍稳，手却在钱匣边停了停。阿圆说：“把话说得平稳，手却在一只竹编钱匣旁停住。 阿圆说镇里很多人怕，却不愿承认自己怕。”
+      replies:
+        - id: reply_as_merchant
+          text: 害怕会推高价钱。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 害怕会让人先下手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 害怕会让人藏病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 价钱只是表面。真正涨的是彼此的防备。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_39_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 先下手的人常说自己是自保。你要看他保的到底是什么。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_39_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 藏病最祸端。藏到后来，不止害自己。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_39_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_39_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_40
+  npcId: npc_a_yuan
+  title: 补衣三色
+  entryNodeId: node_entry
+  priority: 21
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 袖口三色补线歪歪斜斜，日子也像这样缝着过。阿圆说：“日子破了，人就学会把不合适的布缝在一起。”
+      replies:
+        - id: reply_as_merchant
+          text: 修补总比全丢了强。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 补过的地方也是弱点。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 补得好，伤口也能长上。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 强是强，可补线也要结实。只图看着完整，扯一下就开。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_40_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 弱点不是罪，装作没弱点才凶险。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_40_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 长上以后还会留疤。留疤不丢人，怕的是反复撕开。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_40_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_40_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_41
+  npcId: npc_a_yuan
+  title: 旧火新烟
+  entryNodeId: node_entry
+  priority: 20
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 湿柴烟味飘来，呛得人分不清旧火新火。阿圆说：“烟味最会骗人，像旧火又像新火。”
+      replies:
+        - id: reply_as_merchant
+          text: 旧火若变成新烟，说明有人在翻旧账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 烟能遮眼，也能暴露位置。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 烟会让咳症更重。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 有人翻旧账，也有人想让你以为是旧账自己烧起来。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_41_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 看风向。烟往哪边去，人多半也往哪边藏。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_41_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 先让咳得厉害的人避开。查案也要给活人让路。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_41_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_41_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_42
+  npcId: npc_a_yuan
+  title: 作证代价
+  entryNodeId: node_entry
+  priority: 19
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 提到作证，空气像被人一把按住。阿圆说：“作证不是说一句话，是把往后日子押上去。”
+      replies:
+        - id: reply_as_merchant
+          text: 证词要能互相印证，不可只靠胆子。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 作证的人需要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 作证的人也会怕，也会病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 印证越多，单个人背的压力越小。这是正经办法。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_42_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 护住不是站在他旁边亮刀，也包括让他家里有饭。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_42_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 是。吓坏的人说不清话，先让他能睡一觉。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_42_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_42_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_43
+  npcId: npc_a_yuan
+  title: 药汤去向
+  entryNodeId: node_entry
+  priority: 18
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 药汤端过门口，旁人的眼神跟着碗走。阿圆说：“一碗药端给谁，也会有人觉得不公平。”
+      replies:
+        - id: reply_as_merchant
+          text: 分配标准要提前说清。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 不公平会引出冲突。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 轻重缓急须得由病情决定。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 标准说清，怨气少一半。剩下一半，靠人慢慢劝。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_43_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 冲突常从一句“凭什么他先”开始。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_43_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 病情决定，这是底线。若让关系决定，药就变味了。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_43_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_43_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_44
+  npcId: npc_a_yuan
+  title: 风里名字
+  entryNodeId: node_entry
+  priority: 17
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 风里卷过几个名字，没听真，已足够伤人。阿圆说：“名字一旦被风带走，就会变成别人嘴里的刀。”
+      replies:
+        - id: reply_as_merchant
+          text: 没核实的名字不可写进账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 没核实的名字不可当靶子。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 没核实的名字不可当病因。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 对。写错一个名字，后面整本账都歪。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_44_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 当靶子容易，收回箭难。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_44_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 病因错了，药方就成了害人的纸。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_44_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_44_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_45
+  npcId: npc_a_yuan
+  title: 收摊暮色
+  entryNodeId: node_entry
+  priority: 16
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 天色压下来，摊影被拉得很长。阿圆说：“白天的话到了夜里，会换一副脸。”
+      replies:
+        - id: reply_as_merchant
+          text: 夜里最容易出现私下交易。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里最容易出事。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里最怕急症。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 私下交易不可怕，可怕的是交易内容和镇子的命绑在一起。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_45_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 生变前总有预兆，只是白天没人愿意承认。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_45_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 急症要提前备。人心也是，别等彻底乱了才找药。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_45_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_45_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_46
+  npcId: npc_a_yuan
+  title: 笑声不合时
+  entryNodeId: node_entry
+  priority: 15
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 有人笑了一声，笑完自己也怔住。阿圆说：“人太紧时，笑也像哭。”
+      replies:
+        - id: reply_as_merchant
+          text: 紧绷的人很容易做错买卖。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 紧绷的人也容易误伤。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 紧绷久了会垮。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 错买卖还能补，错把人当敌人就难补。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_46_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 所以动手前要多看一眼。那一眼能救命。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_46_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 垮之前常有征兆，手抖、睡不着、听不得响。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_46_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_46_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_47
+  npcId: npc_a_yuan
+  title: 留到明日
+  entryNodeId: node_entry
+  priority: 14
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 阿圆把没做完的事挪到一边，眉头没有松。阿圆说：“把没做完的事往旁边挪了挪。 阿圆说有些事只能留给明天，但明天未必肯等。”
+      replies:
+        - id: reply_as_merchant
+          text: 明天要先保哪条线？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 明天要先防哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 明天要先看谁？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 先保集市通往旧酒肆的后巷，再保针线、火折和跑腿消息。这两样一断，别的全是空话。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_47_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 先防看似安静的地方。乱处人人盯着，静处才容易漏。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_47_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 先看撑了一夜的人。能撑一夜，不代表还能撑一天。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_47_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_47_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_48
+  npcId: npc_a_yuan
+  title: 钥匙轻响
+  entryNodeId: node_entry
+  priority: 13
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 钥匙轻轻一响，几双眼睛同时抬起。阿圆说：“现在每把钥匙都像能打开祸端。”
+      replies:
+        - id: reply_as_merchant
+          text: 钥匙管的是货，也是信任。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 钥匙该在可靠的人手里。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 锁住的若是药和病案，就要慎重。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 信任比锁贵。锁坏了能换，信任坏了难补。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_48_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 可靠不是不害怕，是害怕也不乱开门。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_48_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 慎重是对的。但锁太久，里头的东西也会坏。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_48_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_a_yuan_daily_48_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_49
+  npcId: npc_a_yuan
+  title: 借道客
+  entryNodeId: node_entry
+  priority: 12
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 那人来得不是时候，停了停，又装作只是借道。阿圆说：“等那人走后，说路过的人有时最不路过。”
+      replies:
+        - id: reply_as_merchant
+          text: 路过也会留下交易痕迹。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 假装路过的人要记脸。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 躲闪的人可能藏病，也可能藏事。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 痕迹在鞋底、袖口和他不肯看的地方。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_49_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 记脸，也记他看谁。眼神比脚步诚实。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_49_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 藏病和藏事都怕被叫住。你若叫，别让他觉得无路可退。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_49_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_a_yuan_daily_49_completed
+        not_equals: true
+- id: conversation_a_yuan_daily_50
+  npcId: npc_a_yuan
+  title: 旧话新听
+  entryNodeId: node_entry
+  priority: 11
+  nodes:
+    - id: node_entry
+      speaker: npc_a_yuan
+      text: 旧话被重新提起，听着忽然换了重量。阿圆说：“有些旧话，要等事到眼前才听得懂。”
+      replies:
+        - id: reply_as_merchant
+          text: 旧话里常藏着规避风险的经验。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧话也可能是逃避责任的借口。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧话若能解释病根，就值得重听。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_a_yuan
+      text: 经验和借口常穿同一件衣裳。你得看它让人往前走，还是往后躲。 买卖场也是江湖，银钱、人情、退路，少算一样都要吃亏。她说到这里便收声，像把一根细线藏回袖中。
+      replies:
+        - id: reply_merchant_close
+          text: 记下了，这笔人情与风险，都要算得清楚。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_50_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_a_yuan
+      text: 说得好。有人用旧话劝人稳，有人用旧话劝人闭嘴。 刀在鞘里时，先稳人心；人心稳住，路才守得住。她眼神清亮，说完便不再多添一句。
+      replies:
+        - id: reply_warrior_close
+          text: 明白，先稳住人，再稳住路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_50_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_a_yuan
+      text: 重听可以，别盲信。老方子也要看今日的脉。 病有脉象，人心也有脉象；迟一步，药味就会变苦。她垂下眼，把话说得轻，却落得很重。
+      replies:
+        - id: reply_doctor_close
+          text: 记下，先救急症，再查病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_a_yuan_daily_50_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_a_yuan_daily_50_completed
+        not_equals: true

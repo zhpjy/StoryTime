@@ -1,0 +1,7 @@
+id: npc_guide
+name: 沈灯
+age: 42
+identity: 守灯人
+tier: core
+faction: faction_waykeepers
+location: loc_crossroads

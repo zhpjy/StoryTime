@@ -1,0 +1,51 @@
+- id: quest_help_refugees
+  title: 稳住镇门流民
+  description: 陆怀山希望你协助镇门查验与安置流民。
+  sourceNpcId: npc_lu_huaishan
+  completion:
+    type: environment
+    environmentType: search
+    targetType: location
+    targetId: loc_town_gate
+    interactionId: interaction_help_refugees_gate
+  rewardIds:
+    - reward_refugee_aid
+- id: quest_support_herb_shop
+  title: 缓解药铺压力
+  description: 沈青禾需要有人帮忙诊治病人，压低疫病压力。
+  sourceNpcId: npc_shen_qinghe
+  completion:
+    type: environment
+    environmentType: search
+    targetType: building
+    targetId: building_consulting_room
+    interactionId: interaction_treat_patients
+  rewardIds:
+    - reward_medicine_aid
+- id: quest_secure_trade_route
+  title: 压制黑岭盗
+  description: 镇门巡守需要商路上的直接战果。
+  sourceNpcId: npc_lu_huaishan
+  completion:
+    type: combat
+    targetType: location
+    targetId: loc_town_gate
+    result: victory
+    interactionId: interaction_guard_route
+  rewardIds:
+    - reward_bandit_victory
+- id: quest_search_old_temple
+  title: 搜查旧庙真相
+  description: 旧庙出现后，继续搜索遗痕与疫病线索。
+  sourceNpcId: npc_old_ritualist
+  conditions:
+    fact: facts.old_temple_discovered
+    equals: true
+  completion:
+    type: environment
+    environmentType: search
+    targetType: building
+    targetId: building_ruined_temple
+    interactionId: interaction_search_old_temple
+  rewardIds:
+    - reward_truth_progress

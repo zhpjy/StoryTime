@@ -1,0 +1,21 @@
+- id: map_demo_crossroads
+  name: 雾灯路口图
+  width: 1
+  height: 1
+  tiles:
+    - id: tile_crossroads
+      name: 雾灯路口
+      x: 0
+      y: 0
+      terrain: road
+      locationId: loc_crossroads
+      buildingIds:
+        - building_lamp_room
+      npcIds:
+        - npc_guide
+      eventIds:
+        - event_first_signal
+      discovered: true
+      visible: true
+      blocked: false
+      dangerLevel: 1

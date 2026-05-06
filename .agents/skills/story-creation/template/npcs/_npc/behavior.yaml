@@ -1,0 +1,53 @@
+# 单个 NPC 的日程和自主行为规则。
+
+# schedule: NPC 按时段移动或行动的计划。location/locationId 必须指向存在地点。
+schedule:
+  - # id: 可选；省略时加载器会自动生成。
+    id: "npc_guide_schedule_morning"
+    # segment: 时段，支持 morning、noon、night。
+    segment: "morning"
+    # location: 地点 ID。也可写 locationId。
+    location: "loc_start"
+    # activity: 活动名，建议用英文语义键。
+    activity: "observe_arrivals"
+    # priority: 可选，多个日程竞争时的优先级。
+    priority: 50
+    # dayRange: 可选，限制日程生效天数。
+    dayRange:
+      from: 1
+      to: 14
+    # conditions: 可选，满足条件时此日程生效。
+    conditions:
+      all:
+        - fact: "npc.npc_guide.state.alive"
+          equals: true
+    # effects: 可选，执行日程时造成的效果。
+    effects: []
+    # designNote: 可选，作者备注。
+    designNote: "早晨留在起点，方便玩家早期接触。"
+
+# behaviorRules: NPC 自主行为。满足 conditions 时执行 effects。
+behaviorRules:
+  - # id: 行为规则唯一 ID。
+    id: "rule_guide_reveals_clue_when_trusted"
+    # name: 规则展示名称。
+    name: "信任足够时透露线索"
+    # priority: 优先级，数值越高越应优先检查。
+    priority: 80
+    # conditions: 触发条件。
+    conditions:
+      all:
+        - fact: "relationship.player.npc_guide.trust"
+          greater_than_or_equal: 20
+        - fact: "facts.guide_revealed_clue"
+          not_equals: true
+    # effects: 触发后改变世界状态。
+    effects:
+      - type: "add_fact"
+        key: "guide_revealed_clue"
+        value: true
+      - type: "change_variable"
+        key: "truth_progress"
+        delta: 5
+    # designNote: 可选，解释该规则的叙事目的。
+    designNote: "鼓励玩家通过关系推进线索，而不是只依赖行动。"

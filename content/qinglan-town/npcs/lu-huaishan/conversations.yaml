@@ -1,0 +1,3511 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+- id: conversation_lu_first_meet
+  npcId: npc_lu_huaishan
+  title: 镇门试客
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+      - fact: facts.conversation_lu_first_meet_completed
+        not_equals: true
+  priority: 100
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山立在镇门阴影里，半旧皮甲压着肩。他抬眼看你，目光像刀背一掂，分不清你是帮手，还是麻烦。
+      replies:
+        - id: reply_as_merchant
+          text: 且问哪条商路还能走，免得把货队送进险处。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若山路有匪，我可以跟你巡一段。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 流民里若有人发热，镇门该怎么分流？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 商路能走，但不能按老规矩走。你让车队别贪近路，进门前先报人数和货物。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_first_meet_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 有胆子是好事，别把胆子当眼睛。跟巡可以，先听号令。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_first_meet_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 发热的先别挤进门洞。你若能看诊，我让人腾出告示棚，免得一乱全乱。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_first_meet_completed
+              value: true
+- id: conversation_lu_bandit_warning
+  npcId: npc_lu_huaishan
+  title: 黑岭暗线
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: variables.bandit_power
+            greater_than_or_equal: 45
+      - fact: facts.conversation_lu_bandit_warning_completed
+        not_equals: true
+  priority: 99
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 他把巡路草图按在门墩上，炭圈黑得刺眼。他压低声音说，黑岭盗最要命的不是狠，是准。
+      replies:
+        - id: reply_as_merchant
+          text: 他们盯的是贵货，还是某些固定车队？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 准就说明有人给他们递路。你怀疑谁？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 被劫药材多不多？这会影响药铺救人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 他们不只挑贵货，有时专挑不起眼的药包和旧木箱。像是在找东西。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 2
+            - type: add_fact
+              key: conversation_lu_bandit_warning_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 怀疑不能当证据。可镇里知道巡路表的人，不多。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 2
+            - type: add_fact
+              key: conversation_lu_bandit_warning_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 药材丢过两回。若再丢，药铺不是少赚，是少救命。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 2
+            - type: add_fact
+              key: conversation_lu_bandit_warning_completed
+              value: true
+          endConversation: true
+- id: conversation_lu_truth_line
+  npcId: npc_lu_huaishan
+  title: 档中缺页
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: variables.truth_progress
+            greater_than_or_equal: 30
+      - fact: facts.conversation_lu_truth_line_completed
+        not_equals: true
+  priority: 98
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 他目光越过祠堂，声音压得很低。有些案卷不是虫蛀，是有人伸手拿走了。
+      replies:
+        - id: reply_as_merchant
+          text: 缺页若牵出旧债，谁会最怕账被翻开？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 拿走案卷的人还在镇里吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧案和现在的病、药、山路有关系吗？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 怕的人不止一个。有人怕丢脸，有人怕丢命，还有人怕镇子撑不住。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_lu_truth_line_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 在不在镇里难说，但命令一定从镇里出去过。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_lu_truth_line_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 我没有证据，只知道旧庙、药材和山路被太多人同时避开，这不正常。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_lu_truth_line_completed
+              value: true
+          endConversation: true
+- id: conversation_lu_low_trust
+  npcId: npc_lu_huaishan
+  title: 门前疑云
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: relationship.player.npc_lu_huaishan.suspicion
+            greater_than_or_equal: 30
+      - fact: facts.conversation_lu_low_trust_completed
+        not_equals: true
+  priority: 97
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 他把木牌翻过来，背面刻着今夜更次，指腹在刻痕上停了停。他问你，为何总在要紧处现身。
+      replies:
+        - id: reply_as_merchant
+          text: 哪里有风险我就往哪里问，这不是心虚。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 你若怀疑我，就让我站到最凶险的位置。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人不会等你们查清我从哪里来。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 会问价的人未必会卖镇子。可你要记住，镇门不是买卖桌。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_low_trust_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 最凶险的位置不是最能证明清白的位置。能守住嘴，也能守住刀，才算。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_low_trust_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 我知道。药铺那边我会放行，但你别借看病去碰不该碰的锁。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_low_trust_completed
+              value: true
+- id: conversation_lu_huaishan_daily_05
+  npcId: npc_lu_huaishan
+  title: 冷饼夜巡
+  entryNodeId: node_entry
+  priority: 56
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 他咬着冷干饼，嚼得很慢，像连力气也要省着用。他说夜里少一支火把，守门人心里就少一寸底。
+      replies:
+        - id: reply_as_merchant
+          text: 可以捐油和火把，但要知道用在哪几处。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我守外侧，你们守门洞。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我备伤药，别让小伤拖成大事。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 油给北门、旧桥和粮车停处。你若真捐，别让人敲锣打鼓替你扬名。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_05_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 可以。外侧看脚印，门洞看人心，别只盯山。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_05_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 伤药放门房左柜。夜里有人受伤，别问谁的错，先止血。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_05_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_05_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_06
+  npcId: npc_lu_huaishan
+  title: 晨门忙声
+  entryNodeId: node_entry
+  priority: 55
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 镇门一早就不得安生，木栓一响，排队的人都抬头。陆怀山一边检查过路人的路引，一边抬手示意：有话就快些讲。
+      replies:
+        - id: reply_as_merchant
+          text: 且先问今日的买卖和路上动静。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 且问这里最需要防的是什么。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 且先问可有人身体不适。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 买卖看着是买卖，背后全是人心。今日最该留意的，是集市里越来越急的粮价争吵。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_06_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 要防的不只刀，还有慌。夜巡时没人照应的路口一旦成真，谁都别想安稳。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_06_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 有不适的人不少，只是许多人怕花钱，先忍着。你若肯看，先从排队入镇的流民和商旅看起。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_06_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_06_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_07
+  npcId: npc_lu_huaishan
+  title: 山风小恙
+  entryNodeId: node_entry
+  priority: 54
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 山口的风裹着湿土味吹来，巡夜木牌也像浸了潮。陆怀山说，这种天最会把小病拖成大祸。
+      replies:
+        - id: reply_as_merchant
+          text: 潮气会否影响货物和储备？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 坏天气会让巡守和防备更难吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 受潮后最该防哪类病症？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 会。货坏了还能赔，人手和火把坏了，赔的就是人命和信任。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_07_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 难。风雨一遮，脚印、火光和人声都会骗人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_07_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 先防寒热和咳症。别让排队入镇的流民和商旅在风口等太久。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_07_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_07_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_08
+  npcId: npc_lu_huaishan
+  title: 一碗饭重
+  entryNodeId: node_entry
+  priority: 53
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡守的干饼冷在一旁，热气散得比人心还快。陆怀山看了一眼饭食，说如今吃一口饭，也像在做取舍。
+      replies:
+        - id: reply_as_merchant
+          text: 粮价这样下去，小户人家还能撑几天？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 饿急的人会先冲哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 吃不饱会让病势更糟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 撑几天要看米价，也看谁愿意先分一点出来。巡逻更次簿比官样告示更管用。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_08_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 先冲看得见粮食的地方，再冲他们觉得没人护的地方。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_08_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 对。药能压病，饭才托命。没有巡守冷掉的干饼，药下去也虚。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_08_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_08_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_09
+  npcId: npc_lu_huaishan
+  title: 门前风言
+  entryNodeId: node_entry
+  priority: 52
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 排队入镇的流民和商旅在不远处压低声音，说到你来时又散开。陆怀山说镇上闲话跑得比马还快。
+      replies:
+        - id: reply_as_merchant
+          text: 闲话里可有能当线头的真货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 闲话会否引出冲突？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 闲话会让病人不敢就医。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 真货常藏在夸张里。你别听他们怎么骂，听他们反复提到什么。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_09_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 会。人一怕，就要找个能看见的人出气。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_09_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 已经有了。有人把病说成报应，这比发热还难治。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_09_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_09_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_10
+  npcId: npc_lu_huaishan
+  title: 账簿人情
+  entryNodeId: node_entry
+  priority: 51
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡逻更次簿被压在手边，纸页边缘已经卷起。陆怀山说账本记得清，人情却总算不明白。
+      replies:
+        - id: reply_as_merchant
+          text: 账清才不会乱，你最怕哪笔账爆出来？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 人情账若逼到头，会否变成仇？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 欠账的人会否因此拖着不求助？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 最怕不是欠得多，是欠得久。旧账一翻，谁都说自己有理。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_10_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 会。人情变仇，只差一句“你当年也欠我”。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_10_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 会。有人宁可忍病，也不愿再添一笔欠情。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_10_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_10_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_11
+  npcId: npc_lu_huaishan
+  title: 山路风声
+  entryNodeId: node_entry
+  priority: 50
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 外头有人提到商路北段，声音立刻低了下去。陆怀山说山路从来不只运货，也运消息。
+      replies:
+        - id: reply_as_merchant
+          text: 哪类消息最影响货队？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 山路上现在最像陷阱的是哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 山路会否带来新的病根？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 影响最大的不是匪，是不知道谁和匪有来往。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_11_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 最像陷阱的是人人都说安全的那段。太安静了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_11_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 会。水、草药、货布，都可能把病带进镇。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_11_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_11_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_12
+  npcId: npc_lu_huaishan
+  title: 旧庙吞声
+  entryNodeId: node_entry
+  priority: 49
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 缺页的旧案记录这个话头一出来，陆怀山的手慢了一拍。陆怀山说旧庙的事，镇里不是没人知道，是没人愿意说全。
+      replies:
+        - id: reply_as_merchant
+          text: 旧庙牵着哪条旧账？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁会为了旧庙动刀？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧庙和病、药可有牵连？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 牵着命账，也牵着名声账。两种账都比银钱难讨。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_12_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 拔刀的人未必最恨，最怕的人才会先动手。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_12_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 有牵连。至少巡守常备的伤药和刚来镇上时被拦在门外的那天都绕不开它。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_12_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_12_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_13
+  npcId: npc_lu_huaishan
+  title: 告示如纸
+  entryNodeId: node_entry
+  priority: 48
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 不远处有人念着新贴的告示，念到一半就笑不出来了。陆怀山说告示写得齐整，日子却不照字走。
+      replies:
+        - id: reply_as_merchant
+          text: 告示会影响交易和价格吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 告示能让人守规矩吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 告示可有安排病人和弱者？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 会影响一阵。可若人手和火把跟不上，纸上的价就只是纸。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_13_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 能让想守规矩的人有个台阶，拦不住已经急红眼的人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_13_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 写了几句，远远不够。真正照顾人的，是谁肯把门打开。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_13_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_13_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_14
+  npcId: npc_lu_huaishan
+  title: 夜声难辨
+  entryNodeId: node_entry
+  priority: 47
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 镇门木栓吱呀作响之外，夜里还夹着几声辨不清的动静。陆怀山说，最近没人敢睡得太沉。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里可有异常车马或陌生人？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里哪个方向最该有人守？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里病人会否无人照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 有。不是每辆车都会报号，也不是每个脚印都往门里走。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_14_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 守商路北段，也守人心最松的后门。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_14_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 会。夜里一句“明早再说”，有时就等不到明早。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_14_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_14_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_15
+  npcId: npc_lu_huaishan
+  title: 老幼在前
+  entryNodeId: node_entry
+  priority: 46
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 排队入镇的人里，有人扶着老人，也有人牵着孩子。陆怀山看着他们说，镇子的好坏，最先落在这些人身上。
+      replies:
+        - id: reply_as_merchant
+          text: 物资要先给谁才不乱？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 护送时先护哪一类人？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 老人孩子要分开照看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 先给不能等的人，再给能维持秩序的人。别让分配看起来像偏心。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_15_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 先护走不快的。能跑的人还有路，走不动的人只有别人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_15_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 对。小孩病急，老人病沉，混在一起只会互相拖。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_15_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_15_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_16
+  npcId: npc_lu_huaishan
+  title: 旧名如刺
+  entryNodeId: node_entry
+  priority: 45
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山提到一个旧名字，又很快把话收住。 那名字像一根刺，没人愿意碰得太深。
+      replies:
+        - id: reply_as_merchant
+          text: 名字若能对上旧账，就不该含糊。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 名字若指向活人，我得知道凶险。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧名字也可能是病根线头。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 你要对账，就别只问名字，还要问他最后被谁看见。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_16_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 凶险在问出口后。许多人怕的不是名字，是有人还记得。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_16_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 有时一个名字比一味药难找，但找到后，方子才完整。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_16_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_16_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_17
+  npcId: npc_lu_huaishan
+  title: 水路清浊
+  entryNodeId: node_entry
+  priority: 44
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有人拎着水桶经过，桶沿晃出一圈水光。陆怀山说水看着清，不代表来路清。
+      replies:
+        - id: reply_as_merchant
+          text: 水源若出问题，铺面和货队都会停。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁能靠近水源而不被盘问？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 水源须得查，病常从这里起。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 一停就不是一家铺子的事。你若查水，先查谁最近改了取水点。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_17_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 挑水人、送货人、巡夜人，都能靠近。最不起眼的最难查。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_17_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 你说到要处了。病若沿水走，药铺再忙也只是追着尾巴跑。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_17_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_17_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_18
+  npcId: npc_lu_huaishan
+  title: 灯油将尽
+  entryNodeId: node_entry
+  priority: 43
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 一盏灯的油快见底，火苗缩成豆大一点。陆怀山说灯一暗，人就容易做错事。
+      replies:
+        - id: reply_as_merchant
+          text: 我能调些灯油，但要知道最缺哪里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 黑处最适合藏刀。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人夜里也需要灯。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 最缺的不是灯油，是愿意把灯点在别人门口的人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_18_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 藏刀也藏眼泪。夜里生变，天亮后人人都说没看见。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_18_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 是。没灯，连药量都容易看错，更别说分辨脸色。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_18_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_18_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_19
+  npcId: npc_lu_huaishan
+  title: 小差不小
+  entryNodeId: node_entry
+  priority: 42
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 擦去刀鞘上的灰的空当，陆怀山顺路把旁边的东西摆正。陆怀山问你愿不愿意帮一个不显眼的小忙。
+      replies:
+        - id: reply_as_merchant
+          text: 小忙也要讲清要送到谁手里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 小忙若有风险，我先走前面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 小忙若关系病人，我现在就去。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 送给守门的年轻巡丁，别让太多人看见。不是见不得光，是怕被传歪。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_19_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 不用拔刀，帮我看住后路就行。有时候不让人挤上来，比冲出去更难。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_19_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 关系不大，却能省一条腿脚。病人那边，少等一刻都是好事。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_19_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_19_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_20
+  npcId: npc_lu_huaishan
+  title: 看脸听心
+  entryNodeId: node_entry
+  priority: 41
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 排队入镇的流民和商旅从旁边经过，脸色各不相同。陆怀山说最近看人脸，比听人话更准。
+      replies:
+        - id: reply_as_merchant
+          text: 看脸色能看出谁要囤货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看脸色能看出谁要闹事？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 看脸色能看出谁在硬撑。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 能。眼睛总往人手和火把上飘的人，多半心里已经起了算盘。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_20_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 能。真正要闹的人常不喊，喊得最大声的反而等别人先动。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_20_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 能。硬撑的人最怕被叫住，你若温和些，他们才肯承认。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_20_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_20_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_21
+  npcId: npc_lu_huaishan
+  title: 咳声惊人
+  entryNodeId: node_entry
+  priority: 40
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 远处一阵咳声传来，几个人下意识退开半步。陆怀山皱眉说，人怕病，也怕先被病名吓倒。
+      replies:
+        - id: reply_as_merchant
+          text: 若恐慌传开，买卖会先崩。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 恐慌会让人不听号令。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 退开不是办法，要分症状。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 买卖崩了，粮药也会断。你若能说服人别乱传，等于保住半条路。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_21_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 对。怕到极处，人会把救他的人也当敌人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_21_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 分得清，心就稳一半。你来说，他们比听我说更容易信。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_21_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_21_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_22
+  npcId: npc_lu_huaishan
+  title: 旧牌缺口
+  entryNodeId: node_entry
+  priority: 39
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡夜木牌边缘有一道旧缺口，像用久了也舍不得换。陆怀山说镇上许多东西都是这样，破了还得用。
+      replies:
+        - id: reply_as_merchant
+          text: 旧器物能撑，旧规矩未必能撑。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破口不补，迟早伤手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧伤不看，也会反复疼。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 你们外来人看得快，本地人舍不得。舍不得有时是情分，有时是祸端。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_22_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 补也要看谁来补。手太重，器物没补好，先碎了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_22_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 疼久了，人会把疼当成日常。镇子也是。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_22_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_22_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_23
+  npcId: npc_lu_huaishan
+  title: 谎从何起
+  entryNodeId: node_entry
+  priority: 38
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 一句传闻被重复了三遍，每次都多一个细节。陆怀山说谎话不怕新，怕的是有人故意让它像真话。
+      replies:
+        - id: reply_as_merchant
+          text: 假消息会害车队，我要辨源头。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 撒谎的人往往躲在后面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 假病因会害死人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 源头常常不在说得最大声的人那里，而在第一个问“你听说了吗”的人那里。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_23_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 躲在后面，也会留下目的。看谎话想把人赶向哪里。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_23_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 是。病因一错，药越勤，错得越深。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_23_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_23_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_24
+  npcId: npc_lu_huaishan
+  title: 信字难写
+  entryNodeId: node_entry
+  priority: 37
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山看了看周围，像在掂量哪句话能放出口。他说，现在不是没人说话，是没人敢担保谁可信。
+      replies:
+        - id: reply_as_merchant
+          text: 信任也要有抵押，谁的抵押最实？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我看行动，不看漂亮话。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 肯让人看病的人，至少还有求生心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 抵押最实的是退路。没退路的人，说了真话也可能变卦。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_24_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 行动要看连续几天，不看一时热血。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_24_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 求生心很真，可求生也会让人隐瞒。别全信，也别全疑。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_24_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_24_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_25
+  npcId: npc_lu_huaishan
+  title: 镇外影近
+  entryNodeId: node_entry
+  priority: 36
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有人提到镇外，周围立刻静了一瞬。陆怀山说镇外不是远方，是随时会推门进来的事。
+      replies:
+        - id: reply_as_merchant
+          text: 外来的货和人，哪一个更可疑？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 外头的威胁已经进镇了吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 外来人可有被妥善安置？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 货不会自己撒谎，人会。可货上留下的痕迹，比人嘴可靠。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_25_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 进来了。不是人人拿刀才叫威胁，有人带的是恐慌和口信。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_25_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 安置得不够。挤在一起，再小的病也会被放大。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_25_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_25_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_26
+  npcId: npc_lu_huaishan
+  title: 午后力尽
+  entryNodeId: node_entry
+  priority: 35
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 日头偏过去，陆怀山的动作慢了一点。陆怀山说人累的时候最容易答应不该答应的事。
+      replies:
+        - id: reply_as_merchant
+          text: 疲惫会让人卖掉底线。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 疲惫会让守卫露空。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 疲惫会让病情恶化。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 底线不是一下卖掉的，是一点点让出去的。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_26_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 露空时最怕有人正等着。你若能替人歇一刻，就能补一个缺口。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_26_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 你说得对。许多人不是病倒，是熬倒。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_26_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_26_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_27
+  npcId: npc_lu_huaishan
+  title: 未寄之信
+  entryNodeId: node_entry
+  priority: 34
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡夜木牌旁压着一张折好的纸，纸角已经起毛。陆怀山说有些信写好了，却不知道还能不能送到。
+      replies:
+        - id: reply_as_merchant
+          text: 我能带信，但要知道收信人在哪条路上。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若送信有凶险，先说凶险来自谁。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 信若关系病人家属，别再拖。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 能带当然好。可路上若有人查，别把信和账本放在一起。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_27_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 凶险来自想知道别人说了什么的人。如今一句家常，也可能被当成证词。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_27_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 关系家属，也关系人心。人若不知道亲人死活，会先在心里病起来。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_27_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_27_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_28
+  npcId: npc_lu_huaishan
+  title: 稚问如刀
+  entryNodeId: node_entry
+  priority: 33
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有个孩子在旁边问了一句大人都不敢问的话。陆怀山沉默片刻，说孩子常常比大人诚实。
+      replies:
+        - id: reply_as_merchant
+          text: 孩子问的是米还是路？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 孩子问的是谁会护住他们？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 孩子问的是病会否死？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 问的是明天还有没有饭。这个问题比任何账都难。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_28_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 问的是守门的人会不会也跑。你看，孩子知道害怕什么。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_28_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 问的是会不会传给娘亲。你若听见了，就别用空话糊弄。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_28_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_28_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_29
+  npcId: npc_lu_huaishan
+  title: 墙破风入
+  entryNodeId: node_entry
+  priority: 32
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 不远处的墙根有一块新补的泥，颜色还没干透。陆怀山说墙会破，规矩也会破。
+      replies:
+        - id: reply_as_merchant
+          text: 破口若能走私货，就会有人利用。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破墙也是防线缺口。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 破墙透风，病人受不了。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 利用的人一定有，不一定是大奸大恶，也可能只是饿急了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_29_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 缺口要补，也要看谁常在附近徘徊。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_29_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 先挡风，再问责。人病着的时候，风比道理快。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_29_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_29_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_30
+  npcId: npc_lu_huaishan
+  title: 价声如沸
+  entryNodeId: node_entry
+  priority: 31
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 集市里越来越急的粮价争吵的话头又被人翻出来，声音越来越尖。陆怀山说讨价还价本是日常，如今却像吵命。
+      replies:
+        - id: reply_as_merchant
+          text: 价要稳，得先稳供给。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 吵到动手前会有什么征兆？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 买不起药和米的人会同时变多。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 供给是一头，信任是另一头。只补一头，价还会乱。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_30_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 征兆是没人再听完整句话，只听见自己吃亏。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_30_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 会。所以救病不能只靠药铺，也得靠米袋。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_30_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_30_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_31
+  npcId: npc_lu_huaishan
+  title: 夜半脚声
+  entryNodeId: node_entry
+  priority: 30
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 昨夜的脚步声还被人挂在嘴边，几个人说法各不相同。陆怀山说，半夜走路的人不一定是贼，也可能是怕白天被看见。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里运货的人通常有不得已的理由。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 半夜脚步要查，但不可先惊动。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里求药的人也会偷偷走。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 理由有真有假。看他们绕开什么，比看他们搬什么更有用。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_31_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 你说得对。先记路，再问人，别一嗓子把线头喊散了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_31_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 求药的人怕欠账，也怕被人说染病。你若拦，记得先问急不急。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_31_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_31_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_32
+  npcId: npc_lu_huaishan
+  title: 旧日慢谈
+  entryNodeId: node_entry
+  priority: 29
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 刚来镇上时被拦在门外的那天被提起时，陆怀山的神色软了一点。陆怀山说从前也不是没有难处，只是大家还肯坐下慢慢说。
+      replies:
+        - id: reply_as_merchant
+          text: 从前商路最安稳的时候靠什么？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 从前巡守和镇民怎么互相信？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 从前病人如何互相照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 靠熟人，也靠不把每一文钱都逼到尽头。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_32_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 靠说到做到。守门的人不乱拿，进门的人不乱闯。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_32_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 靠邻里。谁家熬药，隔壁会送水，不会先问报酬。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_32_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_32_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_33
+  npcId: npc_lu_huaishan
+  title: 热水微暖
+  entryNodeId: node_entry
+  priority: 28
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 热水被倒进粗碗里，碗沿冒着白气。陆怀山说热水不值钱，可乱起来时，连热水都难得。
+      replies:
+        - id: reply_as_merchant
+          text: 热水和柴火也要纳入调度。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 送水的人也要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 热水能救很多小病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 你若能调柴火，许多怨气会少一半。冷饭冷水最磨人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_33_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 是。别小看送水，夜里拎桶的人最容易被误伤。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_33_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 对。许多药不是没有方子，是没人有热水慢慢服。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_33_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_33_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_34
+  npcId: npc_lu_huaishan
+  title: 让步难开
+  entryNodeId: node_entry
+  priority: 27
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山看着两拨人互不相让，叹了口气。陆怀山说谁都觉得自己让一步就会被吞掉。
+      replies:
+        - id: reply_as_merchant
+          text: 让步要换确定的回报，不可空让。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 有时要有人站中间，双方才退得下去。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人面前不该争谁更委屈。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 回报可以不是钱，是明日还愿意坐下来谈。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_34_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 站中间的人最容易挨骂。可没人站，事就会往刀上走。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_34_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 这话该让他们都听听。咳声不会等他们吵完。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_34_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_34_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_35
+  npcId: npc_lu_huaishan
+  title: 坏信先后
+  entryNodeId: node_entry
+  priority: 26
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 坏消息像排队一样，一个接一个进门。陆怀山说最怕的不是坏消息，是大家不知道先处理哪个。
+      replies:
+        - id: reply_as_merchant
+          text: 先保路、粮、药三个节点。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先保人，再保门，再保物。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先救急症，再控传染，再安人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 你的顺序能听。路断则粮药断，粮药断则人心断。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_35_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 人保住，门和物才有意义。别反过来。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_35_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 这就是救治的顺序。镇子也像一个病人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_35_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_35_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_36
+  npcId: npc_lu_huaishan
+  title: 闭口藏线
+  entryNodeId: node_entry
+  priority: 25
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有人一听缺页的旧案记录就换了话头，换得太快。陆怀山说避得太急，本身就是线头。
+      replies:
+        - id: reply_as_merchant
+          text: 避谈的人可能怕旧账影响生意。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 避谈的人可能知道凶险在哪。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 避谈的人可能见过病根。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 生意、名声、亲人，都可能让人闭嘴。你要分清是哪一种。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_36_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 知道凶险的人未必坏，有时只是活得太久，怕了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_36_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 见过病根的人最怕再闻到同样味道。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_36_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_36_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_37
+  npcId: npc_lu_huaishan
+  title: 伸手添乱
+  entryNodeId: node_entry
+  priority: 24
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山看着你，像是在判断你这次会伸手还是伸脚绊人。陆怀山说帮忙二字，说起来容易，做歪了就是添乱。
+      replies:
+        - id: reply_as_merchant
+          text: 我先问需要什么，再动资源。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我先听安排，再动手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我先看症状，再开方。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 这样才像能做事的人。别把自己的好心摆在别人的急处前面。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_37_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 能听安排的武人，比只会冲的强。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_37_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 看症状再开方，这道理若人人都懂，镇里少一半乱事。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_37_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_37_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_38
+  npcId: npc_lu_huaishan
+  title: 旧物记事
+  entryNodeId: node_entry
+  priority: 23
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡夜木牌被陆怀山拿起又放下，像有一句话卡在喉间。他说，旧物留得久了，就会替人记事。
+      replies:
+        - id: reply_as_merchant
+          text: 旧物若能作凭证，就别让它丢了。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧物若会惹祸，就该有人护着。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧物上的痕迹有时能说明伤从何来。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 凭证也要看交给谁。交错了，凭证就是把柄。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_38_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 护东西不难，难的是护住拿着它的人。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_38_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 你看得细。火痕、药味、血渍，旧物都可能记得。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_38_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_38_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_39
+  npcId: npc_lu_huaishan
+  title: 静里听声
+  entryNodeId: node_entry
+  priority: 22
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 周围忽然安静了一小会儿，像镇子终于喘了口气。陆怀山说安静不一定是平安，也可能是大家都在等下一声响。
+      replies:
+        - id: reply_as_merchant
+          text: 安静时最适合安排后路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 安静时最该查哨。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 安静时最该补睡和熬药。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 后路要在没人看见时安排好，真乱起来就晚了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_39_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 查哨，也查谁突然不在原处。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_39_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 对，能休息时不休息，下一波来时就只剩硬撑。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_39_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_39_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_40
+  npcId: npc_lu_huaishan
+  title: 借火借人
+  entryNodeId: node_entry
+  priority: 21
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有人来借人手和火把，话说得客气，手却攥得很紧。陆怀山等那人走远，才看向你。
+      replies:
+        - id: reply_as_merchant
+          text: 借和抢之间，只差还不还。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 手攥太紧，多半已经急了。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 借东西若为救急，可以登记。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 你说得现实。现在每一次借出，都要想好明日怎么要回来。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_40_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 急未必坏，怕的是有人利用他的急。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_40_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 登记能让人觉得公平，也能让后来的人少吵两句。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_40_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_40_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_41
+  npcId: npc_lu_huaishan
+  title: 两道门槛
+  entryNodeId: node_entry
+  priority: 20
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 话题从镇门绕到祠堂，像绕不开两道门。陆怀山说一道门管活人进出，一道门管旧事出入。
+      replies:
+        - id: reply_as_merchant
+          text: 两道门都影响路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 两道门都需要有人守。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 两道门都关系人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 路不只在地上，也在大家愿不愿意相信彼此。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_41_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 守门不只是挡人，也是不让怕事的人随手上锁。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_41_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 人心堵住，病也好得慢。你们医者最该懂。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_41_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_41_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_42
+  npcId: npc_lu_huaishan
+  title: 小争渐长
+  entryNodeId: node_entry
+  priority: 19
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 旁边起了一场小争执，很快又被人劝开。陆怀山说小争执若没人管，就会学会长大。
+      replies:
+        - id: reply_as_merchant
+          text: 争执多半因为分配不明。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 争执刚起时最好压住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 争执会让病人更慌。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 分配明白，人就算不满，也知道该找谁说。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_42_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 压住不是吼住，是让双方都有台阶。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_42_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 慌会传，比病还快。你若能安一句，就是帮忙。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_42_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_42_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_43
+  npcId: npc_lu_huaishan
+  title: 寄语远人
+  entryNodeId: node_entry
+  priority: 18
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山忽然问你，若能给远方的人留句话，你会写什么。 这个问题来得突兀，却不像玩笑。
+      replies:
+        - id: reply_as_merchant
+          text: 我会写路况和价钱，也写人是否平安。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我会写别轻信太安静的路。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我会写水要烧开，病要早看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 平安这两个字，比价钱更难写真。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_43_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 这句能救命。太安静的路，总有人先替你清过声音。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_43_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 朴素，却管用。许多人死在不肯早看。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_43_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_43_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_44
+  npcId: npc_lu_huaishan
+  title: 怕字难认
+  entryNodeId: node_entry
+  priority: 17
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 陆怀山把话说得平稳，手却在巡夜木牌旁停住。陆怀山说镇里很多人怕，却不愿承认自己怕。
+      replies:
+        - id: reply_as_merchant
+          text: 害怕会推高价钱。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 害怕会让人先下手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 害怕会让人藏病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 价钱只是表面。真正涨的是彼此的防备。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_44_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 先下手的人常说自己是自保。你要看他保的到底是什么。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_44_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 藏病最要命。藏到后来，不止害自己。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_44_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_44_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_45
+  npcId: npc_lu_huaishan
+  title: 补衣旧线
+  entryNodeId: node_entry
+  priority: 16
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 有人袖口补了三种颜色的线，看上去有些狼狈。陆怀山说日子破了，人就学会把不合适的布缝在一起。
+      replies:
+        - id: reply_as_merchant
+          text: 修补总比全丢了强。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 补过的地方也是弱点。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 补得好，伤口也能长上。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 强是强，可补线也要结实。只图看着完整，扯一下就开。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_45_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 弱点不是罪，装作没弱点才凶险。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_45_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 长上以后还会留疤。留疤不丢人，怕的是反复撕开。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_45_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_45_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_46
+  npcId: npc_lu_huaishan
+  title: 旧火新烟
+  entryNodeId: node_entry
+  priority: 15
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 远处有人烧湿柴，烟味忽然重了起来。陆怀山说烟味最会骗人，像旧火又像新火。
+      replies:
+        - id: reply_as_merchant
+          text: 旧火若变成新烟，说明有人在翻旧账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 烟能遮眼，也能暴露位置。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 烟会让咳症更重。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 有人翻旧账，也有人想让你以为是旧账自己烧起来。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_46_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 看风向。烟往哪边去，人多半也往哪边藏。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_46_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 先让咳得厉害的人避开。查案也要给活人让路。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_46_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_46_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_47
+  npcId: npc_lu_huaishan
+  title: 证言如担
+  entryNodeId: node_entry
+  priority: 14
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 话说到证人时，空气像被按住。陆怀山说作证不是说一句话，是把往后日子押上去。
+      replies:
+        - id: reply_as_merchant
+          text: 证词要能互相印证，不可只靠胆子。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 作证的人需要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 作证的人也会怕，也会病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 印证越多，单个人背的压力越小。这是正经办法。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_47_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 护住不是站在他旁边亮刀，也包括让他家里有饭。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_47_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 是。吓坏的人说不清话，先让他能睡一觉。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_47_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_47_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_48
+  npcId: npc_lu_huaishan
+  title: 药碗归谁
+  entryNodeId: node_entry
+  priority: 13
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 巡守常备的伤药被端过去，路上有人下意识让了让。陆怀山说一碗药端给谁，也会有人觉得不公平。
+      replies:
+        - id: reply_as_merchant
+          text: 分配标准要提前说清。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 不公平会引出冲突。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 轻重缓急须得由病情决定。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 标准说清，怨气少一半。剩下一半，靠人慢慢劝。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_48_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 冲突常从一句“凭什么他先”开始。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_48_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 病情决定，这是底线。若让关系决定，药就变味了。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_48_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_lu_huaishan_daily_48_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_49
+  npcId: npc_lu_huaishan
+  title: 风中姓名
+  entryNodeId: node_entry
+  priority: 12
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 风声里夹着几个名字，听不真切。陆怀山说名字一旦被风带走，就会变成别人嘴里的刀。
+      replies:
+        - id: reply_as_merchant
+          text: 没核实的名字不可写进账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 没核实的名字不可当靶子。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 没核实的名字不可当病因。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 对。写错一个名字，后面整本账都歪。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_49_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 当靶子容易，收回箭难。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_49_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 病因错了，药方就成了害人的纸。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_49_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_lu_huaishan_daily_49_completed
+        not_equals: true
+- id: conversation_lu_huaishan_daily_50
+  npcId: npc_lu_huaishan
+  title: 暮门换脸
+  entryNodeId: node_entry
+  priority: 11
+  nodes:
+    - id: node_entry
+      speaker: npc_lu_huaishan
+      text: 天色往晚里沉，镇门的影子被拉长。陆怀山说白天的话到了夜里，会换一副脸。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里最容易出现私下交易。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里最容易出事。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里最怕急症。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_lu_huaishan
+      text: 私下交易不可怕，可怕的是交易内容和镇子的命绑在一起。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下了。人情归人情，风险也得算明白。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_50_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_lu_huaishan
+      text: 生变前总有预兆，只是白天没人愿意承认。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心，再守住路口。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_50_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_lu_huaishan
+      text: 急症要提前备。人心也是，别等彻底乱了才找药。这话我收下。眼下线头多，得一根根捋清，不能急，也不能躲。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。先救眼前急症，再顺藤摸病根。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_lu_huaishan_daily_50_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_lu_huaishan_daily_50_completed
+        not_equals: true

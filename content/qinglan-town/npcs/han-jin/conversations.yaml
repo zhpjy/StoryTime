@@ -1,0 +1,3502 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+- id: conversation_han_first_meet
+  npcId: npc_han_jin
+  title: 林火照面
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+      - fact: facts.conversation_han_first_meet_completed
+        not_equals: true
+  priority: 100
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬坐在倒木上，火光把他的脸照得一半明一半暗。 他笑了一声，问你敢不敢在山里把话说完。
+      replies:
+        - id: reply_as_merchant
+          text: 且问你劫的是货，还是货里藏的东西。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若要谈，就把刀先放在明处。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 药材被劫，镇里会死人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 货只是壳。有些人把旧东西塞进箱底，以为过了山口就没人认得。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_first_meet_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 刀在明处，人心未必。你若只认刀，那你比镇门那帮人还好骗。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_first_meet_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 死人？镇里早欠着死人。药我可以放一部分回去，但旧庙的东西我要拿到。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_first_meet_completed
+              value: true
+- id: conversation_han_deal
+  npcId: npc_han_jin
+  title: 旧庙藏物
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: variables.truth_progress
+            greater_than_or_equal: 40
+      - fact: facts.conversation_han_deal_completed
+        not_equals: true
+  priority: 99
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 他把旧铜牌抛到掌心，又合指握住。 他低声说他要的不是银子，是一个被埋了多年的答案。
+      replies:
+        - id: reply_as_merchant
+          text: 答案若能换路安，你开个实价。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 别拿旧案当借口继续害人。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 答案不可用病人的命来换。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 实价？把魏长庚藏的东西交出来，山路少死几个人，这价够明白。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          effects:
+            - type: add_fact
+              key: han_offer_deal
+              value: true
+            - type: add_fact
+              key: conversation_han_deal_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 害人的是把火点起来又叫旁人闭嘴的人。我不过把他们欠的账催回镇门。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          effects:
+            - type: add_fact
+              key: han_offer_deal
+              value: true
+            - type: add_fact
+              key: conversation_han_deal_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 那你就让药车过。我要旧庙，不要药铺哭声。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          effects:
+            - type: add_fact
+              key: han_offer_deal
+              value: true
+            - type: add_fact
+              key: conversation_han_deal_completed
+              value: true
+          endConversation: true
+- id: conversation_han_enemy
+  npcId: npc_han_jin
+  title: 先守哪条命
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: relationship.player.npc_han_jin.suspicion
+            greater_than_or_equal: 40
+      - fact: facts.conversation_han_enemy_completed
+        not_equals: true
+  priority: 98
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 斥候退到树影里，韩烬却没有避开你的目光。 他抬眼问你，镇子、真相和命，你到底先守哪一个。
+      replies:
+        - id: reply_as_merchant
+          text: 路不断，镇才有命；真相也得活人去听。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 守不住无辜的人，谈什么真相都空。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先守命，活下来的人才有力气认旧账。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 会算。可别算到最后，把该还的命也折成货价。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_enemy_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 像句人话。那就看你守的是无辜，还是守魏长庚那张椅子。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_enemy_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 医者都这样说。可当年也有人活下来，却被逼得比死人还安静。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_enemy_completed
+              value: true
+- id: conversation_han_defeated
+  npcId: npc_han_jin
+  title: 败灰未冷
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: npc.npc_han_jin.state.defeated
+            equals: true
+      - fact: facts.conversation_han_defeated_completed
+        not_equals: true
+  priority: 97
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 他靠着石壁，衣袖上沾着灰，眼里的火却没全灭。 他低声说火早烧过一次，你们今日才肯看见灰。
+      replies:
+        - id: reply_as_merchant
+          text: 山路若重新开，你还要留下什么条件？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 你败了，就该交出剩下的人和路。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 伤口不治会烂，你也一样。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 条件？别让他们把旧账又锁回祠堂。路可以开，谎不能再通行。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_defeated_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 人可以交，路也可以让。可你若让魏长庚全身而退，我还会回来。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_defeated_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 你倒像真想治我。那就先治镇子的烂处，看它愿不愿疼。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_defeated_completed
+              value: true
+- id: conversation_han_jin_daily_05
+  npcId: npc_han_jin
+  title: 暗约有价
+  entryNodeId: node_entry
+  priority: 56
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 他把火拨旺，火星跳了一下，照出树后几张沉默的脸。 他低声说镇里有人总会来谈，只是早晚不同。
+      replies:
+        - id: reply_as_merchant
+          text: 暗约若保路安，代价会落到谁头上？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 拿镇民当筹码的约，我不会签。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我只问药车和病人能否安全过路。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 代价落在不问价的人头上。你若聪明，就别只替自己那车货讲价。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_05_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 那就别签。可你回去问问魏长庚，他签过多少次别人不知道的约。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_05_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 药车可以过，病人也可以过。换你们别再装旧庙只是荒草。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_05_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_05_completed
+        not_equals: true
+- id: conversation_han_jin_daily_06
+  npcId: npc_han_jin
+  title: 晨哨杂声
+  entryNodeId: node_entry
+  priority: 55
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 山坳营地一早就不得安生，远处斥候吹了短促哨声。 韩烬一边把短刀插回靴边，一边示意你有话就趁火还亮，快说。
+      replies:
+        - id: reply_as_merchant
+          text: 且先问今日的买卖和路上动静。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 且问这里最需要防的是什么。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 且先问可有人身体不适。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 买卖看着是买卖，背后全是人心。今日最该留意的，是镇上粮药攥在谁手里。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_06_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 要防的不只刀，还有慌。山路上每一步都可能是套一旦成真，谁都别想安稳。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_06_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 有不适的人不少，只是许多人怕花钱，先忍着。你若肯看，先从被劫后放回的赶车人看起。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_06_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_06_completed
+        not_equals: true
+- id: conversation_han_jin_daily_07
+  npcId: npc_han_jin
+  title: 潮气入骨
+  entryNodeId: node_entry
+  priority: 54
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 林中烟气贴着地面走，连旧铜牌都像沾了潮气。 韩烬说这种天气最容易把小患拖成大祸。
+      replies:
+        - id: reply_as_merchant
+          text: 潮气会否影响货物和储备？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 坏天气会让巡守和防备更难吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 受潮后最该防哪类病症？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 会。货坏了还能赔，粮、药和能开口的人坏了，赔的就是人命和信任。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_07_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 难。风雨一遮，脚印、火光和人声都会骗人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_07_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 先防寒热和咳症。别让被劫后放回的赶车人在风口等太久。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_07_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_07_completed
+        not_equals: true
+- id: conversation_han_jin_daily_08
+  npcId: npc_han_jin
+  title: 一口饭的分量
+  entryNodeId: node_entry
+  priority: 53
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 火上烤焦的干粮摆在旁边，热气很快散了。 韩烬看了一眼饭食，说如今吃饭也像在做选择。
+      replies:
+        - id: reply_as_merchant
+          text: 粮价这样下去，小户人家还能撑几天？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 饿急的人会先冲哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 吃不饱会让病势更糟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 撑几天要看米价，也看谁愿意先分一点出来。欠命的旧账比官样告示更管用。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_08_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 先冲看得见粮食的地方，再冲他们觉得没人护的地方。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_08_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 对。药能压病，饭才托命。没有火上烤焦的干粮，药下去也虚。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_08_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_08_completed
+        not_equals: true
+- id: conversation_han_jin_daily_09
+  npcId: npc_han_jin
+  title: 门前风舌
+  entryNodeId: node_entry
+  priority: 52
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 被劫后放回的赶车人在不远处压低声音，说到你来时又散开。 韩烬说镇上闲话跑得比马还快。
+      replies:
+        - id: reply_as_merchant
+          text: 闲话里可有能当线头的真货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 闲话会否引出冲突？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 闲话会让病人不敢就医。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 真货常藏在夸张里。你别听他们怎么骂，听他们反复提到什么。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_09_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 会。人一怕，就要找个能看见的人出气。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_09_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 已经有了。有人把病说成报应，这比发热还难治。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_09_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_09_completed
+        not_equals: true
+- id: conversation_han_jin_daily_10
+  npcId: npc_han_jin
+  title: 账薄情重
+  entryNodeId: node_entry
+  priority: 51
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 欠命的旧账被压在手边，纸页边缘已经卷起。 韩烬说账本记得清，人情却总算不明白。
+      replies:
+        - id: reply_as_merchant
+          text: 账清才不会乱，你最怕哪笔账爆出来？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 人情账若逼到头，会否变成仇？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 欠账的人会否因此拖着不求助？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 最怕不是欠得多，是欠得久。旧账一翻，谁都说自己有理。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_10_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 会。人情变仇，只差一句“你当年也欠我”。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_10_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 会。有人宁可忍病，也不愿再添一笔欠情。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_10_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_10_completed
+        not_equals: true
+- id: conversation_han_jin_daily_11
+  npcId: npc_han_jin
+  title: 山路风声
+  entryNodeId: node_entry
+  priority: 50
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 外头有人提到绕过巡守的山脊小路，声音立刻低了下去。 韩烬说山路从来不只运货，也运消息。
+      replies:
+        - id: reply_as_merchant
+          text: 哪类消息最影响货队？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 山路上现在最像陷阱的是哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 山路会否带来新的病根？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 影响最大的不是匪，是不知道谁和匪有来往。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_11_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 最像陷阱的是人人都说安全的那段。太安静了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_11_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 会。水、草药、货布，都可能把病带进镇。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_11_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_11_completed
+        not_equals: true
+- id: conversation_han_jin_daily_12
+  npcId: npc_han_jin
+  title: 旧庙余闻
+  entryNodeId: node_entry
+  priority: 49
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旧庙火案的活口和证物这个话头一出来，韩烬的手慢了一拍。 韩烬说旧庙的事，镇里不是没人知道，是没人愿意说全。
+      replies:
+        - id: reply_as_merchant
+          text: 旧庙牵着哪条旧账？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁会为了旧庙动刀？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧庙和病、药可有牵连？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 牵着命账，也牵着名声账。两种账都比银钱难讨。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_12_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 拔刀的人未必最恨，最怕的人才会先动手。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_12_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 有牵连。至少那包止血散和旧庙那场烧红半边天的火都绕不开它。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_12_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_12_completed
+        not_equals: true
+- id: conversation_han_jin_daily_13
+  npcId: npc_han_jin
+  title: 纸上告示
+  entryNodeId: node_entry
+  priority: 48
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 不远处有人念着新贴的告示，念到一半就笑不出来了。 韩烬说告示写得齐整，日子却不照字走。
+      replies:
+        - id: reply_as_merchant
+          text: 告示会影响交易和价格吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 告示能让人守规矩吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 告示可有安排病人和弱者？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 会影响一阵。可若粮、药和能开口的人跟不上，纸上的价就只是纸。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_13_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 能让想守规矩的人有个台阶，拦不住已经急红眼的人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_13_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 写了几句，远远不够。真正照顾人的，是谁肯把门打开。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_13_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_13_completed
+        not_equals: true
+- id: conversation_han_jin_daily_14
+  npcId: npc_han_jin
+  title: 夜声难辨
+  entryNodeId: node_entry
+  priority: 47
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 远处斥候吹了短促哨声之外，夜里还有几声说不清的动静。 韩烬说最近没人睡得太沉。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里可有异常车马或陌生人？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里哪个方向最该有人守？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里病人会否无人照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 有。不是每辆车都会报号，也不是每个脚印都往门里走。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_14_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 守绕过巡守的山脊小路，也守人心最松的后门。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_14_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 会。夜里一句“明早再说”，有时就等不到明早。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_14_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_14_completed
+        not_equals: true
+- id: conversation_han_jin_daily_15
+  npcId: npc_han_jin
+  title: 老幼先受风
+  entryNodeId: node_entry
+  priority: 46
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 被劫后放回的赶车人里，有人扶着老人，也有人牵着孩子。 韩烬看着他们，说镇子的好坏先落在这些人身上。
+      replies:
+        - id: reply_as_merchant
+          text: 物资要先给谁才不乱？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 护送时先护哪一类人？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 老人孩子要分开照看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 先给不能等的人，再给能维持秩序的人。别让分配看起来像偏心。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_15_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 先护走不快的。能跑的人还有路，走不动的人只有别人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_15_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 对。小孩病急，老人病沉，混在一起只会互相拖。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_15_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_15_completed
+        not_equals: true
+- id: conversation_han_jin_daily_16
+  npcId: npc_han_jin
+  title: 刺一样的旧名
+  entryNodeId: node_entry
+  priority: 45
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬提到一个旧名字，又很快把话收住。 那名字像一根刺，没人愿意碰得太深。
+      replies:
+        - id: reply_as_merchant
+          text: 名字若能对上旧账，就不该含糊。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 名字若指向活人，我得知道凶险。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧名字也可能是病根线头。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 你要对账，就别只问名字，还要问他最后被谁看见。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_16_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 凶险在问出口后。许多人怕的不是名字，是有人还记得。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_16_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 有时一个名字比一味药难找，但找到后，方子才完整。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_16_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_16_completed
+        not_equals: true
+- id: conversation_han_jin_daily_17
+  npcId: npc_han_jin
+  title: 水桶照影
+  entryNodeId: node_entry
+  priority: 44
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有人拎着水桶经过，桶沿晃出一圈水光。 韩烬说水看着清，不代表来路清。
+      replies:
+        - id: reply_as_merchant
+          text: 水源若出问题，铺面和货队都会停。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁能靠近水源而不被盘问？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 水源须得查，病常从这里起。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 一停就不是一家铺子的事。你若查水，先查谁最近改了取水点。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_17_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 挑水人、送货人、巡夜人，都能靠近。最不起眼的最难查。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_17_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 你说到要处了。病若沿水走，药铺再忙也只是追着尾巴跑。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_17_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_17_completed
+        not_equals: true
+- id: conversation_han_jin_daily_18
+  npcId: npc_han_jin
+  title: 灯油将尽
+  entryNodeId: node_entry
+  priority: 43
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 一盏灯的油快见底，火苗缩成豆大一点。 韩烬说灯一暗，人就容易做错事。
+      replies:
+        - id: reply_as_merchant
+          text: 能调灯油，但要知道最缺哪里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 黑处最适合藏刀。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人夜里也需要灯。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 最缺的不是灯油，是愿意把灯点在别人门口的人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_18_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 藏刀也藏眼泪。夜里生变，天亮后人人都说没看见。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_18_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 是。没灯，连药量都容易看错，更别说分辨脸色。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_18_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_18_completed
+        not_equals: true
+- id: conversation_han_jin_daily_19
+  npcId: npc_han_jin
+  title: 顺手小差
+  entryNodeId: node_entry
+  priority: 42
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 拨开火堆里的灰的空当，韩烬顺路把旁边的东西摆正。 韩烬问你愿不愿意帮一个不显眼的小忙。
+      replies:
+        - id: reply_as_merchant
+          text: 小忙也要讲清要送到谁手里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 小忙若有风险，我先走前面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 小忙若关系病人，我现在就去。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 送给黑岭盗的斥候，别让太多人看见。不是见不得光，是怕被传歪。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_19_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 不用拔刀，帮我看住后路就行。有时候不让人挤上来，比冲出去更难。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_19_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 关系不大，却能省一条腿脚。病人那边，少等一刻都是好事。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_19_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_19_completed
+        not_equals: true
+- id: conversation_han_jin_daily_20
+  npcId: npc_han_jin
+  title: 看脸胜听话
+  entryNodeId: node_entry
+  priority: 41
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 被劫后放回的赶车人从旁边经过，脸色各不相同。 韩烬说最近看人脸，比听人话更准。
+      replies:
+        - id: reply_as_merchant
+          text: 看脸色能看出谁要囤货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看脸色能看出谁要闹事？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 看脸色能看出谁在硬撑。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 能。眼睛总往粮、药和能开口的人上飘的人，多半心里已经起了算盘。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_20_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 能。真正要闹的人常不喊，喊得最大声的反而等别人先动。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_20_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 能。硬撑的人最怕被叫住，你若温和些，他们才肯承认。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_20_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_20_completed
+        not_equals: true
+- id: conversation_han_jin_daily_21
+  npcId: npc_han_jin
+  title: 咳声惊人
+  entryNodeId: node_entry
+  priority: 40
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 远处传来一阵咳声，几个人下意识退开半步。 韩烬皱了皱眉，说人怕病，也怕被病名吓坏。
+      replies:
+        - id: reply_as_merchant
+          text: 若恐慌传开，买卖会先崩。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 恐慌会让人不听号令。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 退开不是办法，要分症状。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 买卖崩了，粮药也会断。你若能说服人别乱传，等于保住半条路。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_21_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 对。怕到极处，人会把救他的人也当敌人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_21_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 分得清，心就稳一半。你来说，他们比听我说更容易信。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_21_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_21_completed
+        not_equals: true
+- id: conversation_han_jin_daily_22
+  npcId: npc_han_jin
+  title: 缺口旧牌
+  entryNodeId: node_entry
+  priority: 39
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旧铜牌边缘有一道旧缺口，像用久了也舍不得换。 韩烬说镇上许多东西都是这样，破了还得用。
+      replies:
+        - id: reply_as_merchant
+          text: 旧器物能撑，旧规矩未必能撑。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破口不补，迟早伤手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧伤不看，也会反复疼。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 你们外来人看得快，本地人舍不得。舍不得有时是情分，有时是祸端。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_22_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 补也要看谁来补。手太重，器物没补好，先碎了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_22_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 疼久了，人会把疼当成日常。镇子也是。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_22_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_22_completed
+        not_equals: true
+- id: conversation_han_jin_daily_23
+  npcId: npc_han_jin
+  title: 谎从何来
+  entryNodeId: node_entry
+  priority: 38
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 一句传闻被重复了三遍，每次都多一个细节。 韩烬说谎话不怕新，怕的是有人故意让它像真话。
+      replies:
+        - id: reply_as_merchant
+          text: 假消息会害车队，我要辨源头。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 撒谎的人往往躲在后面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 假病因会害死人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 源头常常不在说得最大声的人那里，而在第一个问“你听说了吗”的人那里。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_23_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 躲在后面，也会留下目的。看谎话想把人赶向哪里。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_23_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 是。病因一错，药越勤，错得越深。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_23_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_23_completed
+        not_equals: true
+- id: conversation_han_jin_daily_24
+  npcId: npc_han_jin
+  title: 信谁一分
+  entryNodeId: node_entry
+  priority: 37
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬看了看周围，像是在衡量哪句话能放出来。 韩烬说现在不是没人说话，是没人敢担保谁可信。
+      replies:
+        - id: reply_as_merchant
+          text: 信任也要有抵押，谁的抵押最实？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看行动，不看漂亮话。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 肯让人看病的人，至少还有求生心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 抵押最实的是退路。没退路的人，说真话也可能变卦。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_24_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 行动要看连续几天，不看一时热血。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_24_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 求生心很真，可求生也会让人隐瞒。别全信，也别全疑。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_24_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_24_completed
+        not_equals: true
+- id: conversation_han_jin_daily_25
+  npcId: npc_han_jin
+  title: 镇外影近
+  entryNodeId: node_entry
+  priority: 36
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有人提到镇外，周围立刻静了一瞬。 韩烬说镇外不是远方，是随时会推门进来的事。
+      replies:
+        - id: reply_as_merchant
+          text: 外来的货和人，哪一个更可疑？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 外头的威胁已经进镇了吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 外来人可有被妥善安置？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 货不会自己撒谎，人会。可货上留下的痕迹，比人嘴可靠。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_25_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 进来了。不是人人拿刀才叫威胁，有人带的是恐慌和口信。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_25_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 安置得不够。挤在一起，再小的病也会被放大。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_25_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_25_completed
+        not_equals: true
+- id: conversation_han_jin_daily_26
+  npcId: npc_han_jin
+  title: 午后人乏
+  entryNodeId: node_entry
+  priority: 35
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 日头偏过去，韩烬的动作慢了一点。 韩烬说人累的时候最容易答应不该答应的事。
+      replies:
+        - id: reply_as_merchant
+          text: 疲惫会让人卖掉底线。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 疲惫会让守卫露空。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 疲惫会让病情恶化。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 底线不是一下卖掉的，是一点点让出去的。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_26_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 露空时最怕有人正等着。你若能替人歇一刻，就能补一个缺口。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_26_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 你说得对。许多人不是病倒，是熬倒。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_26_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_26_completed
+        not_equals: true
+- id: conversation_han_jin_daily_27
+  npcId: npc_han_jin
+  title: 未寄之信
+  entryNodeId: node_entry
+  priority: 34
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旧铜牌旁压着一张折好的纸，纸角已经起毛。 韩烬说有些信写好了，却不知道还能不能送到。
+      replies:
+        - id: reply_as_merchant
+          text: 能带信，但要知道收信人在哪条路上。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若送信有凶险，先说凶险来自谁。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 信若关系病人家属，别再拖。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 能带当然好。可路上若有人查，别把信和账本放在一起。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_27_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 凶险来自想知道别人说了什么的人。如今一句家常，也可能被当成证词。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_27_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 关系家属，也关系人心。人若不知道亲人死活，会先在心里病起来。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_27_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_27_completed
+        not_equals: true
+- id: conversation_han_jin_daily_28
+  npcId: npc_han_jin
+  title: 孩子问天
+  entryNodeId: node_entry
+  priority: 33
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有个孩子在旁边问了一句大人都不敢问的话。 韩烬沉默片刻，说孩子常常比大人诚实。
+      replies:
+        - id: reply_as_merchant
+          text: 孩子问的是米还是路？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 孩子问的是谁会护住他们？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 孩子问的是病会否死？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 问的是明天还有没有饭。这个问题比任何账都难。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_28_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 问的是守门的人会不会也跑。你看，孩子知道害怕什么。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_28_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 问的是会不会传给娘亲。你若听见了，就别用空话哄。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_28_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_28_completed
+        not_equals: true
+- id: conversation_han_jin_daily_29
+  npcId: npc_han_jin
+  title: 墙破风入
+  entryNodeId: node_entry
+  priority: 32
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 不远处的墙根有一块新补的泥，颜色还没干透。 韩烬说墙会破，规矩也会破。
+      replies:
+        - id: reply_as_merchant
+          text: 破口若能走私货，就会有人利用。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破墙也是防线缺口。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 破墙透风，病人受不了。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 利用的人一定有，不一定是大奸大恶，也可能只是饿急了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_29_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 缺口要补，也要看谁常在附近徘徊。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_29_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 先挡风，再问责。人病着的时候，风比理快。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_29_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_29_completed
+        not_equals: true
+- id: conversation_han_jin_daily_30
+  npcId: npc_han_jin
+  title: 价钱吵命
+  entryNodeId: node_entry
+  priority: 31
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 镇上粮药攥在谁手里的话头又被人翻出来，声音越来越尖。 韩烬说讨价还价本是日常，如今却像吵命。
+      replies:
+        - id: reply_as_merchant
+          text: 价要稳，得先稳供给。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 吵到动手前会有什么征兆？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 买不起药和米的人会同时变多。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 供给是一头，信任是另一头。只补一头，价还会乱。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_30_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 征兆是没人再听完整句话，只听见自己吃亏。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_30_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 会。所以救病不能只靠药铺，也得靠米袋。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_30_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_30_completed
+        not_equals: true
+- id: conversation_han_jin_daily_31
+  npcId: npc_han_jin
+  title: 夜半脚步
+  entryNodeId: node_entry
+  priority: 30
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 昨夜的脚步声还被人挂在嘴边，说法却不一样。 韩烬说半夜走路的人，不一定是贼，也可能是怕白天被看见。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里运货的人通常有不得已的理由。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 半夜脚步要查，但不可先惊动。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里求药的人也会偷偷走。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 理由有真有假。看他们绕开什么，比看他们搬什么更有用。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_31_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 你说得对。先记路，再问人，别一嗓子把线头喊散了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_31_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 求药的人怕欠账，也怕被人说染病。你若拦，记得先问急不急。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_31_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_31_completed
+        not_equals: true
+- id: conversation_han_jin_daily_32
+  npcId: npc_han_jin
+  title: 旧日慢话
+  entryNodeId: node_entry
+  priority: 29
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旧庙那场烧红半边天的火被提起时，韩烬的神色软了一点。 韩烬说从前也不是没有难处，只是大家还肯慢慢说。
+      replies:
+        - id: reply_as_merchant
+          text: 从前商路最安稳的时候靠什么？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 从前巡守和镇民怎么互相信？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 从前病人如何互相照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 靠熟人，也靠不把每一文钱都逼到尽头。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_32_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 靠说到做到。守门的人不乱拿，进门的人不乱闯。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_32_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 靠邻里。谁家熬药，隔壁会送水，不会先问报酬。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_32_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_32_completed
+        not_equals: true
+- id: conversation_han_jin_daily_33
+  npcId: npc_han_jin
+  title: 一碗热水
+  entryNodeId: node_entry
+  priority: 28
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 热水被倒进粗碗里，碗沿冒着白气。 韩烬说热水不值钱，可乱起来时，连热水都难得。
+      replies:
+        - id: reply_as_merchant
+          text: 热水和柴火也要纳入调度。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 送水的人也要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 热水能救很多小病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 你若能调柴火，许多怨气会少一半。冷饭冷水最磨人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_33_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 是。别小看送水，夜里拎桶的人最容易被误伤。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_33_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 对。许多药不是没有方子，是没人有热水慢慢服。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_33_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_33_completed
+        not_equals: true
+- id: conversation_han_jin_daily_34
+  npcId: npc_han_jin
+  title: 谁肯退半步
+  entryNodeId: node_entry
+  priority: 27
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬看着两拨人互不相让，叹了口气。 韩烬说谁都觉得自己让一步就会被吞掉。
+      replies:
+        - id: reply_as_merchant
+          text: 让步要换确定的回报，不可空让。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 有时要有人站中间，双方才退得下去。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人面前不该争谁更委屈。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 回报可以不是钱，是明日还愿意坐下来谈。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_34_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 站中间的人最容易挨骂。可没人站，事就会往刀上走。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_34_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 这话该让他们都听听。咳声不会等他们吵完。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_34_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_34_completed
+        not_equals: true
+- id: conversation_han_jin_daily_35
+  npcId: npc_han_jin
+  title: 坏消息排门
+  entryNodeId: node_entry
+  priority: 26
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 坏消息像排队一样，一个接一个进门。 韩烬说最怕的不是坏消息，是大家不知道先处理哪个。
+      replies:
+        - id: reply_as_merchant
+          text: 先保路、粮、药三个节点。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先保人，再保门，再保物。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先救急症，再控传染，再安人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 你的顺序能听。路断则粮药断，粮药断则人心断。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_35_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 人保住，门和物才有意义。别反过来。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_35_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 这就是救治的顺序。镇子也像一个病人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_35_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_35_completed
+        not_equals: true
+- id: conversation_han_jin_daily_36
+  npcId: npc_han_jin
+  title: 避口成线
+  entryNodeId: node_entry
+  priority: 25
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有人一听旧庙火案的活口和证物就换了话头，换得太快。 韩烬说避得太急，本身就是线头。
+      replies:
+        - id: reply_as_merchant
+          text: 避谈的人可能怕旧账影响生意。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 避谈的人可能知道凶险在哪。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 避谈的人可能见过病根。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 生意、名声、亲人，都可能让人闭嘴。你要分清是哪一种。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_36_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 知道凶险的人未必坏，有时只是活得太久，怕了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_36_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 见过病根的人最怕再闻到同样味道。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_36_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_36_completed
+        not_equals: true
+- id: conversation_han_jin_daily_37
+  npcId: npc_han_jin
+  title: 伸手别添乱
+  entryNodeId: node_entry
+  priority: 24
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬看着你，像是在判断你这次会伸手还是伸脚绊人。 韩烬说帮忙二字，说起来容易，做歪了就是添乱。
+      replies:
+        - id: reply_as_merchant
+          text: 先问需要什么，再动资源。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先听安排，再动手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先看症状，再开方。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 这样才像能做事的人。别把自己的好心摆在别人的急处前面。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_37_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 能听安排的武人，比只会冲的强。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_37_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 看症状再开方，这理若人人都懂，镇里少一半乱事。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_37_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_37_completed
+        not_equals: true
+- id: conversation_han_jin_daily_38
+  npcId: npc_han_jin
+  title: 旧物记事
+  entryNodeId: node_entry
+  priority: 23
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旧铜牌被韩烬拿起又放下，像一段话没说出口。 韩烬说旧物留得久了，就会替人记事。
+      replies:
+        - id: reply_as_merchant
+          text: 旧物若能作凭证，就别让它丢了。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧物若会惹祸，就该有人护着。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧物上的痕迹有时能说明伤从何来。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 凭证也要看交给谁。交错了，凭证就是把柄。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_38_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 护东西不难，难的是护住拿着它的人。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_38_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 你看得细。火痕、药味、血渍，旧物都可能记得。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_38_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_38_completed
+        not_equals: true
+- id: conversation_han_jin_daily_39
+  npcId: npc_han_jin
+  title: 静里等声
+  entryNodeId: node_entry
+  priority: 22
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 周围忽然安静了一小会儿，像镇子终于喘了口气。 韩烬说安静不一定是平安，也可能是大家都在等下一声响。
+      replies:
+        - id: reply_as_merchant
+          text: 安静时最适合安排后路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 安静时最该查哨。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 安静时最该补睡和熬药。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 后路要在没人看见时安排好，真乱起来就晚了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_39_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 查哨，也查谁突然不在原处。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_39_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 对，能休息时不休息，下一波来时就只剩硬撑。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_39_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_39_completed
+        not_equals: true
+- id: conversation_han_jin_daily_40
+  npcId: npc_han_jin
+  title: 借字似抢
+  entryNodeId: node_entry
+  priority: 21
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有人来借粮、药和能开口的人，话说得客气，手却攥得很紧。 韩烬等那人走远，才看向你。
+      replies:
+        - id: reply_as_merchant
+          text: 借和抢之间，只差还不还。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 手攥太紧，多半已经急了。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 借东西若为救急，可以登记。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 你说得现实。现在每一次借出，都要想好明日怎么要回来。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_40_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 急未必坏，怕的是有人利用他的急。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_40_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 登记能让人觉得公平，也能让后来的人少吵两句。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_40_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_40_completed
+        not_equals: true
+- id: conversation_han_jin_daily_41
+  npcId: npc_han_jin
+  title: 两道门
+  entryNodeId: node_entry
+  priority: 20
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 话题从镇门绕到祠堂，像绕不开两道门。 韩烬说一道门管活人进出，一道门管旧事出入。
+      replies:
+        - id: reply_as_merchant
+          text: 两道门都影响路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 两道门都需要有人守。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 两道门都关系人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 路不只在地上，也在大家愿不愿意相信彼此。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_41_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 守门不只是挡人，也是不让怕事的人随手上锁。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_41_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 人心堵住，病也好得慢。你们医者最该懂。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_41_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_41_completed
+        not_equals: true
+- id: conversation_han_jin_daily_42
+  npcId: npc_han_jin
+  title: 小争执
+  entryNodeId: node_entry
+  priority: 19
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 旁边起了一场小争执，很快又被人劝开。 韩烬说小争执若没人管，就会学会长大。
+      replies:
+        - id: reply_as_merchant
+          text: 争执多半因为分配不明。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 争执刚起时最好压住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 争执会让病人更慌。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 分配明白，人就算不满，也知道该找谁说。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_42_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 压住不是吼住，是让双方都有台阶。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_42_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 慌会传，比病还快。你若能安一句，就是帮忙。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_42_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_42_completed
+        not_equals: true
+- id: conversation_han_jin_daily_43
+  npcId: npc_han_jin
+  title: 给远方留话
+  entryNodeId: node_entry
+  priority: 18
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬忽然问你，若能给远方的人留句话，你会写什么。 这个问题来得突兀，却不像玩笑。
+      replies:
+        - id: reply_as_merchant
+          text: 会写路况和价钱，也写人是否平安。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 会写别轻信太安静的路。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 会写水要烧开，病要早看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 平安这两个字，比价钱更难写真。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_43_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 这句能救命。太安静的路，总有人先替你清过声音。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_43_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 朴素，却管用。许多人死在不肯早看。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_43_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_43_completed
+        not_equals: true
+- id: conversation_han_jin_daily_44
+  npcId: npc_han_jin
+  title: 怕而不认
+  entryNodeId: node_entry
+  priority: 17
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 韩烬把话说得平稳，手却在旧铜牌旁停住。 韩烬说镇里很多人怕，却不愿承认自己怕。
+      replies:
+        - id: reply_as_merchant
+          text: 害怕会推高价钱。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 害怕会让人先下手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 害怕会让人藏病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 价钱只是表面。真正涨的是彼此的防备。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_44_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 先下手的人常说自己是自保。你要看他保的到底是什么。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_44_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 藏病最祸端。藏到后来，不止害自己。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_44_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_44_completed
+        not_equals: true
+- id: conversation_han_jin_daily_45
+  npcId: npc_han_jin
+  title: 补衣露线
+  entryNodeId: node_entry
+  priority: 16
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 有人袖口补了三种颜色的线，看上去有些狼狈。 韩烬说日子破了，人就学会把不合适的布缝在一起。
+      replies:
+        - id: reply_as_merchant
+          text: 修补总比全丢了强。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 补过的地方也是弱点。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 补得好，伤口也能长上。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 强是强，可补线也要结实。只图看着完整，扯一下就开。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_45_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 弱点不是罪，装作没弱点才凶险。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_45_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 长上以后还会留疤。留疤不丢人，怕的是反复撕开。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_45_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_45_completed
+        not_equals: true
+- id: conversation_han_jin_daily_46
+  npcId: npc_han_jin
+  title: 旧火新烟
+  entryNodeId: node_entry
+  priority: 15
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 远处有人烧湿柴，烟味忽然重了起来。 韩烬说烟味最会骗人，像旧火又像新火。
+      replies:
+        - id: reply_as_merchant
+          text: 旧火若变成新烟，说明有人在翻旧账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 烟能遮眼，也能暴露位置。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 烟会让咳症更重。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 有人翻旧账，也有人想让你以为是旧账自己烧起来。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_46_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 看风向。烟往哪边去，人多半也往哪边藏。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_46_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 先让咳得厉害的人避开。查案也要给活人让路。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_46_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_46_completed
+        not_equals: true
+- id: conversation_han_jin_daily_47
+  npcId: npc_han_jin
+  title: 谁肯作证
+  entryNodeId: node_entry
+  priority: 14
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 话说到证人时，空气像被按住。 韩烬说作证不是说一句话，是把往后日子押上去。
+      replies:
+        - id: reply_as_merchant
+          text: 证词要能互相印证，不可只靠胆子。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 作证的人需要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 作证的人也会怕，也会病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 印证越多，单个人背的压力越小。这是正经办法。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_47_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 护住不是站在他旁边亮刀，也包括让他家里有饭。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_47_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 是。吓坏的人说不清话，先让他能睡一觉。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_47_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_47_completed
+        not_equals: true
+- id: conversation_han_jin_daily_48
+  npcId: npc_han_jin
+  title: 药往谁手
+  entryNodeId: node_entry
+  priority: 13
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 那包止血散被端过去，路上有人下意识让了让。 韩烬说一碗药端给谁，也会有人觉得不公平。
+      replies:
+        - id: reply_as_merchant
+          text: 分配标准要提前说清。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 不公平会引出冲突。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 轻重缓急须得由病情决定。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 标准说清，怨气少一半。剩下一半，靠人慢慢劝。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_48_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 冲突常从一句“凭什么他先”开始。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_48_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 病情决定，这是底线。若让关系决定，药就变味了。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_48_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_han_jin_daily_48_completed
+        not_equals: true
+- id: conversation_han_jin_daily_49
+  npcId: npc_han_jin
+  title: 风里传名
+  entryNodeId: node_entry
+  priority: 12
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 风声里夹着几个名字，听不真切。 韩烬说名字一旦被风带走，就会变成别人嘴里的刀。
+      replies:
+        - id: reply_as_merchant
+          text: 没核实的名字不可写进账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 没核实的名字不可当靶子。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 没核实的名字不可当病因。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 对。写错一个名字，后面整本账都歪。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_49_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 当靶子容易，收回箭难。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_49_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 病因错了，药方就成了害人的纸。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_49_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_han_jin_daily_49_completed
+        not_equals: true
+- id: conversation_han_jin_daily_50
+  npcId: npc_han_jin
+  title: 日沉收摊
+  entryNodeId: node_entry
+  priority: 11
+  nodes:
+    - id: node_entry
+      speaker: npc_han_jin
+      text: 天色往晚里沉，山坳营地的影子被拉长。 韩烬说白天的话到了夜里，会换一副脸。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里最容易出现私下交易。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里最容易出事。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里最怕急症。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_han_jin
+      text: 私下交易不可怕，可怕的是交易内容和镇子的命绑在一起。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账我记下。人情归人情，风险归风险。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_50_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_han_jin
+      text: 生变前总有预兆，只是白天没人愿意承认。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先稳人心，再稳山路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_50_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_han_jin
+      text: 急症要提前备。人心也是，别等彻底乱了才找药。 这话我只说一遍。你带回去也好，压在心底也罢，别装作没听见。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根也不能放过。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_han_jin_daily_50_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_han_jin_daily_50_completed
+        not_equals: true

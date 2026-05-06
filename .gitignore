@@ -1,0 +1,17 @@
+node_modules
+dist
+.env
+*.log
+coverage
+.vite
+
+.DS_Store
+
+# IDE and local project files
+.idea/
+.tmp/
+.worktrees/
+
+# pnpm local store
+pnpm-store/
+.pnpm-store/

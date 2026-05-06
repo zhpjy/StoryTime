@@ -1,0 +1,39 @@
+- id: reward_refugee_aid
+  name: 流民安置认可
+  description: 镇门秩序和主角声望提升。
+  effects:
+    - type: change_variable
+      key: town_order
+      delta: 2
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 2
+- id: reward_medicine_aid
+  name: 药铺援手
+  description: 疫病压力下降，医者更信任主角。
+  effects:
+    - type: change_variable
+      key: plague_level
+      delta: -2
+    - type: change_relationship
+      source: player
+      target: npc_shen_qinghe
+      path: trust
+      delta: 3
+- id: reward_bandit_victory
+  name: 商路战果
+  description: 黑岭盗声势下降。
+  effects:
+    - type: change_variable
+      key: bandit_power
+      delta: -4
+    - type: change_variable
+      key: merchant_route_safety
+      delta: 3
+- id: reward_truth_progress
+  name: 真相推进
+  description: 旧案线索更清晰。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 4

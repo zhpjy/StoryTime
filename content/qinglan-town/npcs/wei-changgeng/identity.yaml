@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_wei_changgeng",
+  "name": "魏长庚",
+  "age": 56,
+  "identity": "青岚镇镇长",
+  "tier": "core",
+  "faction": "faction_town_authority",
+  "location": "loc_ancestral_hall"
+}

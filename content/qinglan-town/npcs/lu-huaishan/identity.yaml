@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_lu_huaishan",
+  "name": "陆怀山",
+  "age": 34,
+  "identity": "镇中巡守",
+  "tier": "core",
+  "faction": "faction_guard",
+  "location": "loc_town_gate"
+}

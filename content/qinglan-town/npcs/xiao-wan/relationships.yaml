@@ -1,0 +1,27 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_xiao_wan",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_luo_shoucang",
+      "value": -10,
+      "relationType": "fearful_need",
+      "reason": "害怕米铺掌柜，却需要粮食。"
+    },
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": 5,
+      "relationType": "cautious_dependence",
+      "reason": "巡守可能保护她，也可能驱逐她。"
+    }
+  ]
+}

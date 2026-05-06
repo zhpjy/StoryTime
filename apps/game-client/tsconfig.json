@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@tss/schema": ["../../packages/schema/src/index.ts"],
+      "@tss/engine": ["../../packages/engine/src/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "references": []
+}

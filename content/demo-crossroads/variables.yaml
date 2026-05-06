@@ -1,0 +1,12 @@
+- key: signal_clarity
+  name: 雾灯清晰度
+  description: 雾灯信号是否足以指引路人。
+  initialValue: 40
+  min: 0
+  max: 100
+- key: traveler_safety
+  name: 旅人安全
+  description: 即将经过驿站的旅人安全程度。
+  initialValue: 50
+  min: 0
+  max: 100

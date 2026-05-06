@@ -1,0 +1,3506 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+- id: conversation_luo_first_meet
+  npcId: npc_luo_shoucang
+  title: 斗中白米
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+      - fact: facts.conversation_luo_first_meet_completed
+        not_equals: true
+  priority: 100
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓举起米斗，白米在斗里细细一响，像刀鞘里露了半寸寒光。他压低声音：早一刻买米，晚一刻买命，这世道已经差不多了。
+      replies:
+        - id: reply_as_merchant
+          text: 粮价涨得太快，路上的价，到底占了几分？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 米铺真被冲了，你这些人守得住几步？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人要米汤，能否先留一批细米？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 路价三成，恐慌五成，剩下两成，是人心自己往上添的。我会拨算盘，却拨不开这乱世的手。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_first_meet_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 守不住。米袋比人命轻，可饿急的人不认这个理。我能锁门，却锁不住众人的眼。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_first_meet_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 留得出。但你得替我挡住那些借病人名头倒米的人。救命米若成了生意，便比刀还冷。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_first_meet_completed
+              value: true
+- id: conversation_luo_deny_grain
+  npcId: npc_luo_shoucang
+  title: 门前饥声
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: facts.grain_shortage_rumor_happened
+            equals: true
+      - fact: facts.conversation_luo_deny_grain_completed
+        not_equals: true
+  priority: 99
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 门外人影挤着门槛，他反手扣紧后仓的锁，脸色比米袋还沉。他道：别光盯着我一家仓，山路一断，谁家的底气都薄。
+      replies:
+        - id: reply_as_merchant
+          text: 若能找来车队进粮，你肯按平价先放一批吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 传闻再烧下去，砸门只是早晚。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 饥饿会拖重病势，别只看仓底。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你真能带粮进来，我就放一批；空话却别往柜上搁。米袋轻，担子重。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_deny_grain_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 我知道。所以夜里睡不踏实，钥匙压在枕下，翻身都怕硌醒自己。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_deny_grain_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 我也看人。可仓一空，明日饿的人更多。你们看病讲缓急，我守仓也是。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_deny_grain_completed
+              value: true
+- id: conversation_luo_confess
+  npcId: npc_luo_shoucang
+  title: 仓钥吐实
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: facts.luo_hidden_grain_found
+            equals: true
+      - fact: facts.conversation_luo_confess_completed
+        not_equals: true
+  priority: 98
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 他终于摊开掌心，后仓钥匙硌出一道红痕。他道：米是藏了，可我不是拿它看人饿死。
+      replies:
+        - id: reply_as_merchant
+          text: 藏米未必是罪，借乱抬价才伤人命。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 你若不放粮，抢粮的人会先找这扇门。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 你给自己留后路，也该给病人留一口粥。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你说得容易。粮一散，人情也散；到最后，谁都觉得自己被亏待。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          effects:
+            - type: change_relationship
+              source: player
+              target: npc_luo_shoucang
+              path: trust
+              delta: 5
+            - type: add_fact
+              key: conversation_luo_confess_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 我怕的正是这个。不是怕你，是怕门外那些人，变成我记忆里那副模样。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          effects:
+            - type: change_relationship
+              source: player
+              target: npc_luo_shoucang
+              path: trust
+              delta: 5
+            - type: add_fact
+              key: conversation_luo_confess_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 细米我放。只是别让他们知道后仓还剩多少，否则药铺也压不住这股心火。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          effects:
+            - type: change_relationship
+              source: player
+              target: npc_luo_shoucang
+              path: trust
+              delta: 5
+            - type: add_fact
+              key: conversation_luo_confess_completed
+              value: true
+          endConversation: true
+- id: conversation_luo_ask_protection
+  npcId: npc_luo_shoucang
+  title: 闩门开仓
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: facts.luo_asked_protection
+            equals: true
+      - fact: facts.conversation_luo_ask_protection_completed
+        not_equals: true
+  priority: 97
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓把门闩推了又推，像推一桩压心多年的旧案。他道：米铺若能保住，我也不是铁石心肠。
+      replies:
+        - id: reply_as_merchant
+          text: 我可替你立放粮账，别让好事变成抢仓。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我守门，你按约开仓。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先放给病户和抱孩子的人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 账要写细：谁领、领多少、凭什么领。字若不清，刀就会替人说话。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_ask_protection_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 你守门，我开仓。若有人趁乱抢第二袋，也别怪我翻脸。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_ask_protection_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 可以。病户先领，孩子其次，壮劳力明日来换工粮。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_ask_protection_completed
+              value: true
+- id: conversation_luo_low_trust
+  npcId: npc_luo_shoucang
+  title: 算盘藏锋
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: relationship.player.npc_luo_shoucang.suspicion
+            greater_than_or_equal: 35
+      - fact: facts.conversation_luo_low_trust_completed
+        not_equals: true
+  priority: 96
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 他一掌按住算盘，珠子不响，眼神却亮得像在验银。他道：别拿我的米铺，替谁换一块好名声。
+      replies:
+        - id: reply_as_merchant
+          text: 名声若换不成活路，不过是街头一阵响。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我不要虚名，只要少死人。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我要的不是名声，是能熬粥的米。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 这话才像懂买卖。若真懂活路，就别逼我把仓底全亮在众人眼前。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_low_trust_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 少死人，也包括我铺里的伙计。你能护住他们，我才敢开这扇门。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_low_trust_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 米可以给。你拿得走，也得管得住排队的人。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_low_trust_completed
+              value: true
+- id: conversation_luo_shoucang_daily_06
+  npcId: npc_luo_shoucang
+  title: 晨铺算盘
+  entryNodeId: node_entry
+  priority: 55
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 米铺清早便起了响动，算盘珠子一串急雨。罗守仓把米面拨平，抬眼道：有话趁早，今日的米不等人。
+      replies:
+        - id: reply_as_merchant
+          text: 先问今日的买卖和路上动静，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先问这里最需要防的是什么，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先问可有人身体不适，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 买卖看着是买卖，背后全是人心。今日最该留意的，是集市上越喊越高的粮价。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_06_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 要防的不只刀，还有慌。米铺被抢后的巷子一旦成真，谁都别想安稳。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_06_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 有不适的人不少，只是许多人怕花钱，先忍着。你若肯看，先从等着赊半升米的街坊看起。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_06_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_06_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_07
+  npcId: npc_luo_shoucang
+  title: 潮脚入门
+  entryNodeId: node_entry
+  priority: 54
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 湿脚印一路踩到门边，米袋最怕潮，人心也怕。罗守仓拭着米斗道：小病小患，拖久了都能成祸。
+      replies:
+        - id: reply_as_merchant
+          text: 潮气会否影响货物和储备？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 坏天气会让巡守和防备更难吗？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 受潮后最该防哪类病症？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 会。货坏了还能赔，米粮和后仓钥匙坏了，赔的就是人命和信任。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_07_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 难。风雨一遮，脚印、火光和人声都会骗人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_07_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 先防寒热和咳症。别让等着赊半升米的街坊在风口等太久。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_07_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_07_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_08
+  npcId: npc_luo_shoucang
+  title: 白米糠饼
+  entryNodeId: node_entry
+  priority: 53
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 白米和糠饼并排放着，热气散得很快。罗守仓看了一眼，道：如今一顿饭，也像在岔路口选命。
+      replies:
+        - id: reply_as_merchant
+          text: 粮价这样下去，小户人家还能撑几天？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 饿急的人会先冲哪里？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 吃不饱会让病势更糟，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 撑几天要看米价，也看谁愿意先分一点出来。赊粮账和进货账比官样告示更管用。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_08_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 先冲看得见粮食的地方，再冲他们觉得没人护的地方。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_08_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 对。药能压病，饭才托命。没有白米和糠饼，药下去也虚。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_08_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_08_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_09
+  npcId: npc_luo_shoucang
+  title: 闲话如镖
+  entryNodeId: node_entry
+  priority: 52
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 赊米的街坊压着嗓子说话，见你近前又各自散开。罗守仓哼了一声：闲话腿快，快过快马。
+      replies:
+        - id: reply_as_merchant
+          text: 闲话里可有能当线头的真货？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 闲话会否引出冲突？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 闲话会让病人不敢就医，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 真货常藏在夸张里。你别听他们怎么骂，听他们反复提到什么。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_09_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 会。人一怕，就要找个能看见的人出气。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_09_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 已经有了。有人把病说成报应，这比发热还难治。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_09_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_09_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_10
+  npcId: npc_luo_shoucang
+  title: 账页卷边
+  entryNodeId: node_entry
+  priority: 51
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 赊粮账和进货账压在手边，纸角卷得发毛。罗守仓道：账本能写清楚，人情却常写成糊涂账。
+      replies:
+        - id: reply_as_merchant
+          text: 账清才不会乱，你最怕哪笔账爆出来？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 人情账若逼到头，会否变成仇？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 欠账的人会否因此拖着不求助？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 最怕不是欠得多，是欠得久。旧账一翻，谁都说自己有理。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_10_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 会。人情变仇，只差一句“你当年也欠我”。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_10_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 会。有人宁可忍病，也不愿再添一笔欠情。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_10_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_10_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_11
+  npcId: npc_luo_shoucang
+  title: 山路风声
+  entryNodeId: node_entry
+  priority: 50
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有人提起进镇粮车的商路，铺里声气立刻低了半截。罗守仓道：山路运的不只货，还有风声。
+      replies:
+        - id: reply_as_merchant
+          text: 哪类消息最影响货队？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 山路上现在最像陷阱的是哪里？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 山路会否带来新的病根？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 影响最大的不是匪，是不知说谁和匪有来往。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_11_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 最像陷阱的是人人都说安全的那段。太安静了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_11_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 会。水、草药、货布，都可能把病带进镇。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_11_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_11_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_12
+  npcId: npc_luo_shoucang
+  title: 旧庙旧影
+  entryNodeId: node_entry
+  priority: 49
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 话头碰到后仓那批米，他指尖停了一停。罗守仓道：旧庙的事，不是没人知道，是没人敢说全。
+      replies:
+        - id: reply_as_merchant
+          text: 旧庙牵着哪条旧账？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁会为了旧庙动刀？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧庙和病、药可有牵连？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 牵着命账，也牵着名声账。两种账都比银钱难讨。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_12_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 拔刀的人未必最恨，最怕的人才会先动手。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_12_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 有牵连。至少给病人熬粥的细米和年轻时见过饿疯的人群都绕不开它。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_12_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_12_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_13
+  npcId: npc_luo_shoucang
+  title: 告示纸薄
+  entryNodeId: node_entry
+  priority: 48
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 新告示贴在墙上，有人念到一半便没了笑。罗守仓道：字写得齐整，日子未必肯照着走。
+      replies:
+        - id: reply_as_merchant
+          text: 告示会影响交易和价格吗？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 告示能让人守规矩吗？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 告示可有安排病人和弱者？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 会影响一阵。可若米粮和后仓钥匙跟不上，纸上的价就只是纸。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_13_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 能让想守规矩的人有个台阶，拦不住已经急红眼的人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_13_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 写了几句，远远不够。真正照顾人的，是谁肯把门打开。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_13_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_13_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_14
+  npcId: npc_luo_shoucang
+  title: 夜半暗响
+  entryNodeId: node_entry
+  priority: 47
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 夜里除了算盘余响，还有几声听不清的动静。罗守仓道：这些天，谁若睡得太死，反倒叫人担心。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里可有异常车马或陌生人？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里哪个方向最该有人守？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里病人会否无人照应？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 有。不是每辆车都会报号，也不是每个脚印都往门里走。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_14_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 守进镇粮车的商路，也守人心最松的后门。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_14_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 会。夜里一句“明早再说”，有时就等不到明早。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_14_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_14_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_15
+  npcId: npc_luo_shoucang
+  title: 老幼在前
+  entryNodeId: node_entry
+  priority: 46
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 赊米的人群里，老人被扶着，孩子被牵着。罗守仓望了一会儿道：一个地方好不好，先压在这些人肩上。
+      replies:
+        - id: reply_as_merchant
+          text: 物资要先给谁才不乱？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 护送时先护哪一类人？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 老人孩子要分开照看，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 先给不能等的人，再给能维持秩序的人。别让分配看起来像偏心。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_15_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 先护走不快的。能跑的人还有路，走不动的人只有别人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_15_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 对。小孩病急，老人病沉，混在一起只会互相拖。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_15_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_15_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_16
+  npcId: npc_luo_shoucang
+  title: 旧名如刺
+  entryNodeId: node_entry
+  priority: 45
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓提到一个旧名字，又像吞了半口冷茶般收住。那名字横在那里，像一根没人愿碰的刺。
+      replies:
+        - id: reply_as_merchant
+          text: 名字若能对上旧账，就不该含糊，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 名字若指向活人，我得知道凶险，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧名字也可能是病根线头，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你要对账，就别只问名字，还要问他最后被谁看见。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_16_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 凶险在问出口后。许多人怕的不是名字，是有人还记得。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_16_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 有时一个名字比一味药难找，但找到后，方子才完整。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_16_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_16_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_17
+  npcId: npc_luo_shoucang
+  title: 清水来路
+  entryNodeId: node_entry
+  priority: 44
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有人拎桶经过，水光在桶沿晃了一圈。罗守仓道：水看着清，来路未必清。
+      replies:
+        - id: reply_as_merchant
+          text: 水源若出问题，铺面和货队都会停，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁能靠近水源而不被盘问？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 水源须得查，病常从这里起，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 一停就不是一家铺子的事。你若查水，先查谁最近改了取水点。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_17_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 挑水人、送货人、巡夜人，都能靠近。最不起眼的最难查。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_17_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 你说到要处了。病若沿水走，药铺再忙也只是追着尾巴跑。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_17_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_17_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_18
+  npcId: npc_luo_shoucang
+  title: 灯油将尽
+  entryNodeId: node_entry
+  priority: 43
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 灯油快尽，火苗缩成豆大。罗守仓盯着那点光道：灯一暗，人就容易把心里的暗处当成路。
+      replies:
+        - id: reply_as_merchant
+          text: 能调灯油，但要知道最缺哪里，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 黑处最适合藏刀，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人夜里也需要灯，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 最缺的不是灯油，是愿意把灯点在别人门口的人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_18_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 藏刀也藏眼泪。夜里生变，天亮后人人都说没看见。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_18_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 是。没灯，连药量都容易看错，更别说分辨脸色。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_18_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_18_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_19
+  npcId: npc_luo_shoucang
+  title: 顺手小事
+  entryNodeId: node_entry
+  priority: 42
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 他掸去算盘珠上的米糠，顺手把旁边东西摆正。罗守仓道：有个小忙，不显眼，却误不得。
+      replies:
+        - id: reply_as_merchant
+          text: 小忙也要讲清要送到谁手里，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 小忙若有风险，我先走前面，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 小忙若关系病人，我现在就去，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 送给排队买米的妇人，别让太多人看见。不是见不得光，是怕被传歪。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_19_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 不用拔刀，帮我看住后路就行。有时候不让人挤上来，比冲出去更难。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_19_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 关系不大，却能省一条腿脚。病人那边，少等一刻都是好事。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_19_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_19_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_20
+  npcId: npc_luo_shoucang
+  title: 街坊脸色
+  entryNodeId: node_entry
+  priority: 41
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 赊米的街坊从旁经过，人人脸上都藏着话。罗守仓道：近来看脸，比听话还准。
+      replies:
+        - id: reply_as_merchant
+          text: 看脸色能看出谁要囤货？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看脸色能看出谁要闹事？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 看脸色能看出谁在硬撑，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 能。眼睛总往米粮和后仓钥匙上飘的人，多半心里已经起了算盘。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_20_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 能。真正要闹的人常不喊，喊得最大声的反而等别人先动。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_20_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 能。硬撑的人最怕被叫住，你若温和些，他们才肯承认。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_20_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_20_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_21
+  npcId: npc_luo_shoucang
+  title: 一阵咳声
+  entryNodeId: node_entry
+  priority: 40
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 远处一阵咳声响起，几个人下意识退了半步。罗守仓皱眉道：怕病可以，别先被病名吓散了魂。
+      replies:
+        - id: reply_as_merchant
+          text: 若恐慌传开，买卖会先崩，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 恐慌会让人不听号令，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 退开不是办法，要分症状，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 买卖崩了，粮药也会断。你若能说服人别乱传，等于保住半条路。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_21_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 对。怕到极处，人会把救他的人也当敌人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_21_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 分得清，心就稳一半。你来说，他们比听我说更容易信。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_21_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_21_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_22
+  npcId: npc_luo_shoucang
+  title: 缺口米斗
+  entryNodeId: node_entry
+  priority: 39
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 发亮的米斗边上有一道旧缺口，用久了也舍不得换。罗守仓道：镇上许多东西也是这样，破着也得撑。
+      replies:
+        - id: reply_as_merchant
+          text: 旧器物能撑，旧规矩未必能撑，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破口不补，迟早伤手，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧伤不看，也会反复疼，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你们外来人看得快，本地人舍不得。舍不得有时是情分，有时是祸端。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_22_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 补也要看谁来补。手太重，器物没补好，先碎了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_22_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 疼久了，人会把疼当成日常。镇子也是。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_22_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_22_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_23
+  npcId: npc_luo_shoucang
+  title: 谎话生根
+  entryNodeId: node_entry
+  priority: 38
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 同一句传闻过了三张嘴，便多出三层影子。罗守仓道：谎话不怕新，怕有人把它养得像真话。
+      replies:
+        - id: reply_as_merchant
+          text: 假消息会害车队，我要辨源头，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 撒谎的人往往躲在后面，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 假病因会害死人，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 源头常常不在说得最大声的人那里，而在第一个问“你听说了吗”的人那里。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_23_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 躲在后面，也会留下目的。看谎话想把人赶向哪里。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_23_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 是。病因一错，药越勤，错得越深。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_23_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_23_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_24
+  npcId: npc_luo_shoucang
+  title: 此时可信
+  entryNodeId: node_entry
+  priority: 37
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓看了看四周，像掂量哪句话能出口。他道：如今不是没人说话，是没人敢替谁担保。
+      replies:
+        - id: reply_as_merchant
+          text: 信任也要有抵押，谁的抵押最实？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看行动，不看漂亮话，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 肯让人看病的人，至少还有求生心，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 抵押最实的是退路。没退路的人，说真话也可能变卦。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_24_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 行动要看连续几天，不看一时热血。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_24_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 求生心很真，可求生也会让人隐瞒。别全信，也别全疑。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_24_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_24_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_25
+  npcId: npc_luo_shoucang
+  title: 镇外影子
+  entryNodeId: node_entry
+  priority: 36
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 一提镇外，铺里静了一瞬。罗守仓道：镇外不是远方，是随时会推门进来的麻烦。
+      replies:
+        - id: reply_as_merchant
+          text: 外来的货和人，哪一个更可疑？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 外头的威胁已经进镇了吗？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 外来人可有被妥善安置？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 货不会自己说谎，人会。可货上留下的痕迹，比人嘴可靠。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_25_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 进来了。不是人人拿刀才叫威胁，有人带的是恐慌和口信。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_25_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 安置得不够。挤在一起，再小的病也会被放大。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_25_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_25_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_26
+  npcId: npc_luo_shoucang
+  title: 午后倦意
+  entryNodeId: node_entry
+  priority: 35
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 日头偏过檐角，罗守仓的手慢了些。他道：人一累，最容易答应不该答应的事。
+      replies:
+        - id: reply_as_merchant
+          text: 疲惫会让人卖掉底线，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 疲惫会让守卫露空，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 疲惫会让病情恶化，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 底线不是一下卖掉的，是一点点让出去的。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_26_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 露空时最怕有人正等着。你若能替人歇一刻，就能补一个缺口。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_26_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 你说得对。许多人不是病倒，是熬倒。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_26_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_26_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_27
+  npcId: npc_luo_shoucang
+  title: 未寄之信
+  entryNodeId: node_entry
+  priority: 34
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 发亮的米斗旁压着一封折好的信，纸角起了毛。罗守仓道：有些信写好后，才知道路未必还在。
+      replies:
+        - id: reply_as_merchant
+          text: 能带信，但要知道收信人在哪条路上，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若送信有凶险，先说凶险来自谁，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 信若关系病人家属，别再拖，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 能带当然好。可路上若有人查，别把信和账本放在一起。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_27_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 凶险来自想知说别人说了什么的人。如今一句家常，也可能被当成证词。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_27_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 关系家属，也关系人心。人若不知说亲人死活，会先在心里病起来。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_27_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_27_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_28
+  npcId: npc_luo_shoucang
+  title: 童言直问
+  entryNodeId: node_entry
+  priority: 33
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有个孩子问了一句大人都躲着的话。罗守仓沉默片刻，道：孩子开口，常比大人诚实。
+      replies:
+        - id: reply_as_merchant
+          text: 孩子问的是米还是路？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 孩子问的是谁会护住他们？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 孩子问的是病会否死？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 问的是明天还有没有饭。这个问题比任何账都难。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_28_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 问的是守门的人会不会也跑。你看，孩子知说害怕什么。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_28_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 问的是会不会传给娘亲。你若听见了，就别用空话糊弄。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_28_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_28_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_29
+  npcId: npc_luo_shoucang
+  title: 新泥破墙
+  entryNodeId: node_entry
+  priority: 32
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 墙根新补的泥还没干透，颜色突兀。罗守仓道：墙会破，规矩也会破。
+      replies:
+        - id: reply_as_merchant
+          text: 破口若能走私货，就会有人利用，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破墙也是防线缺口，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 破墙透风，病人受不了，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 利用的人一定有，不一定是大奸大恶，也可能只是饿急了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_29_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 缺口要补，也要看谁常在附近徘徊。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_29_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 先挡风，再问责。人病着的时候，风比说理快。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_29_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_29_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_30
+  npcId: npc_luo_shoucang
+  title: 市声争命
+  entryNodeId: node_entry
+  priority: 31
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 集市上的粮价又被喊高，声调尖得像要割人。罗守仓道：讨价还价本是日常，如今倒像在吵命。
+      replies:
+        - id: reply_as_merchant
+          text: 价要稳，得先稳供给，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 吵到动手前会有什么征兆？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 买不起药和米的人会同时变多，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 供给是一头，信任是另一头。只补一头，价还会乱。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_30_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 征兆是没人再听完整句话，只听见自己吃亏。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_30_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 会。所以救病不能只靠药铺，也得靠米袋。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_30_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_30_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_31
+  npcId: npc_luo_shoucang
+  title: 夜脚无声
+  entryNodeId: node_entry
+  priority: 30
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 昨夜的脚步声还挂在众人口边，几个人说法各异。罗守仓道：半夜走路的未必是贼，也可能怕白天被看见。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里运货的人通常有不得已的理由，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 半夜脚步要查，但不可先惊动，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里求药的人也会偷偷走，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 理由有真有假。看他们绕开什么，比看他们搬什么更有用。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_31_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 你说得对。先记路，再问人，别一嗓子把线头喊散了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_31_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 求药的人怕欠账，也怕被人说染病。你若拦，记得先问急不急。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_31_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_31_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_32
+  npcId: npc_luo_shoucang
+  title: 旧日慢话
+  entryNodeId: node_entry
+  priority: 29
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 提起年轻时见过饿疯的人群，他神色软了半分。罗守仓道：从前也难，只是大家还肯坐下慢慢说。
+      replies:
+        - id: reply_as_merchant
+          text: 从前商路最安稳的时候靠什么？，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 从前巡守和镇民怎么互相信？，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 从前病人如何互相照应？，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 靠熟人，也靠不把每一文钱都逼到尽头。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_32_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 靠说到做到。守门的人不乱拿，进门的人不乱闯。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_32_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 靠邻里。谁家熬药，隔壁会送水，不会先问报酬。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_32_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_32_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_33
+  npcId: npc_luo_shoucang
+  title: 粗碗热水
+  entryNodeId: node_entry
+  priority: 28
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 热水倒进粗碗，白气一缕缕升起。罗守仓道：热水不值钱，可乱世里，连这点热气都难得。
+      replies:
+        - id: reply_as_merchant
+          text: 热水和柴火也要纳入调度，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 送水的人也要护住，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 热水能救很多小病，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你若能调柴火，许多怨气会少一半。冷饭冷水最磨人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_33_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 是。别小看送水，夜里拎桶的人最容易被误伤。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_33_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 对。许多药不是没有方子，是没人有热水慢慢服。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_33_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_33_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_34
+  npcId: npc_luo_shoucang
+  title: 谁先退步
+  entryNodeId: node_entry
+  priority: 27
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 两拨人互不相让，像两把没出鞘的刀顶在一起。罗守仓叹道：谁都怕先退一步，便被吞得干净。
+      replies:
+        - id: reply_as_merchant
+          text: 让步要换确定的回报，不可空让，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 有时要有人站中间，双方才退得下去，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人面前不该争谁更委屈，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 回报可以不是钱，是明日还愿意坐下来谈。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_34_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 站中间的人最容易挨骂。可没人站，事就会往刀上走。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_34_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 这话该让他们都听听。咳声不会等他们吵完。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_34_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_34_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_35
+  npcId: npc_luo_shoucang
+  title: 坏事先后
+  entryNodeId: node_entry
+  priority: 26
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 坏消息一个接一个进门，像排队领米。罗守仓道：最怕的不是坏事，是没人知道先救哪一头。
+      replies:
+        - id: reply_as_merchant
+          text: 先保路、粮、药三个节点，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先保人，再保门，再保物，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先救急症，再控传染，再安人心，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你的顺序能听。路断则粮药断，粮药断则人心断。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_35_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 人保住，门和物才有意义。别反过来。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_35_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 这就是救治的顺序。镇子也像一个病人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_35_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_35_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_36
+  npcId: npc_luo_shoucang
+  title: 避谈线头
+  entryNodeId: node_entry
+  priority: 25
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有人一听后仓暗藏的米，便忙不迭换话。罗守仓道：避得太急，自己就是线头。
+      replies:
+        - id: reply_as_merchant
+          text: 避谈的人可能怕旧账影响生意，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 避谈的人可能知道凶险在哪，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 避谈的人可能见过病根，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 生意、名声、亲人，都可能让人闭嘴。你要分清是哪一种。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_36_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 知说凶险的人未必坏，有时只是活得太久，怕了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_36_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 见过病根的人最怕再闻到同样味说。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_36_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_36_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_37
+  npcId: npc_luo_shoucang
+  title: 帮忙添乱
+  entryNodeId: node_entry
+  priority: 24
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓看着你，像在估量你是来搭手还是添乱。他道：帮忙两个字，说歪了，比不帮还坏。
+      replies:
+        - id: reply_as_merchant
+          text: 先问需要什么，再动资源，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先听安排，再动手，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先看症状，再开方，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 这样才像能做事的人。别把自己的好心摆在别人的急处前面。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_37_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 能听安排的武人，比只会冲的强。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_37_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 看症状再开方，这说理若人人都懂，镇里少一半乱事。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_37_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_37_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_38
+  npcId: npc_luo_shoucang
+  title: 旧物记事
+  entryNodeId: node_entry
+  priority: 23
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 他拿起那只发亮米斗，又轻轻放下，像有话压回喉间。罗守仓道：旧物留久了，会替人记事。
+      replies:
+        - id: reply_as_merchant
+          text: 旧物若能作凭证，就别让它丢了，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧物若会惹祸，就该有人护着，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧物上的痕迹有时能说明伤从何来，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 凭证也要看交给谁。交错了，凭证就是把柄。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_38_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 护东西不难，难的是护住拿着它的人。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_38_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 你看得细。火痕、药味、血渍，旧物都可能记得。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_38_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_38_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_39
+  npcId: npc_luo_shoucang
+  title: 片刻安静
+  entryNodeId: node_entry
+  priority: 22
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 四下忽然安静片刻，像镇子终于喘了一口气。罗守仓道：安静未必是太平，也可能是在等下一声响。
+      replies:
+        - id: reply_as_merchant
+          text: 安静时最适合安排后路，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 安静时最该查哨，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 安静时最该补睡和熬药，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 后路要在没人看见时安排好，真乱起来就晚了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_39_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 查哨，也查谁突然不在原处。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_39_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 对，能休息时不休息，下一波来时就只剩硬撑。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_39_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_39_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_40
+  npcId: npc_luo_shoucang
+  title: 借物如借命
+  entryNodeId: node_entry
+  priority: 21
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有人来借米粮和后仓钥匙，话客气，手却攥得紧。等人走远，罗守仓才把目光转回来。
+      replies:
+        - id: reply_as_merchant
+          text: 借和抢之间，只差还不还，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 手攥太紧，多半已经急了，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 借东西若为救急，可以登记，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 你说得现实。现在每一次借出，都要想好明日怎么要回来。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_40_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 急未必坏，怕的是有人利用他的急。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_40_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 登记能让人觉得公平，也能让后来的人少吵两句。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_40_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_40_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_41
+  npcId: npc_luo_shoucang
+  title: 镇门祠门
+  entryNodeId: node_entry
+  priority: 20
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 话题从镇门绕到祠堂，绕来绕去总是两道门。罗守仓道：一道管活人进出，一道管旧事出入。
+      replies:
+        - id: reply_as_merchant
+          text: 两道门都影响路，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 两道门都需要有人守，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 两道门都关系人心，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 路不只在地上，也在大家愿不愿意相信彼此。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_41_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 守门不只是挡人，也是不让怕事的人随手上锁。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_41_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 人心堵住，病也好得慢。你们医者最该懂。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_41_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_41_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_42
+  npcId: npc_luo_shoucang
+  title: 小争初起
+  entryNodeId: node_entry
+  priority: 19
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 旁边起了小争执，很快被人劝开。罗守仓道：小争执没人管，也会学着长大。
+      replies:
+        - id: reply_as_merchant
+          text: 争执多半因为分配不明，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 争执刚起时最好压住，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 争执会让病人更慌，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 分配明白，人就算不满，也知说该找谁说。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_42_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 压住不是吼住，是让双方都有台阶。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_42_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 慌会传，比病还快。你若能安一句，就是帮忙。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_42_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_42_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_43
+  npcId: npc_luo_shoucang
+  title: 远方留话
+  entryNodeId: node_entry
+  priority: 18
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 罗守仓忽然问：若给远方的人留一句话，你会写什么？这话来得突兀，却不是玩笑。
+      replies:
+        - id: reply_as_merchant
+          text: 会写路况和价钱，也写人是否平安，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 会写别轻信太安静的路，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 会写水要烧开，病要早看，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 平安这两个字，比价钱更难写真。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_43_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 这句能救命。太安静的路，总有人先替你清过声音。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_43_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 朴素，却管用。许多人死在不肯早看。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_43_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_43_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_44
+  npcId: npc_luo_shoucang
+  title: 怕字难认
+  entryNodeId: node_entry
+  priority: 17
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 他声音仍稳，手却停在发亮的米斗旁。罗守仓道：镇里许多人怕，只是不肯认这个怕字。
+      replies:
+        - id: reply_as_merchant
+          text: 害怕会推高价钱，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 害怕会让人先下手，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 害怕会让人藏病，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 价钱只是表面。真正涨的是彼此的防备。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_44_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 先下手的人常说自己是自保。你要看他保的到底是什么。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_44_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 藏病最祸端。藏到后来，不止害自己。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_44_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_44_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_45
+  npcId: npc_luo_shoucang
+  title: 补衣补日
+  entryNodeId: node_entry
+  priority: 16
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 有人袖口补了三色线，狼狈却干净。罗守仓道：日子破了，人只好把不合适的布也缝到一起。
+      replies:
+        - id: reply_as_merchant
+          text: 修补总比全丢了强，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 补过的地方也是弱点，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 补得好，伤口也能长上，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 强是强，可补线也要结实。只图看着完整，扯一下就开。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_45_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 弱点不是罪，装作没弱点才凶险。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_45_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 长上以后还会留疤。留疤不丢人，怕的是反复撕开。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_45_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_45_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_46
+  npcId: npc_luo_shoucang
+  title: 旧火新烟
+  entryNodeId: node_entry
+  priority: 15
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 远处有人烧湿柴，烟味忽然压了过来。罗守仓道：烟最会骗人，像旧火，又像新火。
+      replies:
+        - id: reply_as_merchant
+          text: 旧火若变成新烟，说明有人在翻旧账，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 烟能遮眼，也能暴露位置，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 烟会让咳症更重，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 有人翻旧账，也有人想让你以为是旧账自己烧起来。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_46_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 看风向。烟往哪边去，人多半也往哪边藏。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_46_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 先让咳得厉害的人避开。查案也要给活人让路。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_46_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_46_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_47
+  npcId: npc_luo_shoucang
+  title: 证言如押
+  entryNodeId: node_entry
+  priority: 14
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 话说到证人，铺里的空气像被一只手按住。罗守仓道：作证不是说一句话，是把往后的日子押上。
+      replies:
+        - id: reply_as_merchant
+          text: 证词要能互相印证，不可只靠胆子，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 作证的人需要护住，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 作证的人也会怕，也会病，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 印证越多，单个人背的压力越小。这是正经办法。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_47_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 护住不是站在他旁边亮刀，也包括让他家里有饭。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_47_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 是。吓坏的人说不清话，先让他能睡一觉。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_47_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_47_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_48
+  npcId: npc_luo_shoucang
+  title: 药碗去处
+  entryNodeId: node_entry
+  priority: 13
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 给病人熬粥的细米端过去，路上有人让开，也有人盯着。罗守仓道：一碗药给谁，也会招来一句不公平。
+      replies:
+        - id: reply_as_merchant
+          text: 分配标准要提前说清，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 不公平会引出冲突，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 轻重缓急须得由病情决定，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 标准说清，怨气少一半。剩下一半，靠人慢慢劝。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_48_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 冲突常从一句“凭什么他先”开始。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_48_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 病情决定，这是底线。若让关系决定，药就变味了。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_48_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_luo_shoucang_daily_48_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_49
+  npcId: npc_luo_shoucang
+  title: 风中名字
+  entryNodeId: node_entry
+  priority: 12
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 风声里夹着几个名字，听不真切。罗守仓道：名字一旦被风带走，就会成别人嘴里的刀。
+      replies:
+        - id: reply_as_merchant
+          text: 没核实的名字不可写进账，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 没核实的名字不可当靶子，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 没核实的名字不可当病因，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 对。写错一个名字，后面整本账都歪。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_49_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 当靶子容易，收回箭难。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_49_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 病因错了，药方就成了害人的纸。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_49_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_luo_shoucang_daily_49_completed
+        not_equals: true
+- id: conversation_luo_shoucang_daily_50
+  npcId: npc_luo_shoucang
+  title: 收摊之前
+  entryNodeId: node_entry
+  priority: 11
+  nodes:
+    - id: node_entry
+      speaker: npc_luo_shoucang
+      text: 天色往晚里沉，米铺影子被拉得很长。罗守仓道：白天说过的话，到夜里常会换一副脸。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里最容易出现私下交易，账才好落笔。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里最容易出事，也好先防一步。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里最怕急症，救人不能迟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_luo_shoucang
+      text: 私下交易不可怕，可怕的是交易内容和镇子的命绑在一起。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_merchant_close
+          text: 这笔账记下了；人情和风险，一样不能糊涂。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_50_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_luo_shoucang
+      text: 生变前总有预兆，只是白天没人愿意承认。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_warrior_close
+          text: 明白。先压住人心的乱，再护住脚下的路。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_50_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_luo_shoucang
+      text: 急症要提前备。人心也是，别等彻底乱了才找药。 江湖上账可写清，人心却常隔着一层米糠；我看得明白，未必拨得开。
+      replies:
+        - id: reply_doctor_close
+          text: 记下了。急症先救，病根慢慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_luo_shoucang_daily_50_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_luo_shoucang_daily_50_completed
+        not_equals: true

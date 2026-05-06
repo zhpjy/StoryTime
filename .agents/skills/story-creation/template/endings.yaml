@@ -1,0 +1,39 @@
+# 结局列表。结局按 priority 从高到低尝试匹配，条件满足后生成结局结果。
+
+- # id: 结局唯一 ID，建议以 ending_ 开头。
+  id: "ending_truth_resolved"
+  # name: 结局展示名称。
+  name: "真相落定"
+  # priority: 结局优先级。多个结局同时满足时，通常优先使用更高值。
+  priority: 100
+  # conditions: 结局触发条件。
+  conditions:
+    all:
+      - fact: "variables.truth_progress"
+        greater_than_or_equal: 80
+      - fact: "variables.main_crisis_level"
+        less_than_or_equal: 60
+  # summary: 结局总结，描述世界和关键人物因玩家选择形成的结果。
+  summary: "玩家揭开核心真相，并让主要危机保持在可控制范围内。"
+  # causalChainRules: 结局因果链。命中事实或变量阈值时，会展示对应文本。
+  causalChainRules:
+    - fact: "opening_news_heard"
+      text: "你在开场阶段主动搜集消息，为后续判断打下基础。"
+    - variable: "truth_progress"
+      operator: "greater_than_or_equal"
+      value: 80
+      text: "真相进度足够高，关键证据被拼合起来。"
+
+- id: "ending_crisis_overwhelms"
+  name: "危机失控"
+  priority: 90
+  conditions:
+    all:
+      - fact: "variables.main_crisis_level"
+        greater_than_or_equal: 80
+  summary: "主要危机长期未被压制，故事地点走向失序。"
+  causalChainRules:
+    - variable: "main_crisis_level"
+      operator: "greater_than_or_equal"
+      value: 80
+      text: "危机程度持续升高，最终压过了补救空间。"

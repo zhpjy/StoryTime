@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_wei_changgeng",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 15,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": 10,
+      "relationType": "tense_superior",
+      "reason": "需要他维持秩序，但防备他追查旧案。"
+    },
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": -10,
+      "relationType": "watched_informant",
+      "reason": "知道她掌握旧事。"
+    },
+    {
+      "targetId": "npc_han_jin",
+      "value": -40,
+      "relationType": "old_grudge",
+      "reason": "旧事牵连复杂，表面敌对。"
+    },
+    {
+      "targetId": "npc_xu_wenzhou",
+      "value": -20,
+      "relationType": "threat",
+      "reason": "认为他会破坏小镇稳定。"
+    }
+  ]
+}

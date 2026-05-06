@@ -1,0 +1,53 @@
+# 地图列表。地图由 tiles 组成，地块承载地点、建筑、NPC、事件和可见性。
+# terrain 当前支持：town、road、forest、river、mountain、ruin。
+
+- # id: 地图唯一 ID。
+  id: "map_sample"
+  # name: 地图展示名称。
+  name: "示例地图"
+  # width/height: 网格宽高。tile 的 x/y 应落在此范围内。
+  width: 3
+  height: 3
+  # tiles: 地块数组。完整地图通常需要覆盖主要可达坐标。
+  tiles:
+    - # id: 地块唯一 ID，可被 runtime.tileOverrides 和 set_tile_visible 引用。
+      id: "tile_01_01"
+      # name: 地块显示名称。
+      name: "起点地块"
+      # x/y: 地块在地图网格中的坐标。
+      x: 1
+      y: 1
+      # terrain: 地形类型，影响地图视觉和设计语义。
+      terrain: "town"
+      # locationId: 可选，绑定一个 locations.yaml 中的地点；无地点时只是普通地块。
+      locationId: "loc_start"
+      # buildingIds: 此地块包含的建筑 ID，应存在于 buildings.yaml。
+      buildingIds:
+        - "building_start_notice"
+      # npcIds: 此地块初始展示或常驻的 NPC ID，应存在于 npcs/index.yaml 对应 NPC。
+      npcIds:
+        - "npc_guide"
+      # eventIds: 此地块可能触发或提示的事件 ID，应存在于 events.yaml。
+      eventIds:
+        - "event_opening_incident"
+      # discovered: 玩家是否已发现该地块。
+      discovered: true
+      # visible: 地块是否在地图上可见。
+      visible: true
+      # blocked: 是否阻挡进入或路径。
+      blocked: false
+      # dangerLevel: 风险等级，建议 0-100。
+      dangerLevel: 10
+
+    - id: "tile_02_01"
+      name: "普通道路"
+      x: 2
+      y: 1
+      terrain: "road"
+      buildingIds: []
+      npcIds: []
+      eventIds: []
+      discovered: true
+      visible: true
+      blocked: false
+      dangerLevel: 5

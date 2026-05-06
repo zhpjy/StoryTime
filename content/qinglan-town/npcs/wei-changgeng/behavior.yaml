@@ -1,0 +1,116 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_ancestral_hall",
+      "activity": "receive_petitions"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_market",
+      "activity": "inspect_market",
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.food_price",
+            "greater_than_or_equal": 140
+          }
+        ]
+      }
+    },
+    {
+      "segment": "night",
+      "location": "loc_ancestral_hall",
+      "activity": "seal_records"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_wei_suppress_truth",
+      "name": "压制旧案线索",
+      "priority": 90,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "greater_than_or_equal": 40
+          },
+          {
+            "fact": "facts.wei_suppressed_truth",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "wei_suppressed_truth",
+          "value": true
+        },
+        {
+          "type": "change_variable",
+          "key": "town_order",
+          "delta": -5
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_wei_blocks_records"
+        }
+      ]
+    },
+    {
+      "id": "rule_wei_control_refugees",
+      "name": "要求驱逐流民",
+      "priority": 60,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.refugee_pressure",
+            "greater_than_or_equal": 50
+          },
+          {
+            "fact": "facts.wei_ordered_refugee_control",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "wei_ordered_refugee_control",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_wei_orders_refugee_control"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "配合镇长维稳",
+    "请求打开旧档",
+    "当众质问旧案",
+    "帮他压制流民",
+    "与他交易",
+    "揭露他"
+  ],
+  "keyEvents": [
+    "event_wei_blocks_records",
+    "event_wei_orders_refugee_control",
+    "event_lu_questions_mayor",
+    "event_wei_final_confrontation"
+  ],
+  "possibleFates": [
+    "继续掌权",
+    "被迫退位",
+    "被镇民清算",
+    "死亡"
+  ],
+  "endingImpact": [
+    "真相被压下会导向暗约成局或孤身远行",
+    "被揭露且存活使真相昭雪最完整",
+    "与玩家结盟可维稳但牺牲真相"
+  ]
+}

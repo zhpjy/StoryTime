@@ -1,0 +1,32 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 55,
+    "courage": 35,
+    "greed": 15,
+    "loyalty": 40,
+    "suspicion": 70,
+    "responsibility": 30
+  },
+  "state": {
+    "alive": true,
+    "health": 65,
+    "mood": "hungry",
+    "current_goal": "survive",
+    "story_stage": 1,
+    "protected": false,
+    "missing": false
+  },
+  "goals": [
+    "活下去",
+    "找到失散亲人",
+    "获得食物和安全住处",
+    "避免被驱逐出镇"
+  ],
+  "secrets": [
+    {
+      "id": "secret_xiao_wan_bandit_token",
+      "content": "她见过黑岭盗搬运货物，记得旧庙纹样的铜牌。"
+    }
+  ]
+}

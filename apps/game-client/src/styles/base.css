@@ -1,0 +1,22 @@
+:root {
+  font-family: "LXGW WenKai", "Noto Serif SC", "Songti SC", "STSong", ui-serif, Georgia, serif;
+  color-scheme: dark;
+  background: #050505;
+  --game-bg: #050505;
+  --game-surface: rgba(20, 18, 15, 0.74);
+  --game-surface-strong: rgba(12, 11, 10, 0.9);
+  --game-border: rgba(255, 255, 255, 0.12);
+  --game-text: #f4efe7;
+  --game-muted: #a9a096;
+  --game-accent: #e0b562;
+  --game-accent-2: #9cc7ce;
+  --game-danger: #f09a8c;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--game-bg); }
+body { margin: 0; min-width: 0; color: var(--game-text); }
+button, input, select, textarea { font-family: inherit; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(245, 222, 179, 0.22); border-radius: 999px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }

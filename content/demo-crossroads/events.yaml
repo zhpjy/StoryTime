@@ -1,0 +1,15 @@
+- id: event_first_signal
+  name: 第一束清光
+  type: location_event
+  locationId: loc_crossroads
+  participantIds:
+    - npc_guide
+  trigger:
+    fact: variables.signal_clarity
+    greater_than_or_equal: 60
+  description: 雾灯终于照出一条稳定光带，路口记录下这次校准结果。
+  effects:
+    - type: add_fact
+      key: signal_event_seen
+      value: true
+  followupEventIds: []

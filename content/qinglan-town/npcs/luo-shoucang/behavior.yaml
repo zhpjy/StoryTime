@@ -1,0 +1,130 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_market",
+      "activity": "open_shop"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_market",
+      "activity": "watch_grain_price"
+    },
+    {
+      "segment": "night",
+      "location": "loc_market",
+      "activity": "check_hidden_stock"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_luo_ask_protection",
+      "name": "请求保护米铺",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.bandit_power",
+            "greater_than_or_equal": 60
+          },
+          {
+            "fact": "relationship.player.npc_luo_shoucang.trust",
+            "greater_than_or_equal": 20
+          },
+          {
+            "fact": "facts.luo_asked_protection",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "luo_asked_protection",
+          "value": true
+        },
+        {
+          "type": "start_conversation",
+          "conversationId": "conversation_luo_ask_protection"
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_luo_asks_protection"
+        }
+      ]
+    },
+    {
+      "id": "rule_luo_hide_grain",
+      "name": "暗中囤粮",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.food_price",
+            "greater_than_or_equal": 130
+          },
+          {
+            "fact": "variables.town_fear",
+            "greater_than_or_equal": 40
+          },
+          {
+            "fact": "facts.luo_hidden_grain_exposed",
+            "not_equals": true
+          },
+          {
+            "fact": "facts.luo_is_hiding_grain",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "luo_is_hiding_grain",
+          "value": true
+        },
+        {
+          "type": "change_npc_state",
+          "npcId": "npc_luo_shoucang",
+          "path": "hiding_grain",
+          "value": true
+        },
+        {
+          "type": "change_variable",
+          "key": "food_price",
+          "delta": 10
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_grain_shortage_rumor"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "正常买粮",
+    "说服平价放粮",
+    "揭露囤粮",
+    "威胁开仓",
+    "保护米铺",
+    "默许囤粮"
+  ],
+  "keyEvents": [
+    "event_grain_shortage_rumor",
+    "event_market_conflict",
+    "event_luo_hidden_grain_found",
+    "event_luo_asks_protection"
+  ],
+  "possibleFates": [
+    "被说服开仓",
+    "被揭露",
+    "米铺被抢",
+    "与玩家结盟"
+  ],
+  "endingImpact": [
+    "平价放粮增强青岚得存和仁名远播",
+    "囤粮未揭露会恶化流民线",
+    "与玩家利益结盟增强暗约倾向"
+  ]
+}

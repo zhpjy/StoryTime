@@ -1,0 +1,71 @@
+# 单个 NPC 的会话列表。会话会被合并到内容包顶层 conversations 中。
+
+- # id: 会话唯一 ID，可被 start_conversation 效果引用。
+  id: "conversation_guide_first_meet"
+  # npcId: 绑定的 NPC ID。
+  npcId: "npc_guide"
+  # title: 会话标题，显示在话题列表中。
+  title: "初次交谈"
+  # entryNodeId: 进入会话时使用的节点 ID，必须存在于 nodes。
+  entryNodeId: "node_entry"
+  # conditions: 可选，会话可用条件。
+  conditions:
+    all:
+      - fact: "facts.conversation_guide_first_meet_completed"
+        not_equals: true
+  # priority: 可选，会话排序或选择优先级。
+  priority: 100
+  # nodes: 会话节点。每个节点有 speaker、text 和 replies。
+  nodes:
+    - # id: 节点唯一 ID，在当前会话内唯一。
+      id: "node_entry"
+      # speaker: 发言者。可为 player 或某个 NPC ID。
+      speaker: "npc_guide"
+      # text: 当前节点显示文本。
+      text: "你看见此人正观察周围局势，似乎知道一些开场异常的来龙去脉。"
+      # effects: 可选，进入该节点时执行的效果。
+      effects: []
+      # replies: 玩家回复。每条回复必须有 nextNodeId 或 endConversation。
+      replies:
+        - id: "reply_ask_context"
+          text: "这里最近发生了什么？"
+          # conditions: 可选，回复出现条件。
+          conditions:
+            all:
+              - fact: "player.state.stamina"
+                greater_than_or_equal: 1
+          # effects: 可选，选择回复后执行。
+          effects:
+            - type: "add_fact"
+              key: "met_npc_guide"
+              value: true
+          # nextNodeId: 跳转到同一会话内的后续节点。
+          nextNodeId: "node_context"
+        - id: "reply_leave"
+          text: "暂时离开。"
+          effects:
+            - type: "add_fact"
+              key: "conversation_guide_first_meet_completed"
+              value: true
+          # endConversation: true 表示会话结束；没有 nextNodeId 时必须设置。
+          endConversation: true
+
+    - id: "node_context"
+      speaker: "npc_guide"
+      text: "对方压低声音，告诉你危机并非突然出现，而是由几个长期积累的问题同时爆发。"
+      replies:
+        - id: "reply_accept_task"
+          text: "我会先从最明显的线索查起。"
+          effects:
+            - type: "change_relationship"
+              source: "player"
+              target: "npc_guide"
+              path: "trust"
+              delta: 5
+            - type: "change_variable"
+              key: "truth_progress"
+              delta: 3
+            - type: "add_fact"
+              key: "conversation_guide_first_meet_completed"
+              value: true
+          endConversation: true

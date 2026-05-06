@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+[
+  {
+    "id": "item_food",
+    "name": "米粮",
+    "type": "resource",
+    "description": "可用于自用、救助流民或稳定民居区。"
+  },
+  {
+    "id": "item_medicine",
+    "name": "成药",
+    "type": "resource",
+    "description": "药铺配出的常用成药，可用于治疗和事件选项。"
+  },
+  {
+    "id": "item_herb_bundle",
+    "name": "草药包",
+    "type": "resource",
+    "description": "从山林或药铺获得的草药，可补充药材库存。"
+  },
+  {
+    "id": "item_old_case_record",
+    "name": "旧案残档",
+    "type": "clue",
+    "description": "祠堂旧档中缺页附近残留的旧庙火案记录。"
+  },
+  {
+    "id": "item_bandit_token",
+    "name": "旧庙铜牌",
+    "type": "clue",
+    "description": "小宛在山路上见过的铜牌纹样，与黑岭盗和旧庙有关。"
+  },
+  {
+    "id": "item_cellar_evidence",
+    "name": "暗室证物",
+    "type": "clue",
+    "description": "破驿旧庙暗室中留下的最终证据。"
+  }
+]

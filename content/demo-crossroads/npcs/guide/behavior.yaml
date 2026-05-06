@@ -1,0 +1,14 @@
+schedule:
+  - id: guide_schedule_morning
+    segment: morning
+    location: loc_crossroads
+    activity: 擦拭雾灯铜镜
+  - id: guide_schedule_noon
+    segment: noon
+    location: loc_crossroads
+    activity: 检查路签绳结
+  - id: guide_schedule_night
+    segment: night
+    location: loc_crossroads
+    activity: 守着点亮的雾灯
+behaviorRules: []

@@ -1,0 +1,144 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_town_gate",
+      "activity": "inspect_gate"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_market",
+      "activity": "patrol_market",
+      "conditions": {
+        "all": [
+          {
+            "fact": "location.loc_market.state.conflict_level",
+            "greater_than_or_equal": 20
+          }
+        ]
+      }
+    },
+    {
+      "segment": "night",
+      "location": "loc_town_gate",
+      "activity": "night_watch"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_lu_investigate_bandit",
+      "name": "调查盗匪内应",
+      "priority": 85,
+      "conditions": {
+        "all": [
+          {
+            "any": [
+              {
+                "fact": "variables.bandit_power",
+                "greater_than_or_equal": 60
+              },
+              {
+                "fact": "time.day",
+                "greater_than_or_equal": 14
+              }
+            ]
+          },
+          {
+            "fact": "facts.lu_started_investigation",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "lu_started_investigation",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_lu_investigates_traitor"
+        }
+      ]
+    },
+    {
+      "id": "rule_lu_question_wei",
+      "name": "真相推进后质疑镇长",
+      "priority": 75,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "greater_than_or_equal": 50
+          },
+          {
+            "fact": "facts.lu_questioned_wei",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "lu_questioned_wei",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_lu_questions_mayor"
+        }
+      ]
+    },
+    {
+      "id": "rule_lu_patrol_market",
+      "name": "集市冲突升高时巡逻",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "location.loc_market.state.conflict_level",
+            "greater_than_or_equal": 30
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "move_npc",
+          "npcId": "npc_lu_huaishan",
+          "locationId": "loc_market"
+        },
+        {
+          "type": "change_variable",
+          "key": "town_order",
+          "delta": 3
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "协助巡逻",
+    "报告盗匪线索",
+    "隐瞒赵三娘情报",
+    "与陆怀山查旧案",
+    "帮他埋伏盗匪"
+  ],
+  "keyEvents": [
+    "event_merchant_route_attacked",
+    "event_lu_investigates_traitor",
+    "event_lu_questions_mayor",
+    "event_gate_defense",
+    "event_lu_final_stand"
+  ],
+  "possibleFates": [
+    "成功守镇",
+    "调查受阻",
+    "战死镇门",
+    "反目"
+  ],
+  "endingImpact": [
+    "存活且信任高增强青岚得存和真相昭雪",
+    "死亡会推高匪火入镇风险",
+    "完成内应调查可降低 bandit_power"
+  ]
+}

@@ -1,0 +1,34 @@
+- id: conversation_signal_briefing
+  npcId: npc_guide
+  title: 询问雾灯
+  entryNodeId: node_entry
+  priority: 5
+  nodes:
+    - id: node_entry
+      speaker: npc_guide
+      text: 雾从南坡上来了。若灯镜再暗一点，夜里的人就会把旧矿路当成官道。
+      replies:
+        - id: reply_ask_signal
+          text: 我能帮你先看哪里？
+          nextNodeId: node_signal
+        - id: reply_leave
+          text: 我先看看路口。
+          endConversation: true
+    - id: node_signal
+      speaker: npc_guide
+      text: 先擦铜镜，再把灯芯升半寸。若还有余力，就把备用路签挂到北侧木桩上。
+      replies:
+        - id: reply_take_note
+          text: 我记下了。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: guide_briefed
+              value: true
+            - type: start_quest
+              questId: quest_mark_safe_path
+            - type: change_relationship
+              source: player
+              target: npc_guide
+              path: trust
+              delta: 5

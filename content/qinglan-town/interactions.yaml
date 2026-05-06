@@ -1,0 +1,1042 @@
+- id: interaction_ask_gate_news
+  name: 打听山路消息
+  description: 向镇门巡守打听商路、流民和黑岭盗的消息。
+  type: environment
+  targetType: location
+  targetId: loc_town_gate
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: npc.npc_lu_huaishan.state.alive
+        equals: true
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_lu_bandit_warning
+    - type: change_relationship
+      source: player
+      target: npc_lu_huaishan
+      path: trust
+      delta: 3
+    - type: change_variable
+      key: truth_progress
+      delta: 1
+- id: interaction_help_refugees_gate
+  name: 协助查验流民
+  description: 在镇门帮忙安置流民，短期稳定秩序。
+  type: environment
+  targetType: location
+  targetId: loc_town_gate
+  cost:
+    actionPoints: 1
+    stamina: 8
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 8
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -8
+    - type: change_variable
+      key: town_order
+      delta: 3
+    - type: change_variable
+      key: refugee_pressure
+      delta: -5
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 4
+    - type: add_fact
+      key: player_helped_refugees
+      value: true
+- id: interaction_patrol_with_lu
+  name: 协助巡逻
+  description: 陪陆怀山巡门半日，提高巡守力量。
+  type: environment
+  targetType: npc
+  targetId: npc_lu_huaishan
+  cost:
+    actionPoints: 1
+    stamina: 10
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 10
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -10
+    - type: change_variable
+      key: guard_power
+      delta: 4
+    - type: change_variable
+      key: town_order
+      delta: 2
+    - type: change_relationship
+      source: player
+      target: npc_lu_huaishan
+      path: trust
+      delta: 6
+- id: interaction_guard_route
+  name: 护送商路
+  description: 前往山路护送商旅，尝试压制黑岭盗。
+  type: combat
+  targetType: location
+  targetId: loc_town_gate
+  cost:
+    actionPoints: 2
+    stamina: 15
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 15
+  enemyCombat: 45
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -15
+  victoryEffects:
+    - type: change_variable
+      key: bandit_power
+      delta: -8
+    - type: change_variable
+      key: merchant_route_safety
+      delta: 8
+    - type: change_relationship
+      source: player
+      target: npc_lu_huaishan
+      path: trust
+      delta: 6
+    - type: add_fact
+      key: player_helped_track_bandits
+      value: true
+- id: interaction_buy_food
+  name: 购买米粮
+  description: 在罗家米铺购买米粮。
+  type: environment
+  targetType: building
+  targetId: building_rice_shop
+  cost:
+    actionPoints: 1
+    money: 10
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 10
+  environmentType: gather
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -10
+    - type: add_item
+      itemId: item_food
+      count: 1
+    - type: change_relationship
+      source: player
+      target: npc_luo_shoucang
+      path: trust
+      delta: 1
+- id: interaction_gather_market_rumors
+  name: 打听集市传闻
+  description: 在摊贩间打听粮价、商路和镇民恐慌。
+  type: environment
+  targetType: location
+  targetId: loc_market
+  cost:
+    actionPoints: 1
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: market_rumor_heard
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 1
+    - type: change_relationship
+      source: player
+      target: npc_zhao_sanniang
+      path: trust
+      delta: 1
+- id: interaction_investigate_grain
+  name: 调查米粮去向
+  description: 追查罗家米铺是否暗中囤粮。
+  type: environment
+  targetType: building
+  targetId: building_rice_shop
+  cost:
+    actionPoints: 1
+    stamina: 6
+  conditions:
+    all:
+      - fact: facts.grain_shortage_rumor_happened
+        equals: true
+      - fact: player.state.stamina
+        greater_than_or_equal: 6
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -6
+    - type: add_fact
+      key: luo_hidden_grain_found
+      value: true
+    - type: trigger_event
+      eventId: event_luo_hidden_grain_found
+- id: interaction_persuade_luo_release_grain
+  name: 说服平价放粮
+  description: 用谈判说服罗守仓低价放出一部分米粮。
+  type: environment
+  targetType: npc
+  targetId: npc_luo_shoucang
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - any:
+          - fact: facts.luo_is_hiding_grain
+            equals: true
+          - fact: facts.luo_hidden_grain_found
+            equals: true
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: shen_help_request_seen
+      value: true
+    - type: change_variable
+      key: food_price
+      delta: -20
+    - type: change_variable
+      key: refugee_pressure
+      delta: -8
+    - type: change_variable
+      key: town_order
+      delta: 4
+    - type: change_relationship
+      source: player
+      target: npc_luo_shoucang
+      path: trust
+      delta: 8
+    - type: add_fact
+      key: luo_released_grain
+      value: true
+- id: interaction_expose_hidden_grain
+  name: 揭露囤粮
+  description: 公开罗守仓的暗仓，压低粮价但引发短期混乱。
+  type: environment
+  targetType: building
+  targetId: building_rice_shop
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.luo_hidden_grain_found
+        equals: true
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: luo_hidden_grain_exposed
+      value: true
+    - type: change_variable
+      key: food_price
+      delta: -25
+    - type: change_variable
+      key: town_order
+      delta: -8
+    - type: change_location_state
+      locationId: loc_market
+      path: conflict_level
+      delta: 15
+    - type: change_relationship
+      source: player
+      target: npc_luo_shoucang
+      path: suspicion
+      delta: 20
+- id: interaction_help_xiao_wan
+  name: 救助小宛
+  description: 给小宛食物，并替她在民居区找一个暂住处。
+  type: environment
+  targetType: npc
+  targetId: npc_xiao_wan
+  cost:
+    actionPoints: 1
+    money: 5
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 5
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -5
+    - type: change_relationship
+      source: player
+      target: npc_xiao_wan
+      path: trust
+      delta: 12
+    - type: change_variable
+      key: refugee_pressure
+      delta: -5
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 6
+    - type: add_fact
+      key: xiao_wan_helped
+      value: true
+    - type: add_fact
+      key: player_helped_refugees
+      value: true
+- id: interaction_buy_medicine
+  name: 购买成药
+  description: 从药柜购买一包成药。
+  type: environment
+  targetType: building
+  targetId: building_herb_counter
+  cost:
+    actionPoints: 1
+    money: 12
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 12
+      - fact: variables.herb_stock
+        greater_than_or_equal: 5
+  environmentType: gather
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -12
+    - type: change_variable
+      key: herb_stock
+      delta: -5
+    - type: add_item
+      itemId: item_medicine
+      count: 1
+- id: interaction_treat_patients
+  name: 帮忙诊治病人
+  description: 在问诊间协助沈青禾诊治第一批和后续病人。
+  type: environment
+  targetType: building
+  targetId: building_consulting_room
+  cost:
+    actionPoints: 1
+    stamina: 10
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 10
+      - fact: variables.herb_stock
+        greater_than_or_equal: 5
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -10
+    - type: change_variable
+      key: plague_level
+      delta: -6
+    - type: change_variable
+      key: herb_stock
+      delta: -5
+    - type: change_relationship
+      source: player
+      target: npc_shen_qinghe
+      path: trust
+      delta: 8
+    - type: change_relationship
+      source: player
+      target: npc_old_doctor
+      path: trust
+      delta: 5
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 4
+    - type: add_fact
+      key: player_helped_first_patient
+      value: true
+- id: interaction_boil_medicine
+  name: 帮忙熬药
+  description: 疫病加重后在药铺熬药，减轻药铺压力。
+  type: environment
+  targetType: building
+  targetId: building_consulting_room
+  cost:
+    actionPoints: 1
+    stamina: 8
+  conditions:
+    all:
+      - fact: variables.plague_level
+        greater_than_or_equal: 30
+      - fact: player.state.stamina
+        greater_than_or_equal: 8
+      - fact: variables.herb_stock
+        greater_than_or_equal: 3
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -8
+    - type: change_variable
+      key: plague_level
+      delta: -3
+    - type: change_variable
+      key: herb_stock
+      delta: -3
+    - type: change_relationship
+      source: player
+      target: npc_shen_qinghe
+      path: trust
+      delta: 5
+- id: interaction_investigate_medicine_source
+  name: 调查药材来源
+  description: 查看药铺后院与草药筐，追查药材短缺和病源。
+  type: environment
+  targetType: building
+  targetId: building_back_yard
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.shen_hidden_herb_note_found
+        not_equals: true
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: asked_about_herbs
+      value: true
+    - type: add_fact
+      key: shen_hidden_herb_note_found
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+- id: interaction_ask_old_doctor_note
+  name: 请教旧庙草药
+  description: 请老药师说明旧庙草药残页的来历。
+  type: environment
+  targetType: npc
+  targetId: npc_old_doctor
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: relationship.player.npc_shen_qinghe.trust
+        greater_than_or_equal: 25
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_old_doctor_note
+    - type: add_fact
+      key: old_doctor_revealed_note
+      value: true
+    - type: add_fact
+      key: shen_hidden_herb_note_found
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 6
+- id: interaction_gather_tavern_rumors
+  name: 打听酒肆传闻
+  description: 向赵三娘和酒客打听商路、旧庙火案与镇中暗流。
+  type: environment
+  targetType: location
+  targetId: loc_tavern
+  cost:
+    actionPoints: 1
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_zhao_old_case
+    - type: add_fact
+      key: old_case_rumor_heard
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+    - type: change_relationship
+      source: player
+      target: npc_zhao_sanniang
+      path: trust
+      delta: 3
+- id: interaction_buy_bandit_info
+  name: 购买盗匪情报
+  description: 付钱让赵三娘指出黑岭盗与旧庙之间的暗线。
+  type: environment
+  targetType: building
+  targetId: building_tavern_backroom
+  cost:
+    actionPoints: 1
+    money: 15
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 15
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -15
+    - type: start_conversation
+      conversationId: conversation_zhao_bandit_info
+    - type: add_fact
+      key: zhao_sold_bandit_info
+      value: true
+    - type: add_fact
+      key: zhao_sold_old_temple_clue
+      value: true
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+- id: interaction_backroom_meeting
+  name: 夜间密谈
+  description: 夜里进入酒肆后堂，与赵三娘交换更危险的消息。
+  type: environment
+  targetType: building
+  targetId: building_tavern_backroom
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: time.segment
+        equals: night
+      - fact: relationship.player.npc_zhao_sanniang.trust
+        greater_than_or_equal: 20
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: tavern_backroom_unlocked
+      value: true
+    - type: trigger_event
+      eventId: event_tavern_backroom_meeting
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+- id: interaction_share_clues_with_xu
+  name: 与许闻舟交换线索
+  description: 与外来书生互换残信、旧档和酒肆传闻。
+  type: environment
+  targetType: npc
+  targetId: npc_xu_wenzhou
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.xu_showed_letter
+        not_equals: true
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_xu_letter
+    - type: change_relationship
+      source: player
+      target: npc_xu_wenzhou
+      path: trust
+      delta: 8
+    - type: change_variable
+      key: truth_progress
+      delta: 6
+- id: interaction_worship
+  name: 祭拜整理祠堂
+  description: 在祠堂祭拜并帮老祠祝整理香案。
+  type: environment
+  targetType: building
+  targetId: building_memorial_hall
+  cost:
+    actionPoints: 1
+  environmentType: search
+  effects:
+    - type: change_relationship
+      source: player
+      target: npc_old_ritualist
+      path: trust
+      delta: 8
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 2
+- id: interaction_ask_old_case
+  name: 询问旧庙火案
+  description: 向老祠祝或魏长庚试探旧案。
+  type: environment
+  targetType: location
+  targetId: loc_ancestral_hall
+  cost:
+    actionPoints: 1
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_ritualist_records
+    - type: add_fact
+      key: old_case_rumor_heard
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+- id: interaction_unlock_records
+  name: 请求开启旧档房
+  description: 说服老祠祝或借陆怀山支持打开祠堂旧档房。
+  type: environment
+  targetType: building
+  targetId: building_record_room
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - any:
+          - fact: relationship.player.npc_old_ritualist.trust
+            greater_than_or_equal: 20
+          - fact: relationship.player.npc_lu_huaishan.trust
+            greater_than_or_equal: 30
+  environmentType: search
+  effects:
+    - type: change_location_state
+      locationId: loc_ancestral_hall
+      path: record_locked
+      value: false
+    - type: change_building_state
+      buildingId: building_record_room
+      path: locked
+      value: false
+    - type: add_fact
+      key: record_room_unlocked
+      value: true
+    - type: trigger_event
+      eventId: event_record_room_unlocked
+- id: interaction_investigate_records
+  name: 调查旧案记录
+  description: 查阅旧档房，寻找火案缺页和旧庙名册。
+  type: environment
+  targetType: building
+  targetId: building_record_room
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: location.loc_ancestral_hall.state.record_locked
+        equals: false
+      - fact: facts.old_case_record_found
+        not_equals: true
+  environmentType: search
+  effects:
+    - type: add_fact
+      key: old_case_record_found
+      value: true
+    - type: add_item
+      itemId: item_old_case_record
+      count: 1
+    - type: change_variable
+      key: truth_progress
+      delta: 18
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+- id: interaction_confront_wei
+  name: 质问魏长庚
+  description: 当面追问魏长庚为何压下旧案记录。
+  type: environment
+  targetType: npc
+  targetId: npc_wei_changgeng
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: variables.truth_progress
+        greater_than_or_equal: 40
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_wei_suppress_truth
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+    - type: change_variable
+      key: town_order
+      delta: -3
+    - type: change_relationship
+      source: player
+      target: npc_wei_changgeng
+      path: suspicion
+      delta: 15
+- id: interaction_deal_with_wei
+  name: 与镇长交易
+  description: 用沉默换取药、粮、巡守或通行便利。
+  type: environment
+  targetType: npc
+  targetId: npc_wei_changgeng
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.wei_offered_deal
+        equals: true
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_wei_deal
+    - type: add_fact
+      key: player_helped_wei_suppress_truth
+      value: true
+    - type: change_variable
+      key: town_order
+      delta: 8
+    - type: change_variable
+      key: truth_progress
+      delta: -10
+    - type: change_relationship
+      source: player
+      target: npc_wei_changgeng
+      path: trust
+      delta: 12
+- id: interaction_visit_households
+  name: 探访病户
+  description: 走访民居区病户，确认疫病扩散情况。
+  type: environment
+  targetType: building
+  targetId: building_common_house
+  cost:
+    actionPoints: 1
+    stamina: 6
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 6
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -6
+    - type: change_variable
+      key: plague_level
+      delta: -2
+    - type: change_variable
+      key: town_fear
+      delta: -2
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 3
+- id: interaction_help_family
+  name: 救助民居与流民
+  description: 分出粮食和药材，帮助民居区和流民棚。
+  type: environment
+  targetType: building
+  targetId: building_refugee_shed
+  cost:
+    actionPoints: 1
+    money: 8
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 8
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -8
+    - type: change_variable
+      key: refugee_pressure
+      delta: -8
+    - type: change_variable
+      key: town_fear
+      delta: -4
+    - type: change_player_attribute
+      attribute: reputation
+      delta: 6
+    - type: add_fact
+      key: player_helped_refugees
+      value: true
+- id: interaction_check_infected_house
+  name: 排查染病住户
+  description: 逐户确认病情，找出疫病扩散路径。
+  type: environment
+  targetType: building
+  targetId: building_common_house
+  cost:
+    actionPoints: 1
+    stamina: 8
+  conditions:
+    all:
+      - fact: variables.plague_level
+        greater_than_or_equal: 20
+      - fact: player.state.stamina
+        greater_than_or_equal: 8
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -8
+    - type: change_variable
+      key: plague_level
+      delta: -4
+    - type: add_fact
+      key: infected_households_checked
+      value: true
+    - type: change_relationship
+      source: player
+      target: npc_shen_qinghe
+      path: trust
+      delta: 4
+- id: interaction_collect_herbs
+  name: 上山采药
+  description: 在青岚山林采集药材，可能发现病源线索。
+  type: environment
+  targetType: building
+  targetId: building_herb_slope
+  cost:
+    actionPoints: 2
+    stamina: 14
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 14
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -14
+    - type: change_variable
+      key: herb_stock
+      delta: 18
+    - type: change_location_state
+      locationId: loc_forest
+      path: herb_resource
+      delta: -12
+    - type: add_fact
+      key: forest_sick_herb_found
+      value: true
+    - type: trigger_event
+      eventId: event_plague_origin_found
+- id: interaction_track_bandits_forest
+  name: 追踪盗匪踪迹
+  description: 在山林追踪黑岭盗，寻找他们通向旧庙的路径。
+  type: environment
+  targetType: building
+  targetId: building_forest_path
+  cost:
+    actionPoints: 2
+    stamina: 12
+  conditions:
+    all:
+      - fact: player.state.stamina
+        greater_than_or_equal: 12
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -12
+    - type: add_fact
+      key: player_tracked_bandit_to_old_temple
+      value: true
+    - type: change_variable
+      key: bandit_power
+      delta: -5
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: trigger_event
+      eventId: event_bandit_trace_found
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+- id: interaction_search_shen
+  name: 寻找沈青禾
+  description: 沈青禾独自上山后，进入山林寻找并护送她返回。
+  type: environment
+  targetType: location
+  targetId: loc_forest
+  cost:
+    actionPoints: 2
+    stamina: 12
+  conditions:
+    all:
+      - fact: facts.shen_collected_herbs
+        equals: true
+      - fact: facts.shen_rescued_from_forest
+        not_equals: true
+      - fact: player.state.stamina
+        greater_than_or_equal: 12
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -12
+    - type: add_fact
+      key: shen_rescued_from_forest
+      value: true
+    - type: move_npc
+      npcId: npc_shen_qinghe
+      locationId: loc_herb_shop
+    - type: change_npc_state
+      npcId: npc_shen_qinghe
+      path: missing
+      value: false
+    - type: change_variable
+      key: herb_stock
+      delta: 20
+    - type: change_relationship
+      source: player
+      target: npc_shen_qinghe
+      path: trust
+      delta: 15
+- id: interaction_search_old_temple
+  name: 搜查旧庙
+  description: 在破驿旧庙寻找火案遗痕、药草痕迹和盗匪线索。
+  type: environment
+  targetType: building
+  targetId: building_ruined_temple
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.old_temple_discovered
+        equals: true
+      - fact: facts.old_temple_searched
+        not_equals: true
+  environmentType: search
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 10
+    - type: add_fact
+      key: old_temple_searched
+      value: true
+    - type: add_fact
+      key: old_temple_cellar_found
+      value: true
+    - type: change_location_state
+      locationId: loc_old_temple
+      path: cellar_open
+      value: true
+    - type: trigger_event
+      eventId: event_plague_origin_found
+- id: interaction_enter_hidden_cellar
+  name: 进入地下暗室
+  description: 进入旧庙暗室，寻找旧案与疫病真因的最终证据。
+  type: environment
+  targetType: building
+  targetId: building_hidden_cellar
+  cost:
+    actionPoints: 2
+    stamina: 8
+  conditions:
+    all:
+      - fact: facts.old_temple_discovered
+        equals: true
+      - fact: facts.old_temple_cellar_found
+        equals: true
+      - fact: facts.old_temple_evidence_found
+        not_equals: true
+      - fact: player.state.stamina
+        greater_than_or_equal: 8
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -8
+    - type: add_fact
+      key: old_temple_evidence_found
+      value: true
+    - type: add_fact
+      key: old_case_record_found
+      value: true
+    - type: add_item
+      itemId: item_cellar_evidence
+      count: 1
+    - type: change_variable
+      key: truth_progress
+      delta: 25
+    - type: trigger_event
+      eventId: event_han_old_temple_confrontation
+    - type: trigger_event
+      eventId: event_wei_final_confrontation
+- id: interaction_ambush_bandits_old_temple
+  name: 旧庙埋伏盗匪
+  description: 与陆怀山或独自设伏，削弱黑岭盗。
+  type: combat
+  targetType: building
+  targetId: building_ruined_temple
+  cost:
+    actionPoints: 2
+    stamina: 15
+  conditions:
+    all:
+      - fact: facts.old_temple_discovered
+        equals: true
+      - fact: player.state.stamina
+        greater_than_or_equal: 15
+  enemyCombat: 60
+  effects:
+    - type: change_player_attribute
+      attribute: stamina
+      delta: -15
+    - type: add_fact
+      key: player_used_violence
+      value: true
+  victoryEffects:
+    - type: change_variable
+      key: bandit_power
+      delta: -25
+    - type: change_variable
+      key: guard_power
+      delta: 5
+    - type: change_npc_state
+      npcId: npc_han_jin
+      path: defeated
+      value: true
+    - type: start_conversation
+      conversationId: conversation_han_defeated
+- id: interaction_negotiate_han
+  name: 与韩烬谈判
+  description: 尝试用旧庙证据或镇中情报与韩烬交易。
+  type: environment
+  targetType: npc
+  targetId: npc_han_jin
+  cost:
+    actionPoints: 1
+  conditions:
+    all:
+      - fact: facts.old_temple_discovered
+        equals: true
+  environmentType: search
+  effects:
+    - type: start_conversation
+      conversationId: conversation_han_deal
+    - type: add_fact
+      key: player_made_deal_with_han_jin
+      value: true
+    - type: change_variable
+      key: bandit_power
+      delta: -10
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: change_relationship
+      source: player
+      target: npc_han_jin
+      path: trust
+      delta: 25
+- id: interaction_repair_tools
+  name: 修补农具与刀具
+  description: 在铁匠铺修补工具，为巡守或民居区提供支援。
+  type: environment
+  targetType: building
+  targetId: building_blacksmith
+  cost:
+    actionPoints: 1
+    money: 6
+  conditions:
+    all:
+      - fact: player.state.money
+        greater_than_or_equal: 6
+  environmentType: search
+  effects:
+    - type: change_player_attribute
+      attribute: money
+      delta: -6
+    - type: change_variable
+      key: guard_power
+      delta: 2
+    - type: change_variable
+      key: town_order
+      delta: 1

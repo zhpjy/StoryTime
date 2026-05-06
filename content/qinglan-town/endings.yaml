@@ -1,0 +1,299 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+[
+  {
+    "id": "ending_secret_pact",
+    "name": "暗约成局",
+    "priority": 120,
+    "conditions": {
+      "any": [
+        {
+          "all": [
+            {
+              "fact": "facts.player_made_deal_with_han_jin",
+              "equals": true
+            },
+            {
+              "fact": "variables.bandit_power",
+              "greater_than_or_equal": 60
+            }
+          ]
+        },
+        {
+          "all": [
+            {
+              "fact": "facts.player_helped_wei_suppress_truth",
+              "equals": true
+            },
+            {
+              "fact": "variables.truth_progress",
+              "less_than": 80
+            }
+          ]
+        }
+      ]
+    },
+    "summary": "青岚镇没有毁灭，却也没有真正得救。某些真相被继续压下，某些人被牺牲，某些交易在夜色中完成。",
+    "causalChainRules": [
+      {
+        "fact": "player_made_deal_with_han_jin",
+        "text": "你与韩烬达成过交易，黑岭盗没有立刻把刀伸进镇门。"
+      },
+      {
+        "fact": "player_helped_wei_suppress_truth",
+        "text": "你帮助魏长庚压下旧案，用沉默换取表面秩序。"
+      },
+      {
+        "fact": "player_made_grain_bargain",
+        "text": "你把罗守仓的囤粮当作交易筹码，而非公开真相。"
+      }
+    ]
+  },
+  {
+    "id": "ending_truth_revealed",
+    "name": "真相昭雪",
+    "priority": 110,
+    "conditions": {
+      "all": [
+        {
+          "fact": "variables.truth_progress",
+          "greater_than_or_equal": 80
+        },
+        {
+          "fact": "npc.npc_lu_huaishan.state.alive",
+          "equals": true
+        },
+        {
+          "fact": "facts.old_case_record_found",
+          "equals": true
+        }
+      ]
+    },
+    "summary": "旧庙火案的真相终于被揭开。魏长庚多年隐藏的证词重见天日，青岚镇失去了一位镇长，却找回了迟来的公道。",
+    "causalChainRules": [
+      {
+        "fact": "old_case_rumor_heard",
+        "text": "你在酒肆或祠堂听到了旧庙火案的传闻。"
+      },
+      {
+        "fact": "old_case_record_found",
+        "text": "你找到了旧案残档，让缺页背后的旧事无法继续沉默。"
+      },
+      {
+        "fact": "old_temple_evidence_found",
+        "text": "旧庙暗室中的证据让魏长庚再也无法回避。"
+      },
+      {
+        "variable": "truth_progress",
+        "operator": "greater_than_or_equal",
+        "value": 80,
+        "text": "真相线索被逐步拼合，旧案最终无法再被压下。"
+      }
+    ]
+  },
+  {
+    "id": "ending_bandit_takeover",
+    "name": "匪火入镇",
+    "priority": 100,
+    "conditions": {
+      "all": [
+        {
+          "fact": "variables.bandit_power",
+          "greater_than_or_equal": 80
+        },
+        {
+          "fact": "variables.guard_power",
+          "less_than_or_equal": 40
+        }
+      ]
+    },
+    "summary": "黑岭盗趁夜入镇，巡守无力抵挡。青岚镇没有迎来审判旧案的那一天，只有火光照亮祠堂的牌位。",
+    "causalChainRules": [
+      {
+        "fact": "merchant_route_attack_reported",
+        "text": "商路遇袭后，黑岭盗的势力进一步扩张。"
+      },
+      {
+        "fact": "lu_started_investigation",
+        "text": "陆怀山曾试图追查内应，但巡守力量不足。"
+      },
+      {
+        "fact": "bandit_night_raid_happened",
+        "text": "最终，黑岭盗发动夜袭，青岚镇失守。"
+      }
+    ]
+  },
+  {
+    "id": "ending_empty_town",
+    "name": "空镇余烬",
+    "priority": 95,
+    "conditions": {
+      "all": [
+        {
+          "fact": "variables.plague_level",
+          "greater_than_or_equal": 75
+        },
+        {
+          "fact": "variables.town_fear",
+          "greater_than_or_equal": 70
+        }
+      ]
+    },
+    "summary": "青岚镇没有在一夜之间毁灭，而是在一天天的病痛、恐惧和逃离中空了。",
+    "causalChainRules": [
+      {
+        "fact": "first_patient_event_happened",
+        "text": "第 3 天，第一批病人来到药铺。"
+      },
+      {
+        "fact": "shen_collected_herbs",
+        "text": "沈青禾曾独自上山采药，说明药铺已经无力支撑。"
+      },
+      {
+        "fact": "shen_missing",
+        "text": "沈青禾没有及时返回，药铺治疗能力下降。"
+      },
+      {
+        "variable": "plague_level",
+        "operator": "greater_than_or_equal",
+        "value": 75,
+        "text": "疫病长期失控，镇民开始逃离。"
+      }
+    ]
+  },
+  {
+    "id": "ending_blood_debt",
+    "name": "血债难消",
+    "priority": 90,
+    "conditions": {
+      "all": [
+        {
+          "fact": "facts.player_used_violence",
+          "equals": true
+        },
+        {
+          "fact": "variables.town_order",
+          "less_than_or_equal": 45
+        }
+      ]
+    },
+    "summary": "许多麻烦被你用刀解决，但刀不能缝合人心。镇中人看你的眼神也变了。",
+    "causalChainRules": [
+      {
+        "fact": "player_used_violence",
+        "text": "你多次使用武力解决青岚镇的矛盾。"
+      },
+      {
+        "variable": "town_order",
+        "operator": "less_than_or_equal",
+        "value": 45,
+        "text": "秩序没有因暴力恢复，反而被不断削弱。"
+      }
+    ]
+  },
+  {
+    "id": "ending_benevolent_name",
+    "name": "仁名远播",
+    "priority": 85,
+    "conditions": {
+      "all": [
+        {
+          "fact": "player.state.reputation",
+          "greater_than_or_equal": 80
+        },
+        {
+          "fact": "variables.town_fear",
+          "less_than_or_equal": 50
+        },
+        {
+          "fact": "facts.player_helped_refugees",
+          "equals": true
+        }
+      ]
+    },
+    "summary": "玩家未必解开所有秘密，也未必击败所有敌人，但许多人记住了玩家伸出的手。",
+    "causalChainRules": [
+      {
+        "fact": "player_helped_first_patient",
+        "text": "你在第一批病人出现时伸手帮忙。"
+      },
+      {
+        "fact": "player_helped_refugees",
+        "text": "你没有把流民只当作麻烦，而是分出粮食和住处。"
+      },
+      {
+        "fact": "xiao_wan_helped",
+        "text": "小宛记住了你给过她的食物和庇护。"
+      }
+    ]
+  },
+  {
+    "id": "ending_qinglan_saved",
+    "name": "青岚得存",
+    "priority": 80,
+    "conditions": {
+      "all": [
+        {
+          "fact": "variables.plague_level",
+          "less_than_or_equal": 40
+        },
+        {
+          "fact": "variables.bandit_power",
+          "less_than_or_equal": 50
+        },
+        {
+          "fact": "variables.town_order",
+          "greater_than_or_equal": 50
+        }
+      ]
+    },
+    "summary": "青岚镇虽历经疫病、粮价、匪患与旧案风波，却终究没有崩溃。药铺重新开门，镇门外又有商旅往来。",
+    "causalChainRules": [
+      {
+        "fact": "player_helped_first_patient",
+        "text": "你在第一批病人出现时协助药铺。"
+      },
+      {
+        "fact": "shen_rescued_from_forest",
+        "text": "你及时阻止沈青禾独自冒险变成悲剧。"
+      },
+      {
+        "fact": "player_helped_track_bandits",
+        "text": "商路遇袭后，你协助陆怀山追查盗匪。"
+      },
+      {
+        "variable": "town_order",
+        "operator": "greater_than_or_equal",
+        "value": 50,
+        "text": "青岚镇保住了最艰难的三十天。"
+      }
+    ]
+  },
+  {
+    "id": "ending_lone_departure",
+    "name": "孤身远行",
+    "priority": 10,
+    "conditions": {
+      "all": [
+        {
+          "fact": "time.day",
+          "greater_than_or_equal": 1
+        }
+      ]
+    },
+    "summary": "三十天过去，青岚镇仍在风雨里。你带着一些人的感谢、一些人的怨恨和更多未解之事，离开了镇门。",
+    "causalChainRules": [
+      {
+        "fact": "player_arrived_qinglan",
+        "text": "第 1 天晨，你来到青岚镇。"
+      },
+      {
+        "fact": "old_case_rumor_heard",
+        "text": "你曾听见旧案传闻，但并未让它完全昭雪。"
+      },
+      {
+        "fact": "xiao_wan_helped",
+        "text": "小宛曾因你获得一线安稳。"
+      }
+    ]
+  }
+]

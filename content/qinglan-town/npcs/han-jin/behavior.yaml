@@ -1,0 +1,158 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_forest",
+      "activity": "hide_camp"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_forest",
+      "activity": "send_scouts"
+    },
+    {
+      "segment": "night",
+      "location": "loc_old_temple",
+      "activity": "search_cellar",
+      "conditions": {
+        "all": [
+          {
+            "fact": "facts.old_temple_discovered",
+            "equals": true
+          }
+        ]
+      }
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_han_night_raid",
+      "name": "夜袭青岚镇",
+      "priority": 95,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.bandit_power",
+            "greater_than_or_equal": 80
+          },
+          {
+            "fact": "variables.guard_power",
+            "less_than_or_equal": 40
+          },
+          {
+            "fact": "facts.bandit_night_raid_happened",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "bandit_night_raid_happened",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_bandit_night_raid"
+        }
+      ]
+    },
+    {
+      "id": "rule_han_demands_supplies",
+      "name": "索要物资",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.bandit_power",
+            "greater_than_or_equal": 70
+          },
+          {
+            "fact": "facts.han_demands_supplies",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "han_demands_supplies",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_han_demands_supplies"
+        }
+      ]
+    },
+    {
+      "id": "rule_han_attack_route",
+      "name": "袭击商路",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "time.day",
+            "greater_than_or_equal": 5
+          },
+          {
+            "fact": "variables.bandit_power",
+            "greater_than_or_equal": 50
+          },
+          {
+            "fact": "facts.bandit_attacked_route",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "bandit_attacked_route",
+          "value": true
+        },
+        {
+          "type": "change_variable",
+          "key": "merchant_route_safety",
+          "delta": -20
+        },
+        {
+          "type": "change_variable",
+          "key": "herb_stock",
+          "delta": -10
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_merchant_route_attacked"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "追踪盗匪",
+    "正面战斗",
+    "埋伏山路",
+    "与韩烬谈判",
+    "出卖镇中信息",
+    "救出被劫 NPC"
+  ],
+  "keyEvents": [
+    "event_merchant_route_attacked",
+    "event_bandit_trace_found",
+    "event_han_demands_supplies",
+    "event_bandit_night_raid",
+    "event_han_old_temple_confrontation"
+  ],
+  "possibleFates": [
+    "被击退",
+    "被杀",
+    "达成暗约",
+    "攻入青岚镇"
+  ],
+  "endingImpact": [
+    "bandit_power 高会触发匪火入镇",
+    "韩烬提供旧庙线索可推进真相",
+    "与玩家结盟会导向暗约成局"
+  ]
+}

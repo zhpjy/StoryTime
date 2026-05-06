@@ -1,0 +1,48 @@
+# 内容包与世界基础设定。此文件是内容包入口，合并了原 story.yaml 与 world.yaml。
+# 读取逻辑会先发现包含 world.yaml 的目录，再加载同目录下其他 YAML。
+
+# gameTitle: 游戏或内容包在客户端、编辑器、导出清单中显示的标题。
+gameTitle: "示例故事标题"
+
+# packId: 内容包唯一 ID。建议使用小写英文、数字和下划线；存档会按此 ID 绑定内容包。
+packId: "sample_story_pack"
+
+# version: 内容包版本号。内容变更后递增，便于存档兼容和发布追踪。
+version: "0.1.0"
+
+# schemaVersion: 内容数据结构版本。应与当前项目支持的 schema 保持一致。
+schemaVersion: "1.0.0"
+
+# id: 世界唯一 ID，可被工具链追踪；建议以 world_ 开头。
+id: "world_sample"
+
+# name: 世界名称，显示在编辑器、日志和内容包清单中。
+name: "示例世界"
+
+# summary: 一句话说明题材、核心冲突、时间压力和玩家能改变的命运。
+summary: "在限定天数内，玩家介入多个互相牵连的危机并决定故事走向。"
+
+# editorBackground: 给故事编辑者看的世界背景解释。应覆盖时代/时间范围、地理范围、社会秩序、
+# 势力结构、民俗规则、是否存在神话/妖异/法术/鬼神/超自然力量、叙事基调、
+# 允许出现的内容边界和禁止突破的设定边界。用于生成和审核，不直接作为玩家开场文案。
+editorBackground: >
+  这是给故事编辑者和内容生成 Agent 使用的世界背景说明。请在这里写清故事发生的时代或时间范围、
+  地理范围、社会秩序、势力结构、民俗规则、超自然边界、整体风格、允许内容和禁止突破的设定边界。
+
+# playerIntroduction: 玩家刚进入游戏时看到的世界介绍。应比 editorBackground 更短、更有沉浸感，
+# 只告诉玩家开局需要知道的局势、压力和可行动方向，不暴露隐藏真相。
+playerIntroduction: >
+  你来到这个被多重危机牵动的地方。传闻、利益和恐惧正在改变人们的选择，
+  而你的每一次行动都会让世界更接近某种结局。
+
+# maxDays: 最大天数。超过该天数或满足结局条件时，运行端会进入结局判断。
+maxDays: 14
+
+# segments: 每天包含的时段。当前项目支持 morning、noon、night。
+segments:
+  - "morning"
+  - "noon"
+  - "night"
+
+# actionPointsPerSegment: 每个时段可执行的行动点数，影响节奏和模拟深度。
+actionPointsPerSegment: 3

@@ -1,0 +1,134 @@
+.ui-card {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ui-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ui-card-title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.ui-card-content {
+  padding: 16px;
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  gap: 8px;
+  padding: 9px 14px;
+  color: var(--foreground);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  touch-action: manipulation;
+  background: transparent;
+  border: 1px solid var(--foreground);
+  border-radius: 6px;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.ui-button:hover {
+  color: var(--accent);
+  background: var(--muted);
+  border-color: var(--accent);
+}
+
+.ui-button.primary {
+  color: var(--accent-foreground);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.ui-button.primary:hover {
+  color: var(--accent-foreground);
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  box-shadow: var(--shadow-md);
+}
+
+.ui-button.secondary,
+.ui-button.outline {
+  color: var(--foreground);
+  background: transparent;
+  border-color: var(--foreground);
+}
+
+.ui-button.ghost {
+  color: var(--muted-foreground);
+  background: transparent;
+  border-color: transparent;
+}
+
+.ui-button.ghost:hover {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 4px;
+  background: transparent;
+}
+
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 3px 8px;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+  background: var(--muted);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+}
+
+.ui-badge.ok,
+.ui-badge.accepted {
+  color: var(--success);
+  border-color: rgb(47 111 78 / 0.45);
+}
+
+.ui-badge.warn,
+.ui-badge.needs_fix {
+  color: var(--warning);
+  border-color: rgb(154 100 24 / 0.45);
+}
+
+.ui-badge.reviewing {
+  color: var(--info);
+  border-color: rgb(49 95 122 / 0.45);
+}
+
+.ui-badge.locked {
+  color: var(--violet);
+  border-color: rgb(111 90 145 / 0.45);
+}
+
+.ui-badge.rejected,
+.ui-badge.danger {
+  color: var(--danger);
+  border-color: rgb(159 47 63 / 0.45);
+}
+
+.ui-badge.muted {
+  color: var(--muted-foreground);
+}

@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_lu_huaishan",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_wei_changgeng",
+      "value": 10,
+      "relationType": "tense_superior",
+      "reason": "表面上下级，实际互相防备。"
+    },
+    {
+      "targetId": "npc_shen_qinghe",
+      "value": 25,
+      "relationType": "respect",
+      "reason": "认可她救人之心。"
+    },
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": -5,
+      "relationType": "mutual_need",
+      "reason": "知道她消息灵通，但不信她。"
+    },
+    {
+      "targetId": "npc_han_jin",
+      "value": -80,
+      "relationType": "enemy",
+      "reason": "黑岭盗首领，主要敌人。"
+    }
+  ]
+}

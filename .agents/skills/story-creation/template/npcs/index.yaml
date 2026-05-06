@@ -1,0 +1,17 @@
+# NPC 索引。内容加载器会读取这里列出的 NPC 目录和文件。
+# 每个 NPC 目录必须包含 identity/background/attributes/relationships/behavior/conversations 六个 YAML。
+
+- # id: NPC 唯一 ID，应与该 NPC identity.yaml 中的 id 一致。
+  id: "npc_guide"
+  # name: NPC 展示名称，应与 identity.yaml 中的 name 一致。
+  name: "引导者"
+  # path: 相对内容包根目录的 NPC 文件夹路径。
+  path: "npcs/guide"
+  # files: 必填文件清单。加载器会检查每一项是否存在。
+  files:
+    - "identity.yaml"
+    - "background.yaml"
+    - "attributes.yaml"
+    - "relationships.yaml"
+    - "behavior.yaml"
+    - "conversations.yaml"

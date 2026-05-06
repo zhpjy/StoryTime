@@ -1,0 +1,7 @@
+interface:
+  display_name: "剧情创造"
+  short_description: "生成可校验的 StoryTime 剧情内容"
+  default_prompt: "Use $story-creation to create, review, or repair a StoryTime narrative content pack."
+
+policy:
+  allow_implicit_invocation: true

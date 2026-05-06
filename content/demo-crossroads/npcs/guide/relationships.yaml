@@ -1,0 +1,11 @@
+player:
+  sourceId: player
+  targetId: npc_guide
+  value: 5
+  trust: 10
+  fear: 0
+  gratitude: 0
+  suspicion: 5
+  tags:
+    - 初见
+npcRelationships: []

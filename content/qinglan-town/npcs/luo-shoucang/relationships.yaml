@@ -1,0 +1,33 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_luo_shoucang",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_xiao_wan",
+      "value": -10,
+      "relationType": "class_tension",
+      "reason": "认为流民会拖垮小镇。"
+    },
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": 10,
+      "relationType": "rumor_customer",
+      "reason": "常从酒肆听消息。"
+    },
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": 0,
+      "relationType": "needs_protection",
+      "reason": "需要巡守保护米铺。"
+    }
+  ]
+}

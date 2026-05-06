@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_zhao_sanniang",
+  "name": "赵三娘",
+  "age": 39,
+  "identity": "旧酒肆老板",
+  "tier": "core",
+  "faction": "faction_town_people",
+  "location": "loc_tavern"
+}

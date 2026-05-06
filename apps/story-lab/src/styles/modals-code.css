@@ -1,0 +1,40 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(26 26 26 / 0.45);
+}
+
+.prompt-modal {
+  width: min(920px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+}
+
+.preview-modal {
+  width: min(980px, 100%);
+  max-height: min(820px, calc(100vh - 48px));
+}
+
+.prompt-modal .ui-card,
+.preview-modal,
+.prompt-modal .ui-card-content {
+  max-height: inherit;
+}
+
+.prompt-modal .ui-card-content,
+.preview-modal .ui-card-content {
+  overflow: auto;
+}
+
+.code-block.highlighted {
+  max-height: min(620px, calc(100vh - 220px));
+}
+
+.syntax-key { color: #7b3f00; }
+.syntax-string { color: #236c3f; }
+.syntax-number { color: #7a4cc2; }
+.syntax-literal { color: #a33d3d; }
+.syntax-punctuation { color: #6d6257; }

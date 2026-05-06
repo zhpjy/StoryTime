@@ -1,0 +1,27 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_old_doctor",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_shen_qinghe",
+      "value": 80,
+      "relationType": "master_student",
+      "reason": "把沈青禾当作徒弟和家人。"
+    },
+    {
+      "targetId": "npc_wei_changgeng",
+      "value": -15,
+      "relationType": "old_fear",
+      "reason": "旧案后对镇长保持畏惧与不满。"
+    }
+  ]
+}

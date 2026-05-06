@@ -1,0 +1,21 @@
+# 世界变量列表。变量是事件、行动、NPC 行为和结局之间的主要因果桥梁。
+# 条件中通过 variables.<key> 读取，效果中通过 change_variable/set_variable 修改。
+
+- # key: 变量唯一键。建议使用小写英文和下划线，不要与其他变量重复。
+  key: "main_crisis_level"
+  # name: 给作者和玩家看的变量名称。
+  name: "主要危机程度"
+  # description: 说明变量影响哪些剧情线、事件和结局。
+  description: "影响危机事件、NPC 行为和相关结局阈值。"
+  # initialValue: 新游戏开始时的初始值。
+  initialValue: 20
+  # min/max: 建议范围，用于 UI 进度展示和设计边界；不是所有逻辑都会自动截断。
+  min: 0
+  max: 100
+
+- key: "truth_progress"
+  name: "真相进度"
+  description: "影响调查事件、关键对话和真相类结局。"
+  initialValue: 0
+  min: 0
+  max: 100

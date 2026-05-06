@@ -1,0 +1,37 @@
+# 玩家出身列表。每个出身决定初始属性、开场介绍和适合的解法。
+# 必须包含 backgroundSummary 与 intro 下的 title/story/origin/motivation。
+
+- # id: 出身唯一 ID，建议以 identity_ 开头。
+  id: "identity_investigator"
+  # name: 出身展示名称。
+  name: "调查者"
+  # description: 机制定位和适合处理的剧情线。
+  description: "擅长谈判与调查，适合推进真相线和人际线。"
+  # backgroundSummary: 出身选择界面的一句话背景，说明来历和入局动机。
+  backgroundSummary: "你因一条未解的线索来到此地，想在局势恶化前找到真相。"
+  # intro: 进入游戏后的开场介绍，属于内容资产，不应写入客户端代码。
+  intro:
+    # title: 开场弹窗标题，聚焦该出身的处境。
+    title: "线索的开端"
+    # story: 当前内容包的大背景，只写玩家开局需要知道的局势。
+    story: "这里正被多重危机牵动，传闻、利益和恐惧让真相变得模糊。"
+    # origin: 该出身如何与故事发生关联。
+    origin: "你长期追查类似事件，手中线索指向此地的某个关键人物或地点。"
+    # motivation: 玩家为什么来到故事地点，以及开局最直接的目标。
+    motivation: "你需要确认线索真假，建立可信关系，并找到能阻止危机扩散的第一步。"
+  # initialState: 玩家初始属性。属性键必须完整。
+  initialState:
+    health: 90
+    stamina: 90
+    money: 60
+    reputation: 5
+    combat: 30
+    negotiation: 70
+    medicine: 35
+    stealth: 55
+  # advantages: 出身优势，面向玩家说明。
+  advantages:
+    - "更容易获得线索和对话信任。"
+  # disadvantages: 出身弱点，面向玩家说明。
+  disadvantages:
+    - "正面战斗能力较弱。"

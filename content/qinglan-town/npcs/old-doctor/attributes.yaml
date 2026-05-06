@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 75,
+    "courage": 25,
+    "greed": 5,
+    "loyalty": 65,
+    "suspicion": 50,
+    "responsibility": 80
+  },
+  "state": {
+    "alive": true,
+    "health": 70,
+    "mood": "tired",
+    "collapsed": false,
+    "current_goal": "protect_shop",
+    "story_stage": 1
+  },
+  "goals": [
+    "保住药铺",
+    "保护沈青禾",
+    "控制疫病",
+    "避免旧庙旧事再次伤人"
+  ],
+  "secrets": [
+    {
+      "id": "secret_old_doctor_saved_survivor",
+      "content": "他救过旧庙火案中的一个幸存者，并因此长期沉默。"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_ma_qi",
+  "name": "马七",
+  "age": 31,
+  "identity": "镇门脚夫",
+  "tier": "ordinary",
+  "faction": "faction_town_people",
+  "location": "loc_town_gate"
+}

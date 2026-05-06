@@ -1,0 +1,50 @@
+# 事件列表。事件负责剧情分支、自动触发和玩家选择。
+
+- # id: 事件唯一 ID，建议以 event_ 开头。
+  id: "event_opening_incident"
+  # name: 事件展示名称。
+  name: "开场异变"
+  # type: 事件类型。支持 time_event、location_event、npc_behavior_event、world_state_event、player_choice_event。
+  type: "time_event"
+  # locationId: 可选，事件发生地点 ID。
+  locationId: "loc_start"
+  # participantIds: 参与 NPC ID 列表。可为空数组，但关键事件建议显式填写。
+  participantIds:
+    - "npc_guide"
+  # trigger: 触发条件。支持 fact 条件、all/any/not 组合。
+  trigger:
+    all:
+      - fact: "time.day"
+        greater_than_or_equal: 1
+      - fact: "facts.opening_incident_happened"
+        not_equals: true
+  # description: 事件文本，说明玩家看到的局势变化。
+  description: "一个足以推动主线的异常状况在玩家面前出现。"
+  # effects: 事件触发时立即执行的效果。
+  effects:
+    - type: "add_fact"
+      key: "opening_incident_happened"
+      value: true
+    - type: "change_variable"
+      key: "main_crisis_level"
+      delta: 5
+  # playerOptions: 玩家对事件的选择，每个选项可有条件和效果。
+  playerOptions:
+    - id: "investigate_now"
+      name: "立刻调查"
+      description: "消耗精力换取早期线索。"
+      effects:
+        - type: "change_variable"
+          key: "truth_progress"
+          delta: 5
+        - type: "change_player_attribute"
+          attribute: "stamina"
+          delta: -5
+    - id: "observe_first"
+      name: "先观察"
+      effects:
+        - type: "add_fact"
+          key: "player_observed_opening_incident"
+          value: true
+  # followupEventIds: 后续事件 ID，用于编辑器展示事件链。
+  followupEventIds: []

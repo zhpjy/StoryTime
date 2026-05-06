@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_xiao_wan",
+  "name": "小宛",
+  "age": 13,
+  "identity": "流民少女",
+  "tier": "important",
+  "faction": "faction_refugee",
+  "location": "loc_town_gate"
+}

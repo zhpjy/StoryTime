@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 30,
+    "courage": 45,
+    "greed": 40,
+    "loyalty": 60,
+    "suspicion": 75,
+    "responsibility": 65
+  },
+  "state": {
+    "alive": true,
+    "health": 95,
+    "mood": "guarded",
+    "current_goal": "preserve_order",
+    "story_stage": 1,
+    "exposed": false
+  },
+  "goals": [
+    "维持青岚镇表面稳定",
+    "防止旧庙火案真相公开",
+    "避免黑岭盗直接入镇",
+    "保住权威和镇长之位"
+  ],
+  "secrets": [
+    {
+      "id": "secret_wei_suppressed_testimony",
+      "content": "他亲自压下旧庙火案的关键证词。"
+    }
+  ]
+}

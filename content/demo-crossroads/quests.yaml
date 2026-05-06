@@ -1,0 +1,15 @@
+- id: quest_mark_safe_path
+  title: 挂出备用路签
+  description: 守灯人希望你校准雾灯，让路口信号更清晰。
+  sourceNpcId: npc_guide
+  conditions:
+    fact: facts.guide_briefed
+    equals: true
+  completion:
+    type: environment
+    environmentType: search
+    targetType: location
+    targetId: loc_crossroads
+    interactionId: interaction_check_signal
+  rewardIds:
+    - reward_signal_route_marked

@@ -1,0 +1,121 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_herb_shop",
+      "activity": "consulting"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_herb_shop",
+      "activity": "dispense_medicine"
+    },
+    {
+      "segment": "night",
+      "location": "loc_herb_shop",
+      "activity": "rest_in_back_room"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_old_doctor_reveal_note",
+      "name": "透露旧药草残页",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "relationship.player.npc_shen_qinghe.trust",
+            "greater_than_or_equal": 40
+          },
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 45
+          },
+          {
+            "fact": "facts.old_doctor_revealed_note",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "old_doctor_revealed_note",
+          "value": true
+        },
+        {
+          "type": "add_fact",
+          "key": "shen_hidden_herb_note_found",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_old_doctor_reveals_note"
+        }
+      ]
+    },
+    {
+      "id": "rule_old_doctor_exhausted",
+      "name": "疲惫倒下",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 60
+          },
+          {
+            "fact": "facts.old_doctor_collapsed",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "old_doctor_collapsed",
+          "value": true
+        },
+        {
+          "type": "change_npc_state",
+          "npcId": "npc_old_doctor",
+          "path": "health",
+          "value": 40
+        },
+        {
+          "type": "change_npc_state",
+          "npcId": "npc_old_doctor",
+          "path": "collapsed",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_old_doctor_collapses"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "请教病情",
+    "分担问诊",
+    "追问旧庙草药",
+    "救治老药师"
+  ],
+  "keyEvents": [
+    "event_old_doctor_collapses",
+    "event_old_doctor_reveals_note",
+    "event_old_doctor_old_case_memory"
+  ],
+  "possibleFates": [
+    "平安撑过三十天",
+    "疲惫倒下",
+    "说出旧事",
+    "病逝"
+  ],
+  "endingImpact": [
+    "存活有利于疫病线稳定",
+    "倒下或死亡会让疫病更难压制",
+    "透露残页可推进真相线和疫病真因"
+  ]
+}

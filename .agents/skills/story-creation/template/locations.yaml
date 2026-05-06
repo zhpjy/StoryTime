@@ -1,0 +1,30 @@
+# 地点列表。地点负责叙事描述、状态承载和行动入口。
+# 地点 ID 会被地图、建筑、NPC、事件、行动、运行时初始位置引用。
+
+- # id: 地点唯一 ID，建议以 loc_ 开头。
+  id: "loc_start"
+  # name: 地点展示名称。
+  name: "起始地点"
+  # type: 地点分类，项目不限制枚举，建议用英文语义标签。
+  type: "settlement"
+  # tags: 内容标签，帮助生成器和作者判断题材功能。
+  tags:
+    - "opening"
+    - "social"
+  # state: 地点运行时状态，可被 change_location_state 修改。
+  state:
+    status: "normal"
+    is_accessible: true
+    danger_level: 10
+  # descriptions: 按时段显示的地点描述。default 是兜底描述。
+  descriptions:
+    default: "这里是玩家进入故事后最先理解局势的地点。"
+    morning: "清晨，这里显得相对平静。"
+    noon: "正午，人群和消息都变得密集。"
+    night: "夜晚，暗处的风险开始显现。"
+  # buildingIds: 地点内包含的建筑 ID，应存在于 buildings.yaml。
+  buildingIds:
+    - "building_start_notice"
+  # actionIds: 玩家在此地点可执行的行动 ID，应存在于 actions.yaml。
+  actionIds:
+    - "action_gather_opening_news"

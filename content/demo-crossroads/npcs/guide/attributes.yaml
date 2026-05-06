@@ -1,0 +1,14 @@
+personality:
+  kindness: 65
+  courage: 45
+  greed: 5
+  loyalty: 70
+  suspicion: 25
+  responsibility: 85
+state:
+  available: true
+goals:
+  - 让今夜经过驿站的旅人看清路口。
+secrets:
+  - id: secret_old_mistake
+    content: 他曾经挂错过一次路签，所以不愿再把雾天当成小事。

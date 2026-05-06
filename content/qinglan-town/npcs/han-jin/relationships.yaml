@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_han_jin",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 40,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": -80,
+      "relationType": "enemy",
+      "reason": "正面对手。"
+    },
+    {
+      "targetId": "npc_wei_changgeng",
+      "value": -40,
+      "relationType": "old_grudge",
+      "reason": "旧事纠缠。"
+    },
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": -20,
+      "relationType": "watchful_contact",
+      "reason": "知道她掌握消息。"
+    },
+    {
+      "targetId": "npc_shen_qinghe",
+      "value": -60,
+      "relationType": "harmful_force",
+      "reason": "曾劫药材，间接伤害药铺。"
+    }
+  ]
+}

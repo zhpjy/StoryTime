@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_old_ritualist",
+  "name": "周敬",
+  "age": 73,
+  "identity": "祠堂老祠祝",
+  "tier": "important",
+  "faction": "faction_town_people",
+  "location": "loc_ancestral_hall"
+}

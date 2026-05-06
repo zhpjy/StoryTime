@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 45,
+    "courage": 75,
+    "greed": 10,
+    "loyalty": 80,
+    "suspicion": 65,
+    "responsibility": 85
+  },
+  "state": {
+    "alive": true,
+    "health": 100,
+    "mood": "alert",
+    "current_goal": "maintain_order",
+    "story_stage": 1,
+    "hostile": false
+  },
+  "goals": [
+    "维持青岚镇秩序",
+    "压制黑岭盗",
+    "查清镇中内应",
+    "在不引发动荡的前提下接近旧案真相"
+  ],
+  "secrets": [
+    {
+      "id": "secret_lu_doubts_mayor",
+      "content": "他怀疑魏长庚隐瞒了旧案关键证词。"
+    }
+  ]
+}

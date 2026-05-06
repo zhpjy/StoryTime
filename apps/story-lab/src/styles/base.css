@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
+
+@font-face {
+  font-family: "LXGW WenKai";
+  src: url("../../../../assets/font/LXGWWenKai-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #fafaf8;
+  --foreground: #1a1a1a;
+  --muted: #f5f3f0;
+  --muted-foreground: #6b6b6b;
+  --accent: #b8860b;
+  --accent-secondary: #d4a84b;
+  --accent-foreground: #ffffff;
+  --border: #e8e4df;
+  --border-strong: #d8d0c5;
+  --card: #ffffff;
+  --ring: #b8860b;
+  --danger: #9f2f3f;
+  --warning: #9a6418;
+  --success: #2f6f4e;
+  --info: #315f7a;
+  --violet: #6f5a91;
+  --shadow-sm: 0 1px 2px rgb(26 26 26 / 0.04);
+  --shadow-md: 0 4px 12px rgb(26 26 26 / 0.06);
+  --shadow-lg: 0 8px 24px rgb(26 26 26 / 0.08);
+  font-family: "LXGW WenKai", "Source Sans 3", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 84% 8%, rgb(184 134 11 / 0.05), transparent 28rem),
+    linear-gradient(180deg, #fffdfa 0%, var(--background) 34rem);
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  opacity: 0.3;
+  background-image:
+    linear-gradient(rgb(26 26 26 / 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(26 26 26 / 0.018) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+button,
+textarea,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+#root {
+  min-height: 100vh;
+}

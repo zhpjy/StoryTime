@@ -1,0 +1,38 @@
+# 运行时配置。定义新游戏初始状态和每日自动漂移规则。
+
+# initialState: 新存档创建时写入的初始世界状态。
+initialState:
+  # playerLocationId: 玩家初始地点 ID，应存在于 locations.yaml。
+  playerLocationId: "loc_start"
+  # selectedTileId: 可选，初始选中的地图地块 ID，应存在于 maps.yaml。
+  selectedTileId: "tile_01_01"
+  # facts: 初始事实字典。条件中通过 facts.<key> 读取。
+  facts:
+    story_started: true
+    opening_incident_happened: false
+  # tileOverrides: 可选，对地图地块初始可见性、发现状态、阻挡和危险等级做覆盖。
+  tileOverrides:
+    tile_02_01:
+      visible: true
+      discovered: true
+      blocked: false
+      dangerLevel: 5
+
+# dailyDriftRules: 每日自动规则，用于让世界在玩家不干预时继续变化。
+dailyDriftRules:
+  - # id: 漂移规则唯一 ID，建议以 drift_ 开头。
+    id: "drift_crisis_escalates"
+    # name: 规则展示名称。
+    name: "危机自然恶化"
+    # conditions: 可选触发条件；省略时每天都会执行。
+    conditions:
+      all:
+        - fact: "time.day"
+          greater_than_or_equal: 2
+        - fact: "variables.main_crisis_level"
+          less_than: 80
+    # effects: 每日满足条件时执行的效果。
+    effects:
+      - type: "change_variable"
+        key: "main_crisis_level"
+        delta: 2

@@ -1,0 +1,37 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 80,
+    "courage": 55,
+    "greed": 10,
+    "loyalty": 70,
+    "suspicion": 30,
+    "responsibility": 90
+  },
+  "state": {
+    "alive": true,
+    "health": 85,
+    "mood": "anxious",
+    "infected": false,
+    "injured": false,
+    "missing": false,
+    "current_goal": "cure_patients",
+    "story_stage": 1
+  },
+  "goals": [
+    "控制镇中疫病",
+    "保护老药师和回春药铺",
+    "找到药材短缺与病源之间的关系",
+    "在能力不足时仍尽可能救人"
+  ],
+  "secrets": [
+    {
+      "id": "secret_shen_knows_first_patient",
+      "content": "她记得第一批病人都与山林方向的水源、草药或外来货物有接触。"
+    },
+    {
+      "id": "secret_shen_hidden_herb_note",
+      "content": "她在老药师旧书中见过破驿旧庙草药残页。"
+    }
+  ]
+}

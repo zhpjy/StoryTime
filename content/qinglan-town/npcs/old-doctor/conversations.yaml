@@ -1,0 +1,3511 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+- id: conversation_old_doctor_first
+  npcId: npc_old_doctor
+  title: 药香里的第一问
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 1
+      - fact: facts.conversation_old_doctor_first_completed
+        not_equals: true
+  priority: 100
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山把脉案摊在灯下，纸角带着药汤旧痕。他抬眼看你：问病可以，问人也可以，只别问完就走。
+      replies:
+        - id: reply_as_merchant
+          text: 先问药材：哪几味最该优先保住？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若病从山路来，谁该先拦？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我想看脉案，找出病势变化。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 保住退热的，别先想着贵的。乱世里最不缺贵药，最缺能及时送到嘴边的药。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_first_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 拦人容易，拦病难。你若只守门不问水和货，病照样会从缝里进来。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_first_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 看吧。别只看症状轻重，看谁先病、谁后病，病从哪里排成了一条线。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_first_completed
+              value: true
+- id: conversation_old_doctor_note
+  npcId: npc_old_doctor
+  title: 旧庙药路
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: facts.old_doctor_revealed_note
+            equals: true
+      - fact: facts.conversation_old_doctor_note_completed
+        not_equals: true
+  priority: 99
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 听见旧庙二字，老人手里的药匙轻轻一磕。他说，那条草药路救过命，也欠过命。
+      replies:
+        - id: reply_as_merchant
+          text: 若那条采药路重开，镇里能撑过这场病吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我可以护人去采，但你得说清忌讳。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 草药若真有用，我不能只听禁忌。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 路重开，药能多一些，债也会多一些。你要算，就把死人旧账也算进去。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          effects:
+            - type: add_fact
+              key: shen_hidden_herb_note_found
+              value: true
+            - type: add_fact
+              key: conversation_old_doctor_note_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 忌讳不是神鬼，是人。旧庙那边，有人不愿再看见药铺的人过去。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          effects:
+            - type: add_fact
+              key: shen_hidden_herb_note_found
+              value: true
+            - type: add_fact
+              key: conversation_old_doctor_note_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 医者该救人，可也要知道一张方子背后是谁烧掉了半页。你若要看，我只给你看一次。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          effects:
+            - type: add_fact
+              key: shen_hidden_herb_note_found
+              value: true
+            - type: add_fact
+              key: conversation_old_doctor_note_completed
+              value: true
+          endConversation: true
+- id: conversation_old_doctor_warning
+  npcId: npc_old_doctor
+  title: 青禾肩上的药篓
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: facts.shen_collected_herbs
+            equals: true
+      - fact: facts.conversation_old_doctor_warning_completed
+        not_equals: true
+  priority: 98
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 前堂里，沈青禾踮脚去取高柜药匣，袖口沾着药末。顾半山压低声音：那孩子把自己也当成一味药，熬得太狠。
+      replies:
+        - id: reply_as_merchant
+          text: 能否雇人替她跑腿，别让她事事亲自去？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 她若非要上山，我就跟着走。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我能接一半病人，让她喘口气。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 雇人可以，嘴要严，手要稳。别找那种听见旧庙就转头去酒肆卖消息的。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_warning_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 你跟着也好。她不是怕苦，是怕病人等不到，所以常忘了自己也会倒。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_warning_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 那就别说空话。你先从轻症看起，让她只盯重症，这就是帮大忙。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_warning_completed
+              value: true
+- id: conversation_old_doctor_old_case
+  npcId: npc_old_doctor
+  title: 旧案不肯死
+  entryNodeId: node_entry
+  conditions:
+    all:
+      - all:
+          - fact: variables.truth_progress
+            greater_than_or_equal: 40
+      - fact: facts.conversation_old_doctor_old_case_completed
+        not_equals: true
+  priority: 97
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 后堂窗纸被风顶得簌簌响，老人沉默许久才开口：若真相翻出来只添伤口，你还要不要揭？
+      replies:
+        - id: reply_as_merchant
+          text: 真相若会掀翻秩序，我得知道代价。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧账若牵出凶徒，就该有人站出来。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 死人不能治，活人的病根却可能在旧事里。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 代价从来不是一袋米一贯钱，是有人会失去赖以活下去的活法。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_old_doctor_old_case_completed
+              value: true
+          endConversation: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 站出来的人要背得住后果。你若只图一时痛快，镇门外又要多几具尸身。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_old_doctor_old_case_completed
+              value: true
+          endConversation: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 你这话像医者。病根不拔，退热只是暂时，可拔病根也会流血。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          effects:
+            - type: change_variable
+              key: truth_progress
+              delta: 5
+            - type: add_fact
+              key: conversation_old_doctor_old_case_completed
+              value: true
+          endConversation: true
+- id: conversation_old_doctor_daily_05
+  npcId: npc_old_doctor
+  title: 药臼声慢
+  entryNodeId: node_entry
+  priority: 56
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 他慢慢捣药，药臼响得像在数日子。他低声说每一响，都有人在前堂等。
+      replies:
+        - id: reply_as_merchant
+          text: 药铺欠账这么多，还撑得住吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若有人来抢药，我守哪扇门？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我来捣药，你把火候告诉我。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 撑不住也得撑。账能慢慢还，命还不上。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_05_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 守后门。前门抢的是明药，后门抢的是青禾和那些旧纸。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_05_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 轻一些，别把药性捣散了。医术不是手快，是心稳。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_05_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_05_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_06
+  npcId: npc_old_doctor
+  title: 天未亮的药铺
+  entryNodeId: node_entry
+  priority: 55
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 药铺后堂一早就不得安生，药臼一下下敲着。顾半山一边把脉枕晒在窗边，一边示意你有话就趁药还热说。
+      replies:
+        - id: reply_as_merchant
+          text: 先问今日的买卖和路上动静。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 且问这里最需要防的是什么。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先问可有人身体不适。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 营生看着是营生，背后全是人心。今日最该留意的，是药铺门口的药价议论。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_06_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 要防的不只刀，还有慌。年轻人一急就拿命换线索；传言一旦成真，谁都别想安稳。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_06_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 有不适的人不少，只是许多人怕花钱，先忍着。你若肯看，先从来赊药的乡亲看起。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_06_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 2
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_06_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_07
+  npcId: npc_old_doctor
+  title: 湿风入骨
+  entryNodeId: node_entry
+  priority: 54
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 风湿天会压得老伤发痛，连一只旧药臼都像沾了潮气。顾半山说这种天气最容易把小患拖成大祸。
+      replies:
+        - id: reply_as_merchant
+          text: 潮气会否影响货物和储备？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 坏天气会让巡守和防备更难吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 受潮后最该防哪类病症？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 会。货坏了还能赔，药材、净水坏了，赔的就是人命和信任。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_07_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 难。风雨一遮，脚印、火光和人声都会骗人。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_07_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 先防寒热和咳症。别让来赊药的乡亲在风口等太久。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_07_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_07_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_08
+  npcId: npc_old_doctor
+  title: 一碗米汤
+  entryNodeId: node_entry
+  priority: 53
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 病人喝得下的米汤摆在旁边，热气很快散了。顾半山看了一眼饭食，说如今吃饭也像在做选择。
+      replies:
+        - id: reply_as_merchant
+          text: 粮价这样下去，小户人家还能撑几天？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 饿急的人会先冲哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 吃不饱会让病势更糟。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 撑几天要看米价，也看谁愿意先分一点出来。多年赊下的人情账比官样告示更管用。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_08_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 先冲看得见粮食的地方，再冲他们觉得没人护的地方。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_08_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 对。药能压病，饭才托命。没有病人喝得下的米汤，药下去也虚。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_08_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_08_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_09
+  npcId: npc_old_doctor
+  title: 门前碎语
+  entryNodeId: node_entry
+  priority: 52
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 来赊药的乡亲在不远处压低声音，说到你来时又散开。顾半山说镇上闲话跑得比马还快。
+      replies:
+        - id: reply_as_merchant
+          text: 闲话里可有能当线头的真货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 闲话会否引出冲突？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 闲话会让病人不敢就医。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 真货常藏在夸张里。你别听他们怎么骂，听他们反复提到什么。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_09_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 会。人一怕，就要找个能看见的人出气。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_09_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 已经有了。有人把病说成报应，这比发热还难治。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_09_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 3
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_09_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_10
+  npcId: npc_old_doctor
+  title: 账本翻旧
+  entryNodeId: node_entry
+  priority: 51
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 多年赊下的人情账被压在手边，纸页边缘已经卷起。顾半山说账本记得清，人情却总算不明白。
+      replies:
+        - id: reply_as_merchant
+          text: 账清才不会乱，你最怕哪笔账爆出来？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 人情账若逼到头，会否变成仇？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 欠账的人会否因此拖着不求助？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 最怕不是欠得多，是欠得久。旧账一翻，谁都说自己有理。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_10_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 会。人情变仇，只差一句“你当年也欠我”。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_10_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 会。有人宁可忍病，也不愿再添一笔欠情。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_10_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_10_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_11
+  npcId: npc_old_doctor
+  title: 山道风紧
+  entryNodeId: node_entry
+  priority: 50
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 外头有人提到山脚旧采药道，声音立刻低了下去。顾半山说山路从来不只运货，也运消息。
+      replies:
+        - id: reply_as_merchant
+          text: 哪类消息最影响货队？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 山路上现在最像陷阱的是哪里？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 山路会否带来新的病根？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 影响最大的不是匪，是不知道谁和匪有来往。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_11_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 最像陷阱的是人人都说安全的那段。太安静了。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_11_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 会。水、草药、货布，都可能把病带进镇。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_11_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_11_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_12
+  npcId: npc_old_doctor
+  title: 旧庙余烬
+  entryNodeId: node_entry
+  priority: 49
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 当年救下的那个人这个话头一出来，顾半山的手慢了一拍。顾半山说旧庙的事，镇里不是没人知道，是没人愿意说全。
+      replies:
+        - id: reply_as_merchant
+          text: 旧庙牵着哪条旧账？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁会为了旧庙动刀？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧庙和病、药可有牵连？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 牵着命账，也牵着名声账。两种账都比银钱难讨。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_12_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 拔刀的人未必最恨，最怕的人才会先动手。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_12_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 有牵连。至少旧方、温补药和退热药和旧庙火后的那一夜都绕不开它。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_12_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 4
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_12_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_13
+  npcId: npc_old_doctor
+  title: 告示纸薄
+  entryNodeId: node_entry
+  priority: 48
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 不远处有人念着新贴的告示，念到一半就笑不出来了。顾半山说告示写得齐整，日子却不照字走。
+      replies:
+        - id: reply_as_merchant
+          text: 告示会影响交易和价格吗？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 告示能让人守规矩吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 告示可有安排病人和弱者？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 会影响一阵。可若药材、净水跟不上，纸上的价就只是纸。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_13_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 能让想守规矩的人有个台阶，拦不住已经急红眼的人。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_13_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 写了几句，远远不够。真正照顾人的，是谁肯把门打开。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_13_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_13_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_14
+  npcId: npc_old_doctor
+  title: 夜声不明
+  entryNodeId: node_entry
+  priority: 47
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 药臼一下下敲着之外，夜里还有几声说不清的动静。顾半山说最近没人睡得太沉。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里可有异常车马或陌生人？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里哪个方向最该有人守？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里病人会否无人照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 有。不是每辆车都会报号，也不是每个脚印都往门里走。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_14_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 守山脚旧采药道，也守人心最松的后门。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_14_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 会。夜里一句“明早再说”，有时就等不到明早。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_14_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_14_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_15
+  npcId: npc_old_doctor
+  title: 老少先行
+  entryNodeId: node_entry
+  priority: 46
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 来赊药的乡亲里，有人扶着老人，也有人牵着孩子。顾半山看着他们，说镇子的好坏先落在这些人身上。
+      replies:
+        - id: reply_as_merchant
+          text: 物资要先给谁才不乱？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 护送时先护哪一类人？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 老人孩子要分开照看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 先给不能等的人，再给能维持秩序的人。别让分配看起来像偏心。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_15_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 先护走不快的。能跑的人还有路，走不动的人只有别人。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_15_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 对。小孩病急，老人病沉，混在一起只会互相拖。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_15_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 5
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_15_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_16
+  npcId: npc_old_doctor
+  title: 旧名如刺
+  entryNodeId: node_entry
+  priority: 45
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山提到一个旧名字，又很快把话收住。那名字像一根刺，没人愿意碰得太深。
+      replies:
+        - id: reply_as_merchant
+          text: 名字若能对上旧账，就不该含糊。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 名字若指向活人，我得知道凶险。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧名字也可能是病根线头。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 你要对账，就别只问名字，还要问他最后被谁看见。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_16_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 凶险在问出口后。许多人怕的不是名字，是有人还记得。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_16_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 有时一个名字比一味药难找，但找到后，方子才完整。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_16_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_16_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_17
+  npcId: npc_old_doctor
+  title: 水桶照人
+  entryNodeId: node_entry
+  priority: 44
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有人拎着水桶经过，桶沿晃出一圈水光。顾半山说水看着清，不代表来路清。
+      replies:
+        - id: reply_as_merchant
+          text: 水源若出问题，铺面和货队都会停。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 谁能靠近水源而不被盘问？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 水源须得查，病常从这里起。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 一停就不是一家铺子的事。你若查水，先查谁最近改了取水点。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_17_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 挑水人、送货人、巡夜人，都能靠近。最不起眼的最难查。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_17_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 你说到要处了。病若沿水走，药铺再忙也只是追着尾巴跑。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_17_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_17_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_18
+  npcId: npc_old_doctor
+  title: 灯油将尽
+  entryNodeId: node_entry
+  priority: 43
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 一盏灯的油快见底，火苗缩成豆大一点。顾半山说灯一暗，人就容易做错事。
+      replies:
+        - id: reply_as_merchant
+          text: 我能调灯油，但要知道最缺哪里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 黑处最适合藏刀。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人夜里也需要灯。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 最缺的不是灯油，是愿意把灯点在别人门口的人。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_18_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 藏刀也藏眼泪。夜里生变，天亮后人人都说没看见。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_18_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 是。没灯，连药量都容易看错，更别说分辨脸色。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_18_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 6
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_18_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_19
+  npcId: npc_old_doctor
+  title: 顺手小差
+  entryNodeId: node_entry
+  priority: 42
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 捻着药渣辨气味的空当，顾半山顺路把旁边的东西摆正。顾半山问你愿不愿意帮一个不显眼的小忙。
+      replies:
+        - id: reply_as_merchant
+          text: 小忙也要讲清要送到谁手里。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 小忙若有风险，我先走前面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 小忙若关系病人，我现在就去。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 送给沈青禾，别让太多人看见。不是见不得光，是怕被传歪。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_19_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 不用拔刀，帮我看住后路就行。有时候不让人挤上来，比冲出去更难。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_19_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 关系不大，却能省一条腿脚。病人那边，少等一刻都是好事。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_19_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_19_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_20
+  npcId: npc_old_doctor
+  title: 看脸识急
+  entryNodeId: node_entry
+  priority: 41
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 来赊药的乡亲从旁边经过，脸色各不相同。顾半山说最近看人脸，比听人话更准。
+      replies:
+        - id: reply_as_merchant
+          text: 看脸色能看出谁要囤货？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 看脸色能看出谁要闹事？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 看脸色能看出谁在硬撑。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 能。眼睛总往药材、净水上飘的人，多半心里已经起了算盘。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_20_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 能。真正要闹的人常不喊，喊得最大声的反而等别人先动。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_20_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 能。硬撑的人最怕被叫住，你若温和些，他们才肯承认。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_20_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_20_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_21
+  npcId: npc_old_doctor
+  title: 咳声一散
+  entryNodeId: node_entry
+  priority: 40
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 远处传来一阵咳声，几个人下意识退开半步。顾半山皱了皱眉，说怕病，也怕被病名吓坏。
+      replies:
+        - id: reply_as_merchant
+          text: 若恐慌传开，买卖会先崩。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 恐慌会让人不听号令。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 退开不是办法，要分症状。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 营生崩了，粮药也会断。你若能劝住人别乱传，等于保住半条路。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_21_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 对。怕到极处，人会把救他的人也当敌人。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_21_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 分得清，心就稳一半。你来讲，他们比听我讲更容易信。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_21_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 7
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_21_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_22
+  npcId: npc_old_doctor
+  title: 缺口旧臼
+  entryNodeId: node_entry
+  priority: 39
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 一只旧药臼边缘有一道旧缺口，像用久了也舍不得换。顾半山说镇上许多东西都是这样，破了还得用。
+      replies:
+        - id: reply_as_merchant
+          text: 旧器物能撑，旧规矩未必能撑。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破口不补，迟早伤手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧伤不看，也会反复疼。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 你们外来人看得快，本地人舍不得。舍不得有时是情分，有时是祸端。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_22_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 补也要看谁来补。手太重，器物没补好，先碎了。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_22_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 疼久了，人会把疼当成日常。镇子也是。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_22_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_22_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_23
+  npcId: npc_old_doctor
+  title: 谎话生脚
+  entryNodeId: node_entry
+  priority: 38
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 一句传闻被重复了三遍，每次都多一个细节。顾半山说谎话不怕新，怕的是有人故意让它像真话。
+      replies:
+        - id: reply_as_merchant
+          text: 假消息会害车队，我要辨源头。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 撒谎的人往往躲在后面。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 假病因会害死人。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 源头常常不在喊得最大声的人那里，而在第一个问“你听说了吗”的人那里。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_23_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 躲在后面，也会留下目的。看谎话想把人赶向哪里。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_23_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 是。病因一错，药越勤，错得越深。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_23_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_23_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_24
+  npcId: npc_old_doctor
+  title: 信谁半分
+  entryNodeId: node_entry
+  priority: 37
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山看了看周围，像是在衡量哪句话能放出来。顾半山说现在不是没人开口，是没人敢担保谁可信。
+      replies:
+        - id: reply_as_merchant
+          text: 信任也要有抵押，谁的抵押最实？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我看行动，不看漂亮话。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 肯让人看病的人，至少还有求生心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 抵押最实的是退路。没退路的人，说真话也可能变卦。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_24_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 行动要看连续几天，不看一时热血。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_24_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 求生心很真，可求生也会让人隐瞒。别全信，也别全疑。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_24_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 8
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_24_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_25
+  npcId: npc_old_doctor
+  title: 镇外有影
+  entryNodeId: node_entry
+  priority: 36
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有人提到镇外，周围立刻静了一瞬。顾半山说镇外不是远方，是随时会推门进来的事。
+      replies:
+        - id: reply_as_merchant
+          text: 外来的货和人，哪一个更可疑？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 外头的威胁已经进镇了吗？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 外来人可有被妥善安置？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 货不会自己撒谎，人会。可货上留下的痕迹，比人嘴可靠。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_25_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 进来了。不是人人拿刀才叫威胁，有人带的是恐慌和口信。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_25_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 安置得不够。挤在一起，再小的病也会被放大。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_25_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_25_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_26
+  npcId: npc_old_doctor
+  title: 午后力短
+  entryNodeId: node_entry
+  priority: 35
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 日头偏过去，顾半山的动作慢了一点。顾半山说人累的时候最容易答应不该答应的事。
+      replies:
+        - id: reply_as_merchant
+          text: 疲惫会让人卖掉底线。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 疲惫会让守卫露空。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 疲惫会让病情恶化。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 底线不是一下卖掉的，是一点点让出去的。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_26_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 露空时最怕有人正等着。你若能替人歇一刻，就能补一个缺口。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_26_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 你说得对。许多人不是病倒，是熬倒。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_26_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_26_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_27
+  npcId: npc_old_doctor
+  title: 信在药臼旁
+  entryNodeId: node_entry
+  priority: 34
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 一只旧药臼旁压着一张折好的纸，纸角已经起毛。顾半山说有些信写好了，却不知道还能不能送到。
+      replies:
+        - id: reply_as_merchant
+          text: 我能带信，但要知道收信人在哪条路上。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 若送信有凶险，先说凶险来自谁。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 信若关系病人家属，别再拖。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 能带当然好。可路上若有人查，别把信和账本放在一起。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_27_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 凶险来自想知道别人说了什么的人。如今一句家常，也可能被当成证词。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_27_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 关系家属，也关系人心。人若不知道亲人死活，会先在心里病起来。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_27_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 9
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_27_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_28
+  npcId: npc_old_doctor
+  title: 童言最真
+  entryNodeId: node_entry
+  priority: 33
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有个孩子在旁边问了一句大人都不敢问的话。顾半山沉默片刻，说孩子常常比大人诚实。
+      replies:
+        - id: reply_as_merchant
+          text: 孩子问的是米还是路？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 孩子问的是谁会护住他们？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 孩子问的是病会否死？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 问的是明天还有没有饭。这个问题比任何账都难。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_28_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 问的是守门的人会不会也跑。你看，孩子知道害怕什么。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_28_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 问的是会不会传给娘亲。你若听见了，就别用空话糊弄。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_28_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_28_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_29
+  npcId: npc_old_doctor
+  title: 破墙新泥
+  entryNodeId: node_entry
+  priority: 32
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 不远处的墙根有一块新补的泥，颜色还没干透。顾半山说墙会破，规矩也会破。
+      replies:
+        - id: reply_as_merchant
+          text: 破口若能走私货，就会有人利用。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 破墙也是防线缺口。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 破墙透风，病人受不了。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 利用的人一定有，不一定是大奸大恶，也可能只是饿急了。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_29_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 缺口要补，也要看谁常在附近徘徊。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_29_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 先挡风，再问责。人病着的时候，风比道理快。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_29_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_29_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_30
+  npcId: npc_old_doctor
+  title: 价声如刀
+  entryNodeId: node_entry
+  priority: 31
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 药铺门口的药价议论的话头又被人翻出来，声音越来越尖。顾半山说讨价还价本是日常，如今却像吵命。
+      replies:
+        - id: reply_as_merchant
+          text: 价要稳，得先稳供给。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 吵到动手前会有什么征兆？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 买不起药和米的人会同时变多。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 供给是一头，信任是另一头。只补一头，价还会乱。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_30_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 征兆是没人再听完整句话，只听见自己吃亏。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_30_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 会。所以救病不能只靠药铺，也得靠米袋。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_30_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 10
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_30_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_31
+  npcId: npc_old_doctor
+  title: 夜脚无名
+  entryNodeId: node_entry
+  priority: 30
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 昨夜的脚步声还被人挂在嘴边，说法却不一样。顾半山说半夜走路的人，不一定是贼，也可能是怕白天被看见。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里运货的人通常有不得已的理由。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 半夜脚步要查，但不能先惊动。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里求药的人也会偷偷走。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 理由有真有假。看他们绕开什么，比看他们搬什么更有用。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_31_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 你说得对。先记路，再问人，别一嗓子把线头喊散了。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_31_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 求药的人怕欠账，也怕被人说染病。你若拦，记得先问急不急。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_31_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_31_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_32
+  npcId: npc_old_doctor
+  title: 旧日慢话
+  entryNodeId: node_entry
+  priority: 29
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 旧庙火后的那一夜被提起时，顾半山的神色软了一点。顾半山说从前也不是没有难处，只是大家还肯慢慢说。
+      replies:
+        - id: reply_as_merchant
+          text: 从前商路最安稳的时候靠什么？
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 从前巡守和镇民怎么互相信？
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 从前病人如何互相照应？
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 靠熟人，也靠不把每一文钱都逼到尽头。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_32_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 靠说到做到。守门的人不乱拿，进门的人不乱闯。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_32_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 靠邻里。谁家熬药，隔壁会送水，不会先问报酬。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_32_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_32_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_33
+  npcId: npc_old_doctor
+  title: 热水一口
+  entryNodeId: node_entry
+  priority: 28
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 热水被倒进粗碗里，碗沿冒着白气。顾半山说热水不值钱，可乱起来时，连热水都难得。
+      replies:
+        - id: reply_as_merchant
+          text: 热水和柴火也要纳入调度。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 送水的人也要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 热水能救很多小病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 你若能调柴火，许多怨气会少一半。冷饭冷水最磨人。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_33_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 是。别小看送水，夜里拎桶的人最容易被误伤。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_33_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 对。许多药不是没有方子，是没人有热水慢慢服。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_33_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 11
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_33_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_34
+  npcId: npc_old_doctor
+  title: 谁退半步
+  entryNodeId: node_entry
+  priority: 27
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山看着两拨人互不相让，叹了口气。顾半山说谁都觉得自己让一步就会被吞掉。
+      replies:
+        - id: reply_as_merchant
+          text: 让步要换确定的回报，不能空让。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 有时要有人站中间，双方才退得下去。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 病人面前不该争谁更委屈。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 回报可以不是钱，是明日还愿意坐下来谈。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_34_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 站中间的人最容易挨骂。可没人站，事就会往刀上走。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_34_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 这话该让他们都听听。咳声不会等他们吵完。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_34_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_34_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_35
+  npcId: npc_old_doctor
+  title: 坏事排门
+  entryNodeId: node_entry
+  priority: 26
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 坏消息像排队一样，一个接一个进门。顾半山说最怕的不是坏消息，是大家不知道先处理哪个。
+      replies:
+        - id: reply_as_merchant
+          text: 先保路、粮、药三个节点。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 先保人，再保门，再保物。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 先救急症，再控传染，再安人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 你的顺序能听。路断则粮药断，粮药断则人心断。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_35_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 人保住，门和物才有意义。别反过来。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_35_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 这就是救治的顺序。镇子也像一个病人。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_35_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_35_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_36
+  npcId: npc_old_doctor
+  title: 避谈有痕
+  entryNodeId: node_entry
+  priority: 25
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有人一听当年救下的那个人就换了话头，换得太快。顾半山说避得太急，本身就是线头。
+      replies:
+        - id: reply_as_merchant
+          text: 避谈的人可能怕旧账影响生意。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 避谈的人可能知道凶险在哪。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 避谈的人可能见过病根。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 生意、名声、亲人，都可能让人闭嘴。你要分清是哪一种。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_36_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 知道凶险的人未必坏，有时只是活得太久，怕了。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_36_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 见过病根的人最怕再闻到同样味道。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_36_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 12
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_36_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_37
+  npcId: npc_old_doctor
+  title: 帮忙有尺
+  entryNodeId: node_entry
+  priority: 24
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山看着你，像是在判断你这次会伸手还是伸脚绊人。顾半山说帮忙二字，说起来容易，做歪了就是添乱。
+      replies:
+        - id: reply_as_merchant
+          text: 我先问需要什么，再动资源。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我先听安排，再动手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我先看症状，再开方。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 这样才像能做事的人。别把自己的好心摆在别人的急处前面。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_37_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 能听安排的武人，比只会冲的强。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_37_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 看症状再开方，这道理若人人都懂，镇里少一半乱事。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_37_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_37_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_38
+  npcId: npc_old_doctor
+  title: 旧物记事
+  entryNodeId: node_entry
+  priority: 23
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 一只旧药臼被顾半山拿起又放下，像一段话没说出口。顾半山说旧物留得久了，就会替人记事。
+      replies:
+        - id: reply_as_merchant
+          text: 旧物若能作凭证，就别让它丢了。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 旧物若会惹祸，就该有人护着。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 旧物上的痕迹有时能说明伤从何来。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 凭证也要看交给谁。交错了，凭证就是把柄。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_38_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 护东西不难，难的是护住拿着它的人。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_38_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 你看得细。火痕、药味、血渍，旧物都可能记得。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_38_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_38_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_39
+  npcId: npc_old_doctor
+  title: 静中听变
+  entryNodeId: node_entry
+  priority: 22
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 周围忽然安静了一小会儿，像镇子终于喘了口气。顾半山说安静不一定是平安，也可能是大家都在等下一声响。
+      replies:
+        - id: reply_as_merchant
+          text: 安静时最适合安排后路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 安静时最该查哨。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 安静时最该补睡和熬药。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 后路要在没人看见时安排好，真乱起来就晚了。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_39_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 查哨，也查谁突然不在原处。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_39_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 对，能休息时不休息，下一波来时就只剩硬撑。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_39_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 13
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_39_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_40
+  npcId: npc_old_doctor
+  title: 借字难还
+  entryNodeId: node_entry
+  priority: 21
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有人来借药材、净水，话说得客气，手却攥得很紧。顾半山等那人走远，才看向你。
+      replies:
+        - id: reply_as_merchant
+          text: 借和抢之间，只差还不还。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 手攥太紧，多半已经急了。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 借东西若为救急，可以登记。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 你说得现实。现在每一次借出，都要想好明日怎么要回来。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_40_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 急未必坏，怕的是有人利用他的急。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_40_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 登记能让人觉得公平，也能让后来的人少吵两句。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_40_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_40_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_41
+  npcId: npc_old_doctor
+  title: 两道门
+  entryNodeId: node_entry
+  priority: 20
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 话题从镇门绕到祠堂，像绕不开两道门。顾半山说一道门管活人进出，一道门管旧事出入。
+      replies:
+        - id: reply_as_merchant
+          text: 两道门都影响路。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 两道门都需要有人守。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 两道门都关系人心。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 路不只在地上，也在大家愿不愿意相信彼此。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_41_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 守门不只是挡人，也是不让怕事的人随手上锁。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_41_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 人心堵住，病也好得慢。你们医者最该懂。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_41_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_41_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_42
+  npcId: npc_old_doctor
+  title: 小争执
+  entryNodeId: node_entry
+  priority: 19
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 旁边起了一场小争执，很快又被人劝开。顾半山说小争执若没人管，就会学会长大。
+      replies:
+        - id: reply_as_merchant
+          text: 争执多半因为分配不明。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 争执刚起时最好压住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 争执会让病人更慌。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 分配明白，人就算不满，也知道该找谁说。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_42_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 压住不是吼住，是让双方都有台阶。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_42_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 慌会传，比病还快。你若能安一句，就是帮忙。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_42_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 14
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_42_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_43
+  npcId: npc_old_doctor
+  title: 远信难写
+  entryNodeId: node_entry
+  priority: 18
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山忽然问你，若能给远方的人留句话，你会写什么。这个问题来得突兀，却不像玩笑。
+      replies:
+        - id: reply_as_merchant
+          text: 我会写路况和价钱，也写人是否平安。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 我会写别轻信太安静的路。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 我会写水要烧开，病要早看。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 平安这两个字，比价钱更难写真。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_43_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 这句能救命。太安静的路，总有人先替你清过声音。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_43_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 朴素，却管用。许多人死在不肯早看。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_43_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_43_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_44
+  npcId: npc_old_doctor
+  title: 怕字藏心
+  entryNodeId: node_entry
+  priority: 17
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 顾半山把话说得平稳，手却在一只旧药臼旁停住。顾半山说镇里很多人怕，却不愿承认自己怕。
+      replies:
+        - id: reply_as_merchant
+          text: 害怕会推高价钱。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 害怕会让人先下手。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 害怕会让人藏病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 价钱只是表面。真正涨的是彼此的防备。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_44_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 先下手的人常说自己是自保。你要看他保的到底是什么。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_44_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 藏病最祸端。藏到后来，不止害自己。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_44_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_44_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_45
+  npcId: npc_old_doctor
+  title: 补衣补日子
+  entryNodeId: node_entry
+  priority: 16
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 有人袖口补了三种颜色的线，看上去有些狼狈。顾半山说日子破了，人就学会把不合适的布缝在一起。
+      replies:
+        - id: reply_as_merchant
+          text: 修补总比全丢了强。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 补过的地方也是弱点。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 补得好，伤口也能长上。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 强是强，可补线也要结实。只图看着完整，扯一下就开。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_45_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 弱点不是罪，装作没弱点才凶险。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_45_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 长上以后还会留疤。留疤不丢人，怕的是反复撕开。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_45_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 15
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_45_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_46
+  npcId: npc_old_doctor
+  title: 烟起旧火
+  entryNodeId: node_entry
+  priority: 15
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 远处有人烧湿柴，烟味忽然重了起来。顾半山说烟味最会骗人，像旧火又像新火。
+      replies:
+        - id: reply_as_merchant
+          text: 旧火若变成新烟，说明有人在翻旧账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 烟能遮眼，也能暴露位置。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 烟会让咳症更重。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 有人翻旧账，也有人想让你以为是旧账自己烧起来。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_46_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 看风向。烟往哪边去，人多半也往哪边藏。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_46_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 先让咳得厉害的人避开。查案也要给活人让路。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_46_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_46_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_47
+  npcId: npc_old_doctor
+  title: 证言压身
+  entryNodeId: node_entry
+  priority: 14
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 话说到证人时，空气像被按住。顾半山说作证不是撂下一句话，是把往后日子押上去。
+      replies:
+        - id: reply_as_merchant
+          text: 证词要能互相印证，不能只靠胆子。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 作证的人需要护住。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 作证的人也会怕，也会病。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 印证越多，单个人背的压力越小。这是正经办法。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_47_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 护住不是站在他旁边亮刀，也包括让他家里有饭。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_47_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 是。吓坏的人说不清话，先让他能睡一觉。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_47_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_47_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_48
+  npcId: npc_old_doctor
+  title: 一碗药先后
+  entryNodeId: node_entry
+  priority: 13
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 旧方、温补药和退热药被端过去，路上有人下意识让了让。顾半山说一碗药端给谁，也会有人觉得不公平。
+      replies:
+        - id: reply_as_merchant
+          text: 分配标准要提前说清。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 不公平会引出冲突。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 轻重缓急须得由病情决定。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 标准讲清，怨气少一半。剩下一半，靠人慢慢劝。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_48_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 冲突常从一句“凭什么他先”开始。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_48_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 病情决定，这是底线。若让关系决定，药就变味了。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_48_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 16
+          - fact: time.segment
+            equals: night
+      - fact: facts.conversation_old_doctor_daily_48_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_49
+  npcId: npc_old_doctor
+  title: 风里传名
+  entryNodeId: node_entry
+  priority: 12
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 风声里夹着几个名字，听不真切。顾半山说名字一旦被风带走，就会变成别人嘴里的刀。
+      replies:
+        - id: reply_as_merchant
+          text: 没核实的名字不能写进账。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 没核实的名字不能当靶子。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 没核实的名字不能当病因。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 对。写错一个名字，后面整本账都歪。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_49_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 当靶子容易，收回箭难。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_49_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 病因错了，药方就成了害人的纸。老人垂眼拣药，声音低了些：听进去半句，也许就能少死一个人。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_49_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: morning
+      - fact: facts.conversation_old_doctor_daily_49_completed
+        not_equals: true
+- id: conversation_old_doctor_daily_50
+  npcId: npc_old_doctor
+  title: 收摊前的暗影
+  entryNodeId: node_entry
+  priority: 11
+  nodes:
+    - id: node_entry
+      speaker: npc_old_doctor
+      text: 天色往晚里沉，药铺后堂的影子被拉长。顾半山说白天的话到了夜里，会换一副脸。
+      replies:
+        - id: reply_as_merchant
+          text: 夜里最容易出现私下交易。
+          conditions:
+            fact: player.identity
+            equals: identity_merchant
+          nextNodeId: node_merchant
+        - id: reply_as_warrior
+          text: 夜里最容易出事。
+          conditions:
+            fact: player.identity
+            equals: identity_warrior
+          nextNodeId: node_warrior
+        - id: reply_as_doctor
+          text: 夜里最怕急症。
+          conditions:
+            fact: player.identity
+            equals: identity_doctor
+          nextNodeId: node_doctor
+    - id: node_merchant
+      speaker: npc_old_doctor
+      text: 私下交易不可怕，可怕的是交易内容和镇子的命绑在一起。顾半山用指节敲了敲案角：记住轻重，别让热心乱了方寸。
+      replies:
+        - id: reply_merchant_close
+          text: 我记下。人情要还，风险也要算清。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_50_completed
+              value: true
+    - id: node_warrior
+      speaker: npc_old_doctor
+      text: 生变前总有预兆，只是白天没人愿意承认。药臼又响了一下，他说：江湖上的急事多，救命的事更急不得。
+      replies:
+        - id: reply_warrior_close
+          text: 我明白。人稳，路才稳。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_50_completed
+              value: true
+    - id: node_doctor
+      speaker: npc_old_doctor
+      text: 急症要提前备。人心也是，别等彻底乱了才找药。话说到这里，顾半山不再催，只把药盏往你这边推了推。
+      replies:
+        - id: reply_doctor_close
+          text: 我记下，急症先救，病根慢查。
+          endConversation: true
+          effects:
+            - type: add_fact
+              key: conversation_old_doctor_daily_50_completed
+              value: true
+  conditions:
+    all:
+      - all:
+          - fact: time.day
+            greater_than_or_equal: 17
+          - fact: time.segment
+            equals: noon
+      - fact: facts.conversation_old_doctor_daily_50_completed
+        not_equals: true

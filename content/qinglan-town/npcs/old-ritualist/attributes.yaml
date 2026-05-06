@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 50,
+    "courage": 35,
+    "greed": 0,
+    "loyalty": 80,
+    "suspicion": 65,
+    "responsibility": 75
+  },
+  "state": {
+    "alive": true,
+    "health": 75,
+    "mood": "reserved",
+    "current_goal": "guard_records",
+    "story_stage": 1,
+    "pressured": false
+  },
+  "goals": [
+    "守住祠堂",
+    "避免镇中旧怨激化",
+    "判断玩家是否值得托付旧档线索",
+    "在最后时刻为真相作证"
+  ],
+  "secrets": [
+    {
+      "id": "secret_ritualist_registry",
+      "content": "旧案名册藏在祠堂正堂牌位后。"
+    }
+  ]
+}

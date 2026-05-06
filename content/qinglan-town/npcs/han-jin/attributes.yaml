@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 10,
+    "courage": 85,
+    "greed": 60,
+    "loyalty": 40,
+    "suspicion": 70,
+    "responsibility": 20
+  },
+  "state": {
+    "alive": true,
+    "health": 110,
+    "mood": "predatory",
+    "current_goal": "control_mountain_route",
+    "story_stage": 1,
+    "defeated": false
+  },
+  "goals": [
+    "控制青岚山路",
+    "掠夺药材与粮食",
+    "找到旧庙暗室",
+    "报复魏长庚或青岚镇旧势力"
+  ],
+  "secrets": [
+    {
+      "id": "secret_han_old_temple_survivor",
+      "content": "韩烬知道旧庙暗室的位置，并与火案幸存者存在联系。"
+    }
+  ]
+}

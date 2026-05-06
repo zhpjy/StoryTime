@@ -1,0 +1,10 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "id": "npc_xu_wenzhou",
+  "name": "许闻舟",
+  "age": 27,
+  "identity": "外来书生",
+  "tier": "important",
+  "faction": "faction_outsider",
+  "location": "loc_tavern"
+}

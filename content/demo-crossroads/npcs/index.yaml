@@ -1,0 +1,10 @@
+- id: npc_guide
+  name: 沈灯
+  path: npcs/guide
+  files:
+    - identity.yaml
+    - background.yaml
+    - attributes.yaml
+    - relationships.yaml
+    - behavior.yaml
+    - conversations.yaml

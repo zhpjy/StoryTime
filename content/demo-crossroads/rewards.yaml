@@ -1,0 +1,10 @@
+- id: reward_signal_route_marked
+  name: 路标清晰
+  description: 旅人安全提升。
+  effects:
+    - type: change_variable
+      key: traveler_safety
+      delta: 15
+    - type: add_fact
+      key: safe_path_marked
+      value: true

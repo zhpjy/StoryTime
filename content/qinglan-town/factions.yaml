@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+[
+  {
+    "id": "faction_town_people",
+    "name": "青岚镇民",
+    "description": "药铺、米铺、酒肆、祠堂与民居中的普通镇民。",
+    "stanceToPlayer": 0
+  },
+  {
+    "id": "faction_guard",
+    "name": "镇中巡守",
+    "description": "负责镇门、商路、集市秩序与匪患压制。",
+    "stanceToPlayer": 5
+  },
+  {
+    "id": "faction_bandit",
+    "name": "黑岭盗",
+    "description": "盘踞山路并寻找旧庙暗室的盗匪势力。",
+    "stanceToPlayer": -50
+  },
+  {
+    "id": "faction_town_authority",
+    "name": "镇中权柄",
+    "description": "以镇长魏长庚为中心的维稳力量。",
+    "stanceToPlayer": 0
+  },
+  {
+    "id": "faction_refugee",
+    "name": "流民",
+    "description": "因外部灾荒与商路动荡聚集到青岚镇外的人。",
+    "stanceToPlayer": 0
+  },
+  {
+    "id": "faction_outsider",
+    "name": "外来者",
+    "description": "不属于青岚镇旧秩序，却被卷入旧案的人。",
+    "stanceToPlayer": 0
+  }
+]

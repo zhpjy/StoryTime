@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_shen_qinghe",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_old_doctor",
+      "value": 80,
+      "relationType": "master_student",
+      "reason": "老药师收留并教她医术。"
+    },
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": 25,
+      "relationType": "cautious_trust",
+      "reason": "认可陆怀山维持秩序，但不愿过多牵连巡守。"
+    },
+    {
+      "targetId": "npc_zhao_sanniang",
+      "value": 0,
+      "relationType": "uneasy_neighbor",
+      "reason": "知道她消息灵通，但不完全信任。"
+    },
+    {
+      "targetId": "npc_han_jin",
+      "value": -60,
+      "relationType": "enemy",
+      "reason": "黑岭盗曾劫走药材。"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+- id: interaction_check_signal
+  name: 校准雾灯
+  description: 擦净铜镜，调整灯芯高度，让路口信号更清晰。
+  type: environment
+  environmentType: search
+  targetType: location
+  targetId: loc_crossroads
+  cost:
+    actionPoints: 1
+    stamina: 5
+  effects:
+    - type: change_variable
+      key: signal_clarity
+      delta: 20
+    - type: add_fact
+      key: signal_checked
+      value: true

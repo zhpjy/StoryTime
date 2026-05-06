@@ -1,0 +1,26 @@
+- id: ending_lamp_guides_way
+  name: 雾灯指路
+  priority: 10
+  conditions:
+    fact: variables.traveler_safety
+    greater_than_or_equal: 60
+  summary: 备用路签和雾灯一起稳住了岔路，夜行旅人顺利穿过驿站。
+  causalChainRules:
+    - fact: safe_path_marked
+      text: 你挂出了备用路签，让后来者能在雾中确认方向。
+    - variable: signal_clarity
+      operator: greater_than_or_equal
+      value: 60
+      text: 雾灯被校准后，路口信号足够清晰。
+- id: ending_fog_remains
+  name: 雾色未散
+  priority: 1
+  conditions:
+    fact: time.day
+    greater_than_or_equal: 2
+  summary: 雾灯仍能发光，但路口标记不够完整，旅人只能放慢脚步摸索前行。
+  causalChainRules:
+    - variable: traveler_safety
+      operator: less_than
+      value: 60
+      text: 旅人的安全准备仍然不足。

@@ -1,0 +1,37 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_town_gate",
+      "activity": "open_daily_work"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_town_gate",
+      "activity": "listen_to_neighbors"
+    },
+    {
+      "segment": "night",
+      "location": "loc_town_gate",
+      "activity": "close_daily_work"
+    }
+  ],
+  "behaviorRules": [],
+  "playerChoices": [
+    "闲聊打听背景",
+    "请其留意异常来往",
+    "帮忙处理日常小事",
+    "询问镇民对危机的看法"
+  ],
+  "keyEvents": [],
+  "possibleFates": [
+    "平安留在镇中",
+    "因恐慌躲避玩家",
+    "提供关键背景信息"
+  ],
+  "endingImpact": [
+    "普通 NPC 的反馈帮助呈现镇中生活感",
+    "其背景信息可补足粮价、流民、商路与旧案的民间视角"
+  ]
+}

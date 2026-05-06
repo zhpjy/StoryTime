@@ -1,0 +1,32 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 60,
+    "courage": 45,
+    "greed": 5,
+    "loyalty": 50,
+    "suspicion": 50,
+    "responsibility": 70
+  },
+  "state": {
+    "alive": true,
+    "health": 80,
+    "mood": "restless",
+    "current_goal": "investigate_old_case",
+    "story_stage": 1,
+    "protected": false,
+    "missing": false
+  },
+  "goals": [
+    "查明父亲与旧庙火案的关系",
+    "找到祠堂缺失记录",
+    "接近破驿旧庙",
+    "保全手稿与证据"
+  ],
+  "secrets": [
+    {
+      "id": "secret_xu_half_letter",
+      "content": "他的半封残信指向青岚旧驿与旧庙火案。"
+    }
+  ]
+}

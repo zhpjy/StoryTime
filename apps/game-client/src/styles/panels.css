@@ -1,0 +1,5 @@
+.game-side-column > *,
+.game-state-column > *,
+.game-primary-column > * {
+  min-width: 0;
+}

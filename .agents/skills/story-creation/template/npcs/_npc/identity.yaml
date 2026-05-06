@@ -1,0 +1,22 @@
+# 单个 NPC 的身份基础信息。此文件会与其他 NPC YAML 合并成最终 NPC 对象。
+
+# id: NPC 唯一 ID，应与 npcs/index.yaml 中的 id 一致。
+id: "npc_guide"
+
+# name: NPC 展示名称。
+name: "引导者"
+
+# age: 年龄，可用于角色定位和生成一致性。
+age: 35
+
+# identity: 角色身份、职业或社会角色。
+identity: "关键知情人"
+
+# tier: 角色层级。支持 core、important、ordinary。
+tier: "core"
+
+# faction: 所属势力 ID，应存在于 factions.yaml。
+faction: "faction_common_people"
+
+# location: 初始地点 ID，应存在于 locations.yaml。
+location: "loc_start"

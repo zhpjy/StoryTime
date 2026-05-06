@@ -1,0 +1,216 @@
+- id: building_guard_post
+  locationId: loc_town_gate
+  name: 巡守岗
+  type: guard_post
+  state:
+    status: normal
+    watch_level: 50
+    locked: false
+  descriptions:
+    default: 土墙旁搭着木棚，枪戟靠在墙边。
+  interactionIds:
+    - interaction_ask_gate_news
+    - interaction_patrol_with_lu
+    - interaction_guard_route
+- id: building_town_notice
+  locationId: loc_town_gate
+  name: 告示牌
+  type: notice_board
+  state:
+    status: normal
+  descriptions:
+    default: 告示上写着商路警讯和流民安置规矩。
+  interactionIds:
+    - interaction_ask_gate_news
+- id: building_rice_shop
+  locationId: loc_market
+  name: 罗家米铺
+  type: rice_shop
+  state:
+    status: normal
+    stock_level: 70
+    hidden_stock: true
+  descriptions:
+    default: 米袋堆在柜后，罗守仓的算盘响得很快。
+  interactionIds:
+    - interaction_buy_food
+    - interaction_investigate_grain
+    - interaction_persuade_luo_release_grain
+    - interaction_expose_hidden_grain
+- id: building_blacksmith
+  locationId: loc_market
+  name: 铁匠铺
+  type: blacksmith
+  state:
+    status: normal
+    repair_level: 35
+  descriptions:
+    default: 炉火映着铁砧，旧刀和农具都等着修补。
+  interactionIds:
+    - interaction_repair_tools
+- id: building_vendor_stalls
+  locationId: loc_market
+  name: 摊贩区
+  type: vendor_stalls
+  state:
+    status: normal
+    rumor_level: 30
+  descriptions:
+    default: 几张小摊挤在路边，消息总比货物来得快。
+  interactionIds:
+    - interaction_gather_market_rumors
+    - interaction_help_xiao_wan
+- id: building_herb_counter
+  locationId: loc_herb_shop
+  name: 药柜
+  type: shop_counter
+  state:
+    status: normal
+    locked: false
+  descriptions:
+    default: 木柜里分门别类地放着草药，几味常用药已经所剩不多。
+  interactionIds:
+    - interaction_buy_medicine
+    - interaction_ask_old_doctor_note
+- id: building_consulting_room
+  locationId: loc_herb_shop
+  name: 问诊间
+  type: treatment_room
+  state:
+    status: busy
+    patient_count: 3
+  descriptions:
+    default: 几张竹榻上躺着病人，沈青禾在其中来回奔忙。
+  interactionIds:
+    - interaction_treat_patients
+    - interaction_boil_medicine
+- id: building_back_yard
+  locationId: loc_herb_shop
+  name: 后院
+  type: hidden_area
+  state:
+    status: locked
+  descriptions:
+    default: 药篓和柴火堆在墙边，几个空药筐沾着山泥。
+  interactionIds:
+    - interaction_investigate_medicine_source
+- id: building_tavern_hall
+  locationId: loc_tavern
+  name: 酒肆前堂
+  type: tavern_hall
+  state:
+    status: normal
+    rumor_level: 50
+  descriptions:
+    default: 木桌被酒水浸得发黑，墙上挂着旧斗笠。
+  interactionIds:
+    - interaction_gather_tavern_rumors
+    - interaction_share_clues_with_xu
+- id: building_tavern_backroom
+  locationId: loc_tavern
+  name: 酒肆后堂
+  type: tavern_backroom
+  state:
+    status: closed
+    secret_level: 60
+  descriptions:
+    default: 厚门帘后偶尔传出压低的争执。
+  interactionIds:
+    - interaction_buy_bandit_info
+    - interaction_backroom_meeting
+- id: building_memorial_hall
+  locationId: loc_ancestral_hall
+  name: 正堂
+  type: memorial_hall
+  state:
+    status: normal
+  descriptions:
+    default: 香案前的牌位一层层排开，像沉默的证人。
+  interactionIds:
+    - interaction_worship
+    - interaction_ask_old_case
+- id: building_record_room
+  locationId: loc_ancestral_hall
+  name: 旧档房
+  type: record_room
+  state:
+    status: locked
+    locked: true
+    dust_level: 90
+  descriptions:
+    default: 木柜落着厚灰，旧案簿册锁在里面。
+  interactionIds:
+    - interaction_unlock_records
+    - interaction_investigate_records
+- id: building_common_house
+  locationId: loc_residential_area
+  name: 普通民宅
+  type: common_house
+  state:
+    status: normal
+    need_help: true
+  descriptions:
+    default: 柴门半掩，屋内能听见老人和孩子的咳声。
+  interactionIds:
+    - interaction_visit_households
+    - interaction_help_family
+    - interaction_check_infected_house
+- id: building_refugee_shed
+  locationId: loc_residential_area
+  name: 流民棚
+  type: refugee_shed
+  state:
+    status: crowded
+    people_count: 8
+  descriptions:
+    default: 棚下挤着几户流民，眼神疲惫而警惕。
+  interactionIds:
+    - interaction_help_xiao_wan
+    - interaction_help_family
+- id: building_forest_path
+  locationId: loc_forest
+  name: 林间山路
+  type: forest_path
+  state:
+    status: dangerous
+    trace_level: 20
+  descriptions:
+    default: 山路被踩出几道新痕，像是有人频繁经过。
+  interactionIds:
+    - interaction_track_bandits_forest
+    - interaction_search_shen
+- id: building_herb_slope
+  locationId: loc_forest
+  name: 草药坡
+  type: herb_slope
+  state:
+    status: normal
+    herb_resource: 60
+  descriptions:
+    default: 坡上长着几味常见草药，深处的草叶却有异色。
+  interactionIds:
+    - interaction_collect_herbs
+    - interaction_investigate_medicine_source
+- id: building_ruined_temple
+  locationId: loc_old_temple
+  name: 旧庙正殿
+  type: ruined_temple
+  state:
+    status: sealed
+  descriptions:
+    default: 残破神像伏在尘土里，梁柱上仍有旧火痕。
+  interactionIds:
+    - interaction_search_old_temple
+    - interaction_ambush_bandits_old_temple
+- id: building_hidden_cellar
+  locationId: loc_old_temple
+  name: 地下暗室
+  type: hidden_cellar
+  state:
+    status: hidden
+    open: false
+  descriptions:
+    default: 地砖下有空响，像是藏着一段被压住的旧事。
+  interactionIds:
+    - interaction_enter_hidden_cellar
+    - interaction_negotiate_han

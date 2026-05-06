@@ -1,0 +1,181 @@
+.status-chip {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 0.75rem;
+  color: #e6ded4;
+}
+
+button.status-chip {
+  cursor: pointer;
+  font: inherit;
+}
+
+.status-chip.is-accent {
+  border-color: rgba(224, 181, 98, 0.24);
+  background: rgba(224, 181, 98, 0.1);
+  color: #f1d28f;
+}
+
+.status-chip.is-danger {
+  border-color: rgba(240, 154, 140, 0.24);
+  background: rgba(240, 154, 140, 0.1);
+  color: #f5c0b8;
+}
+
+.top-status-left {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.top-status-hover,
+.top-status-system-trigger {
+  position: relative;
+}
+
+.top-status-vitals-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.top-status-vital-inline {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.25rem;
+  color: #e6ded4;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.top-status-popover-panel {
+  position: fixed;
+  z-index: 210;
+  width: min(28rem, calc(100vw - 2rem));
+  max-height: min(34rem, calc(100vh - 8rem));
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  background: rgba(20, 17, 13, 0.6);
+  backdrop-filter: blur(16px);
+  padding: 1rem;
+  color: #e6ded4;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+}
+
+.top-status-popover-title,
+.top-status-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f1d28f;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.top-status-attribute-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.top-status-attribute,
+.top-status-nearby-item {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.5rem 0.625rem;
+}
+
+.top-status-attribute {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.top-status-attribute span,
+.top-status-nearby-item small,
+.top-status-empty {
+  color: #9d9488;
+}
+
+.top-status-attribute strong {
+  color: #e6ded4;
+}
+
+.top-status-badge-list,
+.top-status-nearby-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.top-status-nearby-list {
+  flex-direction: column;
+}
+
+.top-status-nearby-item {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.top-status-system-actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.top-status-settings-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.top-status-settings-row {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.625rem 0.75rem;
+  color: #e6ded4;
+  font-size: 0.875rem;
+}
+
+/* Scrollbar styles for a sleek game UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}

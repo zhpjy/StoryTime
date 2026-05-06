@@ -1,0 +1,23 @@
+# 单个 NPC 的关系数据。player 写玩家与该 NPC 的关系，npcRelationships 写 NPC 之间关系。
+
+# player: 玩家与此 NPC 的初始关系状态。
+player:
+  # sourceId/targetId: 一般为 player -> 当前 NPC。
+  sourceId: "player"
+  targetId: "npc_guide"
+  # value: 总体关系值。
+  value: 0
+  # trust/fear/gratitude/suspicion: 细分关系维度，可被 change_relationship 修改。
+  trust: 0
+  fear: 0
+  gratitude: 0
+  suspicion: 10
+  # tags: 关系标签，用于记录特殊状态。
+  tags: []
+
+# npcRelationships: 当前 NPC 对其他 NPC 的关系。targetId 必须是存在的 NPC。
+npcRelationships:
+  - targetId: "npc_other"
+    value: 20
+    relationType: "cautious_ally"
+    reason: "双方在过去事件中有过合作，但仍互相保留。"

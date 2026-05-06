@@ -1,0 +1,178 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_herb_shop",
+      "activity": "prepare_medicine"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_herb_shop",
+      "activity": "treat_patients"
+    },
+    {
+      "segment": "night",
+      "location": "loc_residential_area",
+      "activity": "rest",
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "less_than": 40
+          }
+        ]
+      }
+    },
+    {
+      "segment": "night",
+      "location": "loc_herb_shop",
+      "activity": "boil_medicine",
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 40
+          }
+        ]
+      }
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_shen_collect_herbs",
+      "name": "药材短缺时上山采药",
+      "priority": 90,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 45
+          },
+          {
+            "fact": "variables.herb_stock",
+            "less_than": 25
+          },
+          {
+            "fact": "npc.npc_shen_qinghe.state.alive",
+            "equals": true
+          },
+          {
+            "fact": "facts.shen_collected_herbs",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "move_npc",
+          "npcId": "npc_shen_qinghe",
+          "locationId": "loc_forest"
+        },
+        {
+          "type": "add_fact",
+          "key": "shen_collected_herbs",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_shen_goes_to_forest"
+        }
+      ],
+      "designNote": "玩家若不处理药材压力，沈青禾会独自冒险。"
+    },
+    {
+      "id": "rule_shen_ask_player_help",
+      "name": "向玩家请求帮助",
+      "priority": 85,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 35
+          },
+          {
+            "fact": "relationship.player.npc_shen_qinghe.trust",
+            "greater_than_or_equal": 20
+          },
+          {
+            "fact": "facts.shen_asked_player_for_help",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "start_conversation",
+          "conversationId": "conversation_shen_ask_help"
+        },
+        {
+          "type": "add_fact",
+          "key": "shen_asked_player_for_help",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_shen_ask_help"
+        }
+      ]
+    },
+    {
+      "id": "rule_shen_stay_shop_when_plague",
+      "name": "疫病加重时留守药铺",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.plague_level",
+            "greater_than_or_equal": 40
+          },
+          {
+            "fact": "npc.npc_shen_qinghe.state.alive",
+            "equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "move_npc",
+          "npcId": "npc_shen_qinghe",
+          "locationId": "loc_herb_shop"
+        },
+        {
+          "type": "change_npc_state",
+          "npcId": "npc_shen_qinghe",
+          "path": "mood",
+          "value": "anxious"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "帮忙诊治病人",
+    "出钱买药给病人",
+    "陪她上山采药",
+    "阻止她上山",
+    "逼问残页秘密",
+    "调查病源"
+  ],
+  "keyEvents": [
+    "event_first_patient",
+    "event_herb_shortage_warning",
+    "event_shen_ask_help",
+    "event_shen_goes_to_forest",
+    "event_shen_missing",
+    "event_plague_origin_found"
+  ],
+  "possibleFates": [
+    "留守药铺",
+    "上山归来",
+    "失踪",
+    "死亡"
+  ],
+  "endingImpact": [
+    "存活且信任高有利于青岚得存与仁名远播",
+    "失踪或死亡会显著推高空镇余烬风险",
+    "残页秘密可推进旧庙与疫病真因"
+  ]
+}

@@ -1,0 +1,331 @@
+.simulation-final-summary,
+.simulation-error,
+.simulation-running {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 12px 14px;
+}
+
+.simulation-final-summary svg {
+  color: var(--success);
+  flex: 0 0 auto;
+}
+
+.simulation-final-summary strong {
+  color: var(--foreground);
+  line-height: 1.5;
+}
+
+.simulation-error {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.simulation-running {
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.simulation-running svg {
+  animation: pulse-spin 900ms linear infinite;
+}
+
+@keyframes pulse-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.simulation-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.simulation-tree-card .ui-card-content {
+  min-height: 680px;
+}
+
+.simulation-form,
+.ending-coverage {
+  display: grid;
+  gap: 14px;
+}
+
+.ending-coverage {
+  margin-top: 16px;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.form-label-row strong,
+.subsection-title {
+  color: var(--foreground);
+}
+
+.compact-button {
+  min-height: 30px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.identity-filter-list {
+  display: grid;
+  gap: 8px;
+}
+
+.identity-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--muted);
+  color: var(--foreground);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.identity-filter:hover,
+.identity-filter.is-selected {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+}
+
+.identity-filter svg {
+  color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.simulation-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.simulation-field {
+  display: grid;
+  gap: 6px;
+}
+
+.simulation-field span,
+.simulation-check span {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.simulation-field input,
+.simulation-select {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  padding: 7px 9px;
+}
+
+.simulation-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--muted);
+  padding: 10px;
+}
+
+.simulation-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.tree-filter-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.simulation-graph-viewport {
+  position: relative;
+  height: 640px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  cursor: grab;
+  touch-action: none;
+}
+
+.simulation-graph-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.simulation-graph-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.simulation-graph-svg {
+  display: block;
+  overflow: visible;
+}
+
+.graph-edge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  opacity: 0.76;
+}
+
+.graph-edge.conversation_start { stroke: #c084fc; }
+.graph-edge.conversation_reply { stroke: #f59e0b; }
+.graph-edge.interaction { stroke: #2f9e75; }
+.graph-edge.travel { stroke: #267da3; }
+.graph-edge.advance_time { stroke: #b7771f; }
+
+#graph-arrow path {
+  fill: var(--muted-foreground);
+}
+
+.graph-node {
+  cursor: pointer;
+}
+
+.graph-node rect {
+  fill: var(--card);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.graph-node:hover rect,
+.graph-node.is-selected rect {
+  stroke: var(--primary);
+  stroke-width: 2.5;
+}
+
+.graph-node.ending rect {
+  fill: color-mix(in srgb, var(--success) 14%, var(--card));
+  stroke: var(--success);
+}
+
+.graph-node.duplicate rect {
+  fill: var(--muted);
+  stroke: var(--muted-foreground);
+  stroke-dasharray: 6 4;
+}
+
+.graph-node.max-depth rect,
+.graph-node.blocked rect {
+  fill: color-mix(in srgb, var(--warning) 13%, var(--card));
+  stroke: var(--warning);
+}
+
+.graph-node.conversation_start rect { stroke: #c084fc; }
+.graph-node.conversation_reply rect { stroke: #f59e0b; }
+.graph-node.interaction rect { stroke: #2f9e75; }
+.graph-node.travel rect { stroke: #267da3; }
+.graph-node.advance_time rect { stroke: #b7771f; }
+
+.graph-node-title {
+  fill: var(--foreground);
+  font-size: 13px;
+  font-weight: 750;
+  pointer-events: none;
+}
+
+.graph-node-meta {
+  fill: var(--muted-foreground);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.graph-limit-banner {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 10px;
+  right: 78px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--warning);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--warning) 12%, var(--card));
+  color: var(--warning);
+  padding: 9px 10px;
+  font-size: 12px;
+}
+
+.graph-zoom-indicator {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  right: 10px;
+  min-width: 56px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--foreground);
+  padding: 8px 9px;
+  font-size: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.simulation-modal-backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 0.5);
+  padding: 20px;
+}
+
+.simulation-modal {
+  width: min(760px, 100%);
+  max-height: min(720px, calc(100vh - 40px));
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: var(--shadow-lg);
+  padding: 14px;
+}
+
+.simulation-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.simulation-modal-head strong {
+  color: var(--foreground);
+  font-size: 16px;
+}
+
+.simulation-modal-head button {
+  min-height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--muted);
+  color: var(--foreground);
+  padding: 6px 10px;
+}

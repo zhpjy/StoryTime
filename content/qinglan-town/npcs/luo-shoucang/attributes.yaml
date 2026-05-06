@@ -1,0 +1,31 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "personality": {
+    "kindness": 35,
+    "courage": 30,
+    "greed": 70,
+    "loyalty": 45,
+    "suspicion": 60,
+    "responsibility": 50
+  },
+  "state": {
+    "alive": true,
+    "health": 90,
+    "mood": "calculating",
+    "current_goal": "protect_grain_shop",
+    "story_stage": 1,
+    "hiding_grain": false
+  },
+  "goals": [
+    "保住米铺",
+    "在粮价上涨中获利",
+    "避免流民冲击米铺",
+    "必要时用粮食换取保护"
+  ],
+  "secrets": [
+    {
+      "id": "secret_luo_hidden_grain",
+      "content": "他在米铺后仓暗中囤了一批米粮。"
+    }
+  ]
+}

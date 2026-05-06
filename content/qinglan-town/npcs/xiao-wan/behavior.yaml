@@ -1,0 +1,122 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_town_gate",
+      "activity": "wait_at_gate"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_market",
+      "activity": "look_for_food"
+    },
+    {
+      "segment": "night",
+      "location": "loc_residential_area",
+      "activity": "hide_in_shed"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_xiao_wan_flee",
+      "name": "恐慌时逃离",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.town_fear",
+            "greater_than_or_equal": 75
+          },
+          {
+            "fact": "facts.xiao_wan_protected",
+            "not_equals": true
+          },
+          {
+            "fact": "facts.xiao_wan_fled_to_forest",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "move_npc",
+          "npcId": "npc_xiao_wan",
+          "locationId": "loc_forest"
+        },
+        {
+          "type": "add_fact",
+          "key": "xiao_wan_fled_to_forest",
+          "value": true
+        },
+        {
+          "type": "change_npc_state",
+          "npcId": "npc_xiao_wan",
+          "path": "missing",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_xiao_wan_fled_to_forest"
+        }
+      ]
+    },
+    {
+      "id": "rule_xiao_wan_seek_food",
+      "name": "寻找食物",
+      "priority": 70,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.food_price",
+            "greater_than_or_equal": 140
+          },
+          {
+            "fact": "facts.xiao_wan_helped",
+            "not_equals": true
+          },
+          {
+            "fact": "facts.xiao_wan_steals_food",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "xiao_wan_steals_food",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_xiao_wan_steals_food"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "给她食物",
+    "帮她找住处",
+    "询问山路见闻",
+    "把她交给巡守",
+    "驱逐流民",
+    "利用她传话"
+  ],
+  "keyEvents": [
+    "event_xiao_wan_begs_food",
+    "event_xiao_wan_steals_food",
+    "event_xiao_wan_fled_to_forest",
+    "event_xiao_wan_bandit_clue"
+  ],
+  "possibleFates": [
+    "被安置",
+    "偷粮被抓",
+    "被驱逐",
+    "逃入山林"
+  ],
+  "endingImpact": [
+    "获救增强仁名远播",
+    "失踪增强空镇余烬氛围",
+    "提供线索可推进盗匪和旧庙线"
+  ]
+}

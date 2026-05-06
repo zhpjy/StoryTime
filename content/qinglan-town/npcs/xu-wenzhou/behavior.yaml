@@ -1,0 +1,107 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_tavern",
+      "activity": "write_notes"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_ancestral_hall",
+      "activity": "ask_old_case"
+    },
+    {
+      "segment": "night",
+      "location": "loc_tavern",
+      "activity": "protect_manuscript"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_xu_takes_risk",
+      "name": "冒险夜探旧档",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "greater_than_or_equal": 45
+          },
+          {
+            "fact": "facts.wei_suppressed_truth",
+            "equals": true
+          },
+          {
+            "fact": "facts.xu_protected",
+            "not_equals": true
+          },
+          {
+            "fact": "facts.xu_night_investigation_started",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "xu_night_investigation_started",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_xu_night_investigation"
+        }
+      ]
+    },
+    {
+      "id": "rule_xu_investigate_hall",
+      "name": "调查祠堂",
+      "priority": 65,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.truth_progress",
+            "greater_than_or_equal": 20
+          },
+          {
+            "fact": "facts.xu_warned",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "move_npc",
+          "npcId": "npc_xu_wenzhou",
+          "locationId": "loc_ancestral_hall"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "与他交换线索",
+    "劝他谨慎",
+    "利用他试探魏长庚",
+    "把他交给镇长",
+    "帮他夜探祠堂",
+    "带他去旧庙"
+  ],
+  "keyEvents": [
+    "event_xu_asks_old_case",
+    "event_xu_shows_letter",
+    "event_xu_night_investigation",
+    "event_xu_threatened"
+  ],
+  "possibleFates": [
+    "完成手稿",
+    "被威胁离镇",
+    "失踪",
+    "与玩家反目"
+  ],
+  "endingImpact": [
+    "存活且完成调查增强真相昭雪",
+    "失踪会让旧案线变难",
+    "被玩家出卖增强暗约成局"
+  ]
+}

@@ -1,0 +1,172 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+[
+  {
+    "id": "npc_shen_qinghe",
+    "name": "沈青禾",
+    "path": "npcs/shen-qinghe",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_old_doctor",
+    "name": "顾半山",
+    "path": "npcs/old-doctor",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_lu_huaishan",
+    "name": "陆怀山",
+    "path": "npcs/lu-huaishan",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_han_jin",
+    "name": "韩烬",
+    "path": "npcs/han-jin",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_zhao_sanniang",
+    "name": "赵三娘",
+    "path": "npcs/zhao-sanniang",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_wei_changgeng",
+    "name": "魏长庚",
+    "path": "npcs/wei-changgeng",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_luo_shoucang",
+    "name": "罗守仓",
+    "path": "npcs/luo-shoucang",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_xiao_wan",
+    "name": "小宛",
+    "path": "npcs/xiao-wan",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_old_ritualist",
+    "name": "周敬",
+    "path": "npcs/old-ritualist",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_xu_wenzhou",
+    "name": "许闻舟",
+    "path": "npcs/xu-wenzhou",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_qian_sao",
+    "name": "钱嫂",
+    "path": "npcs/qian-sao",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_ma_qi",
+    "name": "马七",
+    "path": "npcs/ma-qi",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  },
+  {
+    "id": "npc_a_yuan",
+    "name": "阿圆",
+    "path": "npcs/a-yuan",
+    "files": [
+      "identity.yaml",
+      "background.yaml",
+      "attributes.yaml",
+      "relationships.yaml",
+      "behavior.yaml",
+      "conversations.yaml"
+    ]
+  }
+]

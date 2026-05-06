@@ -1,0 +1,28 @@
+{
+  "name": "time-space-story",
+  "private": true,
+  "version": "0.1.0",
+  "description": "《时空故事：青岚镇》MVP monorepo",
+  "type": "module",
+  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev:game": "pnpm --filter @tss/game-client dev",
+    "dev:lab": "pnpm --filter @tss/story-lab dev",
+    "build": "pnpm build:content-pack && pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run",
+    "build:content-pack": "tsx --tsconfig tsconfig.base.json scripts/build-content-pack.ts",
+    "validate:content": "tsx --tsconfig tsconfig.base.json scripts/validate-content.ts",
+    "simulate": "tsx --tsconfig tsconfig.base.json scripts/simulate-qinglan.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0",
+    "yaml": "^2.8.3"
+  }
+}

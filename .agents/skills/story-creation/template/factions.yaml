@@ -1,0 +1,15 @@
+# 势力列表。NPC 通过 faction 字段绑定势力，关系和事件可围绕势力设计。
+
+- # id: 势力唯一 ID，建议以 faction_ 开头。
+  id: "faction_common_people"
+  # name: 势力展示名称。
+  name: "普通居民"
+  # description: 势力的立场、资源、目标和与主线的关系。
+  description: "故事地点中的普通人群，承受危机影响并推动日常支线。"
+  # stanceToPlayer: 对玩家的初始态度，负数敌对，正数友善，0 中立。
+  stanceToPlayer: 0
+
+- id: "faction_hidden_power"
+  name: "隐藏势力"
+  description: "掌握秘密或制造冲突的势力，可作为中后期对抗对象。"
+  stanceToPlayer: -20

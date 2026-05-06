@@ -1,0 +1,223 @@
+.checklist,
+.location-shortcuts,
+.file-list,
+.compact-list,
+.object-list,
+.issue-list,
+.log-list,
+.description-stack,
+.conversation-list,
+.rule-card-list,
+.variable-bars,
+.variable-list,
+.schedule-board,
+.schedule-entry-list,
+.allowed-value-list,
+.template-field-list,
+.failure-list {
+  display: grid;
+  gap: 8px;
+}
+
+.schedule-board {
+  gap: 16px;
+}
+
+.schedule-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px;
+  align-items: start;
+  gap: 10px;
+}
+
+.schedule-timeline {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.schedule-timeline-list {
+  display: grid;
+  gap: 6px;
+}
+
+.schedule-timeline-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  min-height: 32px;
+  padding: 6px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.schedule-timeline-item.has-events {
+  color: var(--foreground);
+  border-color: color-mix(in srgb, var(--accent) 54%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+}
+
+.schedule-timeline-item:hover {
+  border-color: var(--accent);
+}
+
+.schedule-timeline-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.schedule-timeline-item span {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.schedule-segments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.schedule-segment-head,
+.variable-mini > div,
+.variable-head,
+.rule-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.schedule-entry,
+.check-row,
+.shortcut-row,
+.file-row,
+.compact-item,
+.object-row,
+.issue-row,
+.log-row,
+.description-row,
+.conversation-row,
+.failure-row,
+.rule-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+  padding: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.schedule-entry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  width: 100%;
+  color: var(--foreground);
+  text-align: left;
+}
+
+.schedule-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.shortcut-row,
+.file-row,
+.object-row,
+.issue-row {
+  width: 100%;
+  color: var(--foreground);
+  text-align: left;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.schedule-entry:hover,
+.shortcut-row:hover,
+.file-row:hover,
+.file-row.is-selected,
+.object-row:hover,
+.object-row.is-selected,
+.issue-row:hover,
+.issue-row.is-selected {
+  background: rgb(184 134 11 / 0.06);
+  border-color: var(--accent);
+}
+
+.check-row svg,
+.rule-row svg,
+.identity-tile svg {
+  flex: 0 0 auto;
+  color: var(--success);
+}
+
+.compact-item svg,
+.file-row svg,
+.object-row svg,
+.shortcut-row svg {
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+
+.check-row .ui-badge,
+.file-row .ui-badge,
+.object-row .ui-badge,
+.shortcut-row small,
+.issue-row small {
+  margin-left: auto;
+}
+
+.file-preview-button {
+  min-height: 30px;
+  padding: 5px 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+.file-row:hover .file-preview-button,
+.file-row:focus-within .file-preview-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.empty-copy {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+.object-row span,
+.compact-item span,
+.conversation-row span,
+.log-row span,
+.issue-row span,
+.description-row span,
+.schedule-entry span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.schedule-entry strong,
+.schedule-entry small,
+.file-row strong,
+.file-row small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.definition strong,
+.sim-summary strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}

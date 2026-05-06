@@ -1,0 +1,955 @@
+- id: event_refugees_arrive
+  name: 镇门流民增多
+  type: time_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_lu_huaishan
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 2
+      - fact: facts.refugees_arrived
+        not_equals: true
+  description: 镇门外的流民比昨日更多。陆怀山要求排查，小宛抱着旧布包站在人群边缘。
+  effects:
+    - type: add_fact
+      key: refugees_arrived
+      value: true
+    - type: change_variable
+      key: refugee_pressure
+      delta: 10
+    - type: change_variable
+      key: food_price
+      delta: 5
+    - type: change_variable
+      key: town_fear
+      delta: 3
+  followupEventIds: []
+- id: event_first_patient
+  name: 第一批病人
+  type: time_event
+  locationId: loc_herb_shop
+  participantIds:
+    - npc_shen_qinghe
+    - npc_old_doctor
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 3
+      - fact: facts.first_patient_event_happened
+        not_equals: true
+  description: 几个发热咳嗽的病人被送进回春药铺。沈青禾注意到他们都接触过山林方向的水源或草药。
+  effects:
+    - type: add_fact
+      key: first_patient_event_happened
+      value: true
+    - type: change_variable
+      key: plague_level
+      delta: 10
+    - type: change_variable
+      key: herb_stock
+      delta: -5
+    - type: change_location_state
+      locationId: loc_herb_shop
+      path: patient_count
+      delta: 3
+    - type: change_building_state
+      buildingId: building_consulting_room
+      path: patient_count
+      delta: 3
+    - type: change_npc_state
+      npcId: npc_shen_qinghe
+      path: mood
+      value: anxious
+  followupEventIds: []
+- id: event_merchant_route_attacked
+  name: 商路遇袭
+  type: time_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_lu_huaishan
+    - npc_han_jin
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 5
+      - fact: facts.merchant_route_attack_reported
+        not_equals: true
+  description: 山路商队被劫，药材和粮食损失严重。镇门开始流传黑岭盗重新聚集的消息。
+  effects:
+    - type: add_fact
+      key: merchant_route_attack_reported
+      value: true
+    - type: add_fact
+      key: bandit_attacked_route
+      value: true
+    - type: change_variable
+      key: merchant_route_safety
+      delta: -20
+    - type: change_variable
+      key: herb_stock
+      delta: -10
+    - type: change_variable
+      key: food_price
+      delta: 15
+    - type: change_variable
+      key: town_fear
+      delta: 10
+    - type: change_variable
+      key: bandit_power
+      delta: 5
+  followupEventIds: []
+- id: event_grain_shortage_rumor
+  name: 米粮短缺传闻
+  type: time_event
+  locationId: loc_market
+  participantIds:
+    - npc_luo_shoucang
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 7
+      - fact: facts.grain_shortage_rumor_happened
+        not_equals: true
+  description: 集市里开始传出米粮短缺的消息，罗家米铺门前排起长队。
+  effects:
+    - type: add_fact
+      key: grain_shortage_rumor_happened
+      value: true
+    - type: change_variable
+      key: food_price
+      delta: 10
+    - type: change_location_state
+      locationId: loc_market
+      path: conflict_level
+      delta: 5
+  followupEventIds: []
+- id: event_herb_shortage_warning
+  name: 药材告急
+  type: world_state_event
+  locationId: loc_herb_shop
+  participantIds:
+    - npc_shen_qinghe
+    - npc_old_doctor
+  trigger:
+    all:
+      - any:
+          - fact: variables.plague_level
+            greater_than_or_equal: 35
+          - fact: variables.herb_stock
+            less_than_or_equal: 40
+      - fact: facts.herb_shortage_warning_happened
+        not_equals: true
+  description: 药铺的常用药快要见底，沈青禾开始担心后续病人。
+  effects:
+    - type: add_fact
+      key: herb_shortage_warning_happened
+      value: true
+    - type: change_location_state
+      locationId: loc_herb_shop
+      path: patient_count
+      delta: 2
+    - type: change_location_state
+      locationId: loc_residential_area
+      path: infected_households
+      delta: 1
+  followupEventIds: []
+- id: event_shen_ask_help
+  name: 沈青禾求助
+  type: npc_behavior_event
+  locationId: loc_herb_shop
+  participantIds:
+    - npc_shen_qinghe
+  trigger:
+    all:
+      - fact: facts.shen_asked_player_for_help
+        equals: true
+  description: 沈青禾向你请求协助药铺，山林采药和病源调查都变得迫切。
+  effects:
+    - type: add_fact
+      key: luo_protection_request_seen
+      value: true
+  followupEventIds: []
+- id: event_shen_goes_to_forest
+  name: 沈青禾独自上山
+  type: npc_behavior_event
+  locationId: loc_forest
+  participantIds:
+    - npc_shen_qinghe
+    - npc_han_jin
+  trigger:
+    all:
+      - fact: facts.shen_collected_herbs
+        equals: true
+  description: 药材不足时，沈青禾没等到更多帮助，独自去了青岚山林。
+  effects:
+    - type: change_location_state
+      locationId: loc_forest
+      path: danger_level
+      delta: 5
+  followupEventIds: []
+- id: event_shen_missing
+  name: 沈青禾失踪
+  type: world_state_event
+  locationId: loc_forest
+  participantIds:
+    - npc_shen_qinghe
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 14
+      - fact: facts.shen_collected_herbs
+        equals: true
+      - fact: facts.shen_rescued_from_forest
+        not_equals: true
+      - fact: facts.shen_missing
+        not_equals: true
+  description: 沈青禾没有按时从山林回来，药铺里只剩老药师强撑。
+  effects:
+    - type: add_fact
+      key: shen_missing
+      value: true
+    - type: change_npc_state
+      npcId: npc_shen_qinghe
+      path: missing
+      value: true
+    - type: change_npc_state
+      npcId: npc_shen_qinghe
+      path: health
+      value: 55
+    - type: change_variable
+      key: plague_level
+      delta: 10
+    - type: change_variable
+      key: town_fear
+      delta: 5
+  followupEventIds: []
+- id: event_old_doctor_collapses
+  name: 老药师倒下
+  type: npc_behavior_event
+  locationId: loc_herb_shop
+  participantIds:
+    - npc_old_doctor
+    - npc_shen_qinghe
+  trigger:
+    all:
+      - fact: facts.old_doctor_collapsed
+        equals: true
+  description: 连日问诊后，顾半山终于撑不住倒下。
+  effects:
+    - type: change_variable
+      key: plague_level
+      delta: 5
+    - type: change_location_state
+      locationId: loc_herb_shop
+      path: status
+      value: overloaded
+  followupEventIds: []
+- id: event_old_doctor_reveals_note
+  name: 旧药草残页
+  type: npc_behavior_event
+  locationId: loc_herb_shop
+  participantIds:
+    - npc_old_doctor
+    - npc_shen_qinghe
+  trigger:
+    all:
+      - fact: facts.old_doctor_revealed_note
+        equals: true
+  description: 顾半山终于承认旧庙附近曾有特殊草药，残页被他藏了多年。
+  effects:
+    - type: start_conversation
+      conversationId: conversation_old_doctor_note
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+  followupEventIds: []
+- id: event_plague_origin_found
+  name: 疫病真因
+  type: world_state_event
+  locationId: loc_old_temple
+  participantIds:
+    - npc_shen_qinghe
+    - npc_old_doctor
+  trigger:
+    all:
+      - any:
+          - all:
+              - fact: facts.shen_hidden_herb_note_found
+                equals: true
+              - fact: facts.forest_sick_herb_found
+                equals: true
+          - all:
+              - fact: facts.shen_hidden_herb_note_found
+                equals: true
+              - fact: facts.old_temple_cellar_found
+                equals: true
+          - all:
+              - fact: facts.forest_sick_herb_found
+                equals: true
+              - fact: facts.old_temple_cellar_found
+                equals: true
+      - fact: facts.plague_origin_found
+        not_equals: true
+  description: 线索拼合后，疫病并非单纯天灾，而与山林药草、水源和旧庙暗室有关。
+  effects:
+    - type: add_fact
+      key: plague_origin_found
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 10
+    - type: change_variable
+      key: plague_level
+      delta: -8
+  followupEventIds: []
+- id: event_lu_investigates_traitor
+  name: 陆怀山调查内应
+  type: npc_behavior_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_lu_huaishan
+    - npc_zhao_sanniang
+    - npc_luo_shoucang
+  trigger:
+    all:
+      - fact: facts.lu_started_investigation
+        equals: true
+  description: 陆怀山开始怀疑黑岭盗能避开巡守路线，是因为镇中有人递消息。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_bandit_trace_found
+  name: 发现盗匪踪迹
+  type: location_event
+  locationId: loc_forest
+  participantIds:
+    - npc_han_jin
+  trigger:
+    all:
+      - any:
+          - fact: facts.player_tracked_bandit_to_old_temple
+            equals: true
+          - fact: facts.player_helped_track_bandits
+            equals: true
+      - fact: facts.bandit_trace_reported
+        not_equals: true
+  description: 山林脚印绕开巡守路线，最终指向破驿旧庙方向。
+  effects:
+    - type: add_fact
+      key: bandit_trace_reported
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 6
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+  followupEventIds: []
+- id: event_han_demands_supplies
+  name: 韩烬索要物资
+  type: npc_behavior_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_han_jin
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.han_demands_supplies
+        equals: true
+  description: 黑岭盗放出话来，要青岚镇交出粮药，否则山路不会再开。
+  effects:
+    - type: change_variable
+      key: town_fear
+      delta: 10
+    - type: change_variable
+      key: food_price
+      delta: 5
+  followupEventIds: []
+- id: event_bandit_night_raid
+  name: 黑岭盗夜袭
+  type: world_state_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_han_jin
+    - npc_lu_huaishan
+  trigger:
+    all:
+      - fact: facts.bandit_night_raid_happened
+        equals: true
+  description: 黑岭盗趁夜逼近镇门，巡守力量不足时，青岚镇会直接滑向匪火。
+  effects:
+    - type: change_variable
+      key: town_order
+      delta: -30
+    - type: change_variable
+      key: guard_power
+      delta: -20
+    - type: change_variable
+      key: town_fear
+      delta: 20
+  followupEventIds: []
+- id: event_gate_defense
+  name: 镇门防守
+  type: world_state_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_lu_huaishan
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 26
+      - fact: variables.bandit_power
+        greater_than_or_equal: 65
+      - fact: variables.guard_power
+        greater_than_or_equal: 45
+      - fact: facts.gate_defense_prepared
+        not_equals: true
+  description: 陆怀山组织镇门防守。若准备充分，夜袭会被削弱。
+  effects:
+    - type: add_fact
+      key: gate_defense_prepared
+      value: true
+  followupEventIds: []
+- id: event_tavern_rumor_spreads
+  name: 酒肆流言扩散
+  type: npc_behavior_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_zhao_sanniang
+  trigger:
+    all:
+      - fact: facts.zhao_rumor_spread
+        equals: true
+  description: 镇民恐慌上升后，酒肆里真假消息混在一起。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 3
+    - type: change_variable
+      key: town_fear
+      delta: 2
+  followupEventIds: []
+- id: event_zhao_sells_bandit_info
+  name: 赵三娘出售盗匪情报
+  type: npc_behavior_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_zhao_sanniang
+  trigger:
+    all:
+      - fact: facts.zhao_sold_bandit_info
+        equals: true
+  description: 赵三娘把黑岭盗与旧庙的线索压低声音说给你听。
+  effects:
+    - type: add_fact
+      key: player_bought_bandit_contact_clue
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_zhao_old_case_hint
+  name: 赵三娘的旧案提示
+  type: location_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_zhao_sanniang
+    - npc_xu_wenzhou
+  trigger:
+    all:
+      - fact: facts.old_case_rumor_heard
+        equals: true
+      - fact: facts.zhao_old_case_hint_given
+        not_equals: true
+  description: 赵三娘提到，旧庙火案后有人曾在酒肆后堂躲过一夜。
+  effects:
+    - type: add_fact
+      key: zhao_old_case_hint_given
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_tavern_backroom_meeting
+  name: 后堂密谈
+  type: location_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_zhao_sanniang
+  trigger:
+    all:
+      - fact: facts.tavern_backroom_unlocked
+        equals: true
+  description: 后堂门帘放下后，赵三娘确认黑岭盗、米铺和旧庙之间并非毫无关系。
+  effects:
+    - type: add_fact
+      key: zhao_sold_old_temple_clue
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: trigger_event
+      eventId: event_old_temple_discovered
+  followupEventIds: []
+- id: event_luo_hidden_grain_found
+  name: 发现囤粮
+  type: location_event
+  locationId: loc_market
+  participantIds:
+    - npc_luo_shoucang
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: facts.luo_hidden_grain_found
+        equals: true
+  description: 米铺后仓里的粮袋说明罗守仓并非真的见底。
+  effects:
+    - type: start_conversation
+      conversationId: conversation_luo_confess
+  followupEventIds: []
+- id: event_luo_asks_protection
+  name: 罗守仓请求保护
+  type: npc_behavior_event
+  locationId: loc_market
+  participantIds:
+    - npc_luo_shoucang
+  trigger:
+    all:
+      - fact: facts.luo_asked_protection
+        equals: true
+  description: 罗守仓担心黑岭盗或流民冲击米铺，愿意用粮食换保护。
+  effects:
+    - type: add_fact
+      key: luo_protection_request_seen
+      value: true
+  followupEventIds: []
+- id: event_market_conflict
+  name: 集市流民冲突
+  type: world_state_event
+  locationId: loc_market
+  participantIds:
+    - npc_luo_shoucang
+    - npc_xiao_wan
+    - npc_lu_huaishan
+  trigger:
+    all:
+      - fact: variables.refugee_pressure
+        greater_than_or_equal: 50
+      - fact: variables.food_price
+        greater_than_or_equal: 150
+      - fact: facts.market_conflict_happened
+        not_equals: true
+  description: 粮价和流民压力一起升高后，米铺前爆发冲突。
+  effects:
+    - type: add_fact
+      key: market_conflict_happened
+      value: true
+    - type: change_location_state
+      locationId: loc_market
+      path: conflict_level
+      delta: 20
+    - type: change_variable
+      key: town_order
+      delta: -10
+    - type: change_variable
+      key: town_fear
+      delta: 8
+  followupEventIds: []
+- id: event_xiao_wan_begs_food
+  name: 小宛求食
+  type: location_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 2
+      - fact: facts.xiao_wan_begged_food
+        not_equals: true
+  description: 小宛在镇门边怯怯地问是否有一点吃的。
+  effects:
+    - type: add_fact
+      key: xiao_wan_begged_food
+      value: true
+  followupEventIds: []
+- id: event_xiao_wan_steals_food
+  name: 小宛偷粮
+  type: npc_behavior_event
+  locationId: loc_market
+  participantIds:
+    - npc_xiao_wan
+    - npc_luo_shoucang
+  trigger:
+    all:
+      - fact: facts.xiao_wan_steals_food
+        equals: true
+  description: 粮价太高，小宛在米铺前偷了一小包碎米，被人抓住。
+  effects:
+    - type: change_location_state
+      locationId: loc_market
+      path: conflict_level
+      delta: 10
+    - type: change_variable
+      key: town_order
+      delta: -5
+  followupEventIds: []
+- id: event_xiao_wan_fled_to_forest
+  name: 小宛逃入山林
+  type: npc_behavior_event
+  locationId: loc_forest
+  participantIds:
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: facts.xiao_wan_fled_to_forest
+        equals: true
+  description: 恐慌蔓延后，小宛离开镇门，独自往山林方向去了。
+  effects:
+    - type: change_variable
+      key: town_fear
+      delta: 5
+  followupEventIds: []
+- id: event_wei_orders_refugee_control
+  name: 镇长要求驱逐流民
+  type: npc_behavior_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_wei_changgeng
+    - npc_lu_huaishan
+    - npc_xiao_wan
+  trigger:
+    all:
+      - fact: facts.wei_ordered_refugee_control
+        equals: true
+  description: 魏长庚认为流民压力会拖垮青岚镇，要求巡守清理镇门外的人。
+  effects:
+    - type: add_fact
+      key: wei_refugee_order_seen
+      value: true
+  followupEventIds: []
+- id: event_wei_blocks_records
+  name: 镇长封锁旧档
+  type: npc_behavior_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_wei_changgeng
+    - npc_old_ritualist
+    - npc_lu_huaishan
+  trigger:
+    all:
+      - fact: facts.wei_suppressed_truth
+        equals: true
+  description: 魏长庚下令封锁旧档房，阻止旧案继续扩散。
+  effects:
+    - type: change_location_state
+      locationId: loc_ancestral_hall
+      path: record_locked
+      value: true
+    - type: change_building_state
+      buildingId: building_record_room
+      path: locked
+      value: true
+  followupEventIds: []
+- id: event_lu_questions_mayor
+  name: 陆怀山质疑镇长
+  type: npc_behavior_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_lu_huaishan
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.lu_questioned_wei
+        equals: true
+  description: 陆怀山拿着缺页旧档当面质疑魏长庚。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+    - type: change_variable
+      key: town_order
+      delta: -3
+  followupEventIds: []
+- id: event_record_room_unlocked
+  name: 旧档房开启
+  type: location_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_old_ritualist
+    - npc_xu_wenzhou
+  trigger:
+    all:
+      - fact: facts.record_room_unlocked
+        equals: true
+  description: 旧档房的锁被打开，缺页、灰痕和旧庙名册线索都浮出水面。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_old_registry_revealed
+  name: 旧案名册
+  type: npc_behavior_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_old_ritualist
+  trigger:
+    all:
+      - fact: facts.old_registry_revealed
+        equals: true
+  description: 周敬交出了藏在牌位后的旧案名册。
+  effects:
+    - type: start_conversation
+      conversationId: conversation_ritualist_registry
+    - type: add_fact
+      key: old_case_record_found
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 10
+  followupEventIds: []
+- id: event_ask_old_ritualist
+  name: 询问旧案
+  type: location_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_old_ritualist
+  trigger:
+    all:
+      - fact: facts.old_case_rumor_heard
+        equals: true
+      - fact: facts.asked_old_ritualist
+        not_equals: true
+  description: 老祠祝没有直接回答，却承认旧档确有缺页。
+  effects:
+    - type: add_fact
+      key: asked_old_ritualist
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_ritualist_pressured
+  name: 祠祝受压
+  type: world_state_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_old_ritualist
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.wei_suppressed_truth
+        equals: true
+      - fact: variables.truth_progress
+        greater_than_or_equal: 60
+      - fact: facts.ritualist_pressured
+        not_equals: true
+  description: 魏长庚开始向周敬施压，要求他继续保持沉默。
+  effects:
+    - type: add_fact
+      key: ritualist_pressured
+      value: true
+    - type: change_npc_state
+      npcId: npc_old_ritualist
+      path: pressured
+      value: true
+  followupEventIds: []
+- id: event_xu_asks_old_case
+  name: 书生问旧案
+  type: time_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_xu_wenzhou
+    - npc_zhao_sanniang
+  trigger:
+    all:
+      - fact: time.day
+        greater_than_or_equal: 4
+      - fact: facts.xu_asked_old_case
+        not_equals: true
+  description: 许闻舟在酒肆里询问旧庙火案，被赵三娘一句话岔开。
+  effects:
+    - type: add_fact
+      key: xu_asked_old_case
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: 5
+  followupEventIds: []
+- id: event_xu_shows_letter
+  name: 许闻舟的残信
+  type: npc_behavior_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_xu_wenzhou
+  trigger:
+    all:
+      - fact: relationship.player.npc_xu_wenzhou.trust
+        greater_than_or_equal: 20
+      - fact: facts.xu_showed_letter
+        not_equals: true
+  description: 许闻舟拿出半封残信，上面的地名指向青岚旧驿。
+  effects:
+    - type: start_conversation
+      conversationId: conversation_xu_letter
+  followupEventIds: []
+- id: event_xu_night_investigation
+  name: 许闻舟夜探旧档
+  type: npc_behavior_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_xu_wenzhou
+    - npc_old_ritualist
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.xu_night_investigation_started
+        equals: true
+  description: 魏长庚封锁旧档后，许闻舟准备夜里冒险进入祠堂。
+  effects:
+    - type: change_variable
+      key: truth_progress
+      delta: 8
+    - type: add_fact
+      key: xu_risked_night_investigation
+      value: true
+  followupEventIds: []
+- id: event_xu_threatened
+  name: 许闻舟被威胁
+  type: world_state_event
+  locationId: loc_tavern
+  participantIds:
+    - npc_xu_wenzhou
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.wei_suppressed_truth
+        equals: true
+      - fact: variables.truth_progress
+        greater_than_or_equal: 45
+      - fact: facts.xu_protected
+        not_equals: true
+      - fact: facts.xu_threatened
+        not_equals: true
+  description: 旧案线推进后，许闻舟收到威胁，手稿也可能被夺走。
+  effects:
+    - type: add_fact
+      key: xu_threatened
+      value: true
+    - type: change_variable
+      key: truth_progress
+      delta: -5
+  followupEventIds: []
+- id: event_old_temple_discovered
+  name: 发现破驿旧庙
+  type: world_state_event
+  locationId: loc_old_temple
+  participantIds:
+    - npc_han_jin
+    - npc_xu_wenzhou
+  trigger:
+    all:
+      - any:
+          - fact: facts.old_case_record_found
+            equals: true
+          - fact: facts.player_tracked_bandit_to_old_temple
+            equals: true
+          - fact: facts.shen_hidden_herb_note_found
+            equals: true
+          - fact: facts.zhao_sold_old_temple_clue
+            equals: true
+      - fact: facts.old_temple_discovered
+        not_equals: true
+  description: 旧档、草药残页或盗匪踪迹终于指向山林深处的破驿旧庙。
+  effects:
+    - type: add_fact
+      key: old_temple_discovered
+      value: true
+    - type: discover_location
+      locationId: loc_old_temple
+    - type: set_tile_visible
+      tileId: tile_08_03
+      visible: true
+      discovered: true
+    - type: set_tile_visible
+      tileId: tile_08_05
+      visible: true
+      discovered: true
+  followupEventIds: []
+- id: event_han_old_temple_confrontation
+  name: 旧庙对峙
+  type: player_choice_event
+  locationId: loc_old_temple
+  participantIds:
+    - npc_han_jin
+    - npc_lu_huaishan
+    - npc_wei_changgeng
+  trigger:
+    all:
+      - fact: facts.old_temple_cellar_found
+        equals: true
+      - fact: facts.han_old_temple_confronted
+        not_equals: true
+  description: 旧庙暗室被发现后，韩烬也出现在残殿外。旧案和匪患在此汇合。
+  effects:
+    - type: add_fact
+      key: han_old_temple_confronted
+      value: true
+  followupEventIds: []
+- id: event_wei_final_confrontation
+  name: 与魏长庚对质
+  type: player_choice_event
+  locationId: loc_ancestral_hall
+  participantIds:
+    - npc_wei_changgeng
+    - npc_lu_huaishan
+    - npc_old_ritualist
+    - npc_xu_wenzhou
+  trigger:
+    all:
+      - fact: variables.truth_progress
+        greater_than_or_equal: 80
+      - fact: facts.old_case_record_found
+        equals: true
+      - fact: facts.wei_confronted
+        not_equals: true
+  description: 旧庙暗室与旧档证据已经足够，魏长庚必须面对旧案。
+  effects:
+    - type: add_fact
+      key: wei_confronted
+      value: true
+  followupEventIds: []
+- id: event_lu_final_stand
+  name: 陆怀山最后抵抗
+  type: world_state_event
+  locationId: loc_town_gate
+  participantIds:
+    - npc_lu_huaishan
+    - npc_han_jin
+  trigger:
+    all:
+      - fact: facts.bandit_night_raid_happened
+        equals: true
+      - fact: npc.npc_lu_huaishan.state.alive
+        equals: true
+      - fact: variables.guard_power
+        less_than_or_equal: 25
+      - fact: facts.lu_final_stand_happened
+        not_equals: true
+  description: 镇门防线崩散前，陆怀山带着剩余巡守守在火光前。
+  effects:
+    - type: add_fact
+      key: lu_final_stand_happened
+      value: true
+    - type: change_npc_state
+      npcId: npc_lu_huaishan
+      path: health
+      value: 35
+  followupEventIds: []

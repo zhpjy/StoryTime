@@ -1,0 +1,45 @@
+# 玩家行动列表。行动是玩家主动改变世界的主要入口。
+# 行动通常挂在 locations.actionIds 或 buildings.actionIds 上。
+
+- # id: 行动唯一 ID，建议以 action_ 开头。
+  id: "action_gather_opening_news"
+  # name: 按钮或行动列表中的显示名称。
+  name: "打听开场消息"
+  # description: 行动说明，写清目标和预期风险。
+  description: "向附近的人询问最近发生的异常情况。"
+  # type: 行动类型。支持 move、trade、help、investigate、steal、fight、rest。
+  type: "investigate"
+  # targetType: 目标类型。支持 tile、location、building、npc、event、global。
+  targetType: "location"
+  # targetId: 目标 ID，应与 targetType 对应的内容存在。
+  targetId: "loc_start"
+  # cost: 可选消耗。支持 actionPoints、stamina、money、health、itemId、itemCount。
+  cost:
+    actionPoints: 1
+  # conditions: 可选执行条件。满足条件才可执行。
+  conditions:
+    all:
+      - fact: "player.state.stamina"
+        greater_than_or_equal: 1
+  # effects: 行动必定产生的效果。
+  effects:
+    - type: "add_fact"
+      key: "opening_news_heard"
+      value: true
+    - type: "change_variable"
+      key: "truth_progress"
+      delta: 3
+  # successCheck: 可选成功检定。存在时可分成功/失败效果。
+  successCheck:
+    attribute: "negotiation"
+    difficulty: 40
+  # successEffects: 检定成功时追加执行。
+  successEffects:
+    - type: "change_player_attribute"
+      attribute: "reputation"
+      delta: 2
+  # failureEffects: 检定失败时追加执行。
+  failureEffects:
+    - type: "change_variable"
+      key: "main_crisis_level"
+      delta: 1

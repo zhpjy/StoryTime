@@ -1,0 +1,15 @@
+# 物品列表。物品可由行动、事件、会话效果添加或移除。
+
+- # id: 物品唯一 ID，建议以 item_ 开头。
+  id: "item_key_clue"
+  # name: 物品展示名称。
+  name: "关键线索"
+  # type: 物品分类，项目不限制枚举，常见值有 resource、clue、tool、quest。
+  type: "clue"
+  # description: 说明物品来源、用途和可能影响的剧情线。
+  description: "能推进真相线的线索物品，可用于事件选项或结局因果链。"
+
+- id: "item_basic_supply"
+  name: "基础补给"
+  type: "resource"
+  description: "可在救助、交易或消耗类行动中使用。"

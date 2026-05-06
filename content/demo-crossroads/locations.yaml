@@ -1,0 +1,18 @@
+- id: loc_crossroads
+  name: 雾灯路口
+  type: roadside
+  tags:
+    - crossroads
+    - signal
+  state:
+    is_accessible: true
+    discovered: true
+  descriptions:
+    default: 一条旧路在这里分成两岔，木杆上的雾灯被潮气浸得发暗。
+    morning: 晨雾贴着地面，路口还能看清远处的石标。
+    noon: 雾气稍退，灯室里传来擦拭铜镜的轻响。
+    night: 夜色压低，雾灯的光线决定路人能走多远。
+  buildingIds:
+    - building_lamp_room
+  interactionIds:
+    - interaction_check_signal

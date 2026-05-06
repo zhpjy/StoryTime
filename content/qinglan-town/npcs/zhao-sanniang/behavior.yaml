@@ -1,0 +1,107 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "schedule": [
+    {
+      "segment": "morning",
+      "location": "loc_tavern",
+      "activity": "prepare_tavern"
+    },
+    {
+      "segment": "noon",
+      "location": "loc_tavern",
+      "activity": "listen_to_guests"
+    },
+    {
+      "segment": "night",
+      "location": "loc_tavern",
+      "activity": "backroom_meeting"
+    }
+  ],
+  "behaviorRules": [
+    {
+      "id": "rule_zhao_sell_bandit_info",
+      "name": "出售盗匪情报",
+      "priority": 80,
+      "conditions": {
+        "all": [
+          {
+            "fact": "relationship.player.npc_zhao_sanniang.trust",
+            "greater_than_or_equal": 30
+          },
+          {
+            "fact": "facts.zhao_sold_bandit_info",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "start_conversation",
+          "conversationId": "conversation_zhao_sell_bandit_info"
+        },
+        {
+          "type": "add_fact",
+          "key": "zhao_sold_bandit_info",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_zhao_sells_bandit_info"
+        }
+      ]
+    },
+    {
+      "id": "rule_zhao_spread_rumor",
+      "name": "酒肆传闻扩散",
+      "priority": 60,
+      "conditions": {
+        "all": [
+          {
+            "fact": "variables.town_fear",
+            "greater_than_or_equal": 40
+          },
+          {
+            "fact": "facts.zhao_rumor_spread",
+            "not_equals": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "add_fact",
+          "key": "zhao_rumor_spread",
+          "value": true
+        },
+        {
+          "type": "trigger_event",
+          "eventId": "event_tavern_rumor_spreads"
+        }
+      ]
+    }
+  ],
+  "playerChoices": [
+    "请酒套话",
+    "买情报",
+    "帮她处理闹事客",
+    "威胁她交代秘密",
+    "替她隐瞒消息来源",
+    "把她卖给巡守"
+  ],
+  "keyEvents": [
+    "event_tavern_rumor_spreads",
+    "event_zhao_sells_bandit_info",
+    "event_zhao_old_case_hint",
+    "event_tavern_backroom_meeting"
+  ],
+  "possibleFates": [
+    "成为情报盟友",
+    "保持中立",
+    "倒向黑岭盗",
+    "被巡守带走"
+  ],
+  "endingImpact": [
+    "信任高更容易达成真相昭雪",
+    "被威胁敌对会恶化匪患或暗约",
+    "提供旧庙线索可解锁破驿旧庙"
+  ]
+}

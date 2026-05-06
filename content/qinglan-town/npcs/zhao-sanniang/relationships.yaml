@@ -1,0 +1,39 @@
+# YAML 兼容 JSON 格式，可直接由制作工具解析
+{
+  "player": {
+    "sourceId": "player",
+    "targetId": "npc_zhao_sanniang",
+    "value": 0,
+    "trust": 0,
+    "fear": 0,
+    "gratitude": 0,
+    "suspicion": 10,
+    "tags": []
+  },
+  "npcRelationships": [
+    {
+      "targetId": "npc_lu_huaishan",
+      "value": -5,
+      "relationType": "mutual_need",
+      "reason": "互相需要但互不信任。"
+    },
+    {
+      "targetId": "npc_wei_changgeng",
+      "value": -10,
+      "relationType": "knows_old_secret",
+      "reason": "知道镇长压过旧事。"
+    },
+    {
+      "targetId": "npc_han_jin",
+      "value": -20,
+      "relationType": "indirect_contact",
+      "reason": "与黑岭盗有间接消息往来。"
+    },
+    {
+      "targetId": "npc_xu_wenzhou",
+      "value": 15,
+      "relationType": "protective_mockery",
+      "reason": "认为他太年轻，不知轻重。"
+    }
+  ]
+}

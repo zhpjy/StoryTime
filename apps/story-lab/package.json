@@ -1,0 +1,33 @@
+{
+  "name": "@tss/story-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5174",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4174",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tss/engine": "workspace:*",
+    "@tss/schema": "workspace:*",
+    "@tss/validator": "workspace:*",
+    "@vitejs/plugin-react": "^5.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^8.0.0",
+    "yaml": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.0"
+  }
+}
